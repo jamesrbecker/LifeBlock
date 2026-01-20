@@ -1,7 +1,7 @@
 # Fastfile for LifeBlocks
 # Automates build, test, and deployment to App Store
 #
-# Note: The Xcode project/scheme is still named "LifeGrid" internally,
+# Note: The Xcode project/scheme is still named "LifeBlocks" internally,
 # but the app displays as "LifeBlocks" to users (via CFBundleDisplayName)
 
 default_platform(:ios)
@@ -15,7 +15,7 @@ platform :ios do
   desc "Run tests"
   lane :test do
     run_tests(
-      scheme: "LifeGrid",  # Xcode scheme name
+      scheme: "LifeBlocks",  # Xcode scheme name
       devices: ["iPhone 16 Pro"],
       clean: true
     )
@@ -29,12 +29,12 @@ platform :ios do
   lane :beta do
     # Increment build number automatically
     increment_build_number(
-      xcodeproj: "LifeGrid.xcodeproj"
+      xcodeproj: "LifeBlocks.xcodeproj"
     )
 
     # Build the app
     build_app(
-      scheme: "LifeGrid",  # Xcode scheme name
+      scheme: "LifeBlocks",  # Xcode scheme name
       export_method: "app-store",
       output_directory: "./build",
       output_name: "LifeBlocks.ipa"
@@ -49,7 +49,7 @@ platform :ios do
     # Commit the version bump
     commit_version_bump(
       message: "Bump build number for TestFlight",
-      xcodeproj: "LifeGrid.xcodeproj"
+      xcodeproj: "LifeBlocks.xcodeproj"
     )
 
     # Push to git
@@ -70,7 +70,7 @@ platform :ios do
 
     # Build the app
     build_app(
-      scheme: "LifeGrid",  # Xcode scheme name
+      scheme: "LifeBlocks",  # Xcode scheme name
       export_method: "app-store",
       output_directory: "./build",
       output_name: "LifeBlocks.ipa"
@@ -87,7 +87,7 @@ platform :ios do
 
     # Tag the release
     add_git_tag(
-      tag: "v#{get_version_number(xcodeproj: 'LifeGrid.xcodeproj')}"
+      tag: "v#{get_version_number(xcodeproj: 'LifeBlocks.xcodeproj')}"
     )
 
     push_to_git_remote(tags: true)
@@ -100,7 +100,7 @@ platform :ios do
   desc "Capture screenshots"
   lane :screenshots do
     capture_screenshots(
-      scheme: "LifeGrid",  # Xcode scheme name
+      scheme: "LifeBlocks",  # Xcode scheme name
       devices: [
         "iPhone 16 Pro Max",
         "iPhone 16 Pro",
@@ -123,7 +123,7 @@ platform :ios do
   desc "Build app for App Store (without upload)"
   lane :build_only do
     build_app(
-      scheme: "LifeGrid",  # Xcode scheme name
+      scheme: "LifeBlocks",  # Xcode scheme name
       export_method: "app-store",
       output_directory: "./build",
       output_name: "LifeBlocks.ipa",
