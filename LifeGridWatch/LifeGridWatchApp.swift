@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct LifeGridWatchApp: App {
+struct LifeBlocksWatchApp: App {
     var body: some Scene {
         WindowGroup {
             WatchContentView()

@@ -42,28 +42,28 @@ struct FriendDetailView: View {
 
                     // Stats Grid
                     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
-                        StatCard(
+                        FriendStatCard(
                             title: "Current Streak",
                             value: "\(friend.currentStreak)",
                             icon: "flame.fill",
                             color: .orange
                         )
 
-                        StatCard(
+                        FriendStatCard(
                             title: "Longest Streak",
                             value: "\(friend.longestStreak)",
                             icon: "trophy.fill",
                             color: .yellow
                         )
 
-                        StatCard(
+                        FriendStatCard(
                             title: "This Week",
                             value: "\(friend.weeklyScore)",
                             icon: "chart.bar.fill",
                             color: .green
                         )
 
-                        StatCard(
+                        FriendStatCard(
                             title: "Total Check-ins",
                             value: "\(friend.totalCheckIns)",
                             icon: "checkmark.circle.fill",
@@ -152,9 +152,9 @@ struct FriendDetailView: View {
     }
 }
 
-// MARK: - Stat Card
+// MARK: - Friend Stat Card
 
-struct StatCard: View {
+struct FriendStatCard: View {
     let title: String
     let value: String
     let icon: String

@@ -125,19 +125,19 @@ struct SummaryCard: View {
                 .font(.headline)
 
             HStack(spacing: 20) {
-                StatBox(
+                ReportStatBox(
                     value: "\(stats.checkedInDays)/\(stats.totalDays)",
                     label: "Days Active",
                     icon: "calendar"
                 )
 
-                StatBox(
+                ReportStatBox(
                     value: String(format: "%.1f", stats.averageScore),
                     label: "Avg Score",
                     icon: "chart.bar.fill"
                 )
 
-                StatBox(
+                ReportStatBox(
                     value: "\(Int(stats.completionRate))%",
                     label: "Completion",
                     icon: "checkmark.circle.fill"
@@ -151,7 +151,7 @@ struct SummaryCard: View {
     }
 }
 
-struct StatBox: View {
+struct ReportStatBox: View {
     let value: String
     let label: String
     let icon: String
@@ -366,17 +366,7 @@ struct BestDayCard: View {
     }
 }
 
-// MARK: - Share Sheet
-
-struct ShareSheet: UIViewControllerRepresentable {
-    let items: [Any]
-
-    func makeUIViewController(context: Context) -> UIActivityViewController {
-        UIActivityViewController(activityItems: items, applicationActivities: nil)
-    }
-
-    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
-}
+// ShareSheet is defined in StreakShareCardView.swift
 
 // MARK: - Preview
 

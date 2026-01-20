@@ -44,7 +44,7 @@ class FocusModeManager: ObservableObject {
 
         let focusStatus = center.focusStatus
 
-        if focusStatus.isFocused {
+        if focusStatus.isFocused == true {
             // Focus is active but we may not have access to the specific focus name
             // We'll use a generic approach based on time of day and user patterns
             await updateSuggestedHabits(forFocusActive: true)

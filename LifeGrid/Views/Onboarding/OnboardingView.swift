@@ -137,7 +137,7 @@ struct OnboardingView: View {
             }
 
             VStack(spacing: 16) {
-                Text("Welcome to LifeGrid")
+                Text("Welcome to LifeBlocks")
                     .font(.largeTitle)
                     .fontWeight(.bold)
 

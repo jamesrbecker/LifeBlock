@@ -7,8 +7,11 @@ import SwiftData
 struct FriendsView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Friend.displayName) private var friends: [Friend]
-    @Query(filter: #Predicate<FriendRequest> { $0.status == .pending })
-    private var pendingRequests: [FriendRequest]
+    @Query private var allRequests: [FriendRequest]
+
+    private var pendingRequests: [FriendRequest] {
+        allRequests.filter { $0.status == .pending }
+    }
 
     @StateObject private var purchases = PurchaseManager.shared
     @State private var showingAddFriend = false

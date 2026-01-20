@@ -13,7 +13,7 @@ final class CloudSyncManager: ObservableObject {
     @Published var lastSyncDate: Date?
     @Published var iCloudAvailable: Bool = false
 
-    enum SyncStatus {
+    enum SyncStatus: Equatable {
         case unknown
         case syncing
         case synced

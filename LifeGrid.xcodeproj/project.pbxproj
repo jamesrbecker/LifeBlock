@@ -45,6 +45,22 @@
 		F1000106001 /* LifeGridWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = F1000106000 /* LifeGridWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		F1000115001 /* SharedTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000115000 /* SharedTypes.swift */; };
 		F1000116001 /* WidgetHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000116000 /* WidgetHelpers.swift */; };
+		F1000117001 /* StandByWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000117000 /* StandByWidget.swift */; };
+		F1000120001 /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000120000 /* Friend.swift */; };
+		F1000121001 /* FriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000121000 /* FriendsView.swift */; };
+		F1000122001 /* AddFriendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000122000 /* AddFriendView.swift */; };
+		F1000123001 /* FriendDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000123000 /* FriendDetailView.swift */; };
+		F1000124001 /* SendCheerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000124000 /* SendCheerView.swift */; };
+		F1000125001 /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000125000 /* EditProfileView.swift */; };
+		F1000130001 /* iPadLayoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000130000 /* iPadLayoutView.swift */; };
+		F1000131001 /* MacKeyboardShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000131000 /* MacKeyboardShortcuts.swift */; };
+		F1000132001 /* FocusModeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000132000 /* FocusModeManager.swift */; };
+		F1000133001 /* AppIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000133000 /* AppIntents.swift */; };
+		F1000134001 /* CloudSyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000134000 /* CloudSyncManager.swift */; };
+		F1000135001 /* ProgressReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000135000 /* ProgressReportView.swift */; };
+		F1000136001 /* IconPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000136000 /* IconPickerView.swift */; };
+		F1000137001 /* DailyNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000137000 /* DailyNoteView.swift */; };
+		F1000138001 /* MultiplePathsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000138000 /* MultiplePathsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -115,6 +131,22 @@
 		F1000108000 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F1000115000 /* SharedTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTypes.swift; sourceTree = "<group>"; };
 		F1000116000 /* WidgetHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetHelpers.swift; sourceTree = "<group>"; };
+		F1000117000 /* StandByWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandByWidget.swift; sourceTree = "<group>"; };
+		F1000120000 /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
+		F1000121000 /* FriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsView.swift; sourceTree = "<group>"; };
+		F1000122000 /* AddFriendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriendView.swift; sourceTree = "<group>"; };
+		F1000123000 /* FriendDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendDetailView.swift; sourceTree = "<group>"; };
+		F1000124000 /* SendCheerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendCheerView.swift; sourceTree = "<group>"; };
+		F1000125000 /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
+		F1000130000 /* iPadLayoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iPadLayoutView.swift; sourceTree = "<group>"; };
+		F1000131000 /* MacKeyboardShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacKeyboardShortcuts.swift; sourceTree = "<group>"; };
+		F1000132000 /* FocusModeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusModeManager.swift; sourceTree = "<group>"; };
+		F1000133000 /* AppIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntents.swift; sourceTree = "<group>"; };
+		F1000134000 /* CloudSyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudSyncManager.swift; sourceTree = "<group>"; };
+		F1000135000 /* ProgressReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressReportView.swift; sourceTree = "<group>"; };
+		F1000136000 /* IconPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPickerView.swift; sourceTree = "<group>"; };
+		F1000137000 /* DailyNoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyNoteView.swift; sourceTree = "<group>"; };
+		F1000138000 /* MultiplePathsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiplePathsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,6 +196,7 @@
 			children = (
 				F1000100000 /* LifeBlocksWidget.swift */,
 				F1000101000 /* WidgetBundle.swift */,
+				F1000117000 /* StandByWidget.swift */,
 				F1000115000 /* SharedTypes.swift */,
 				F1000116000 /* WidgetHelpers.swift */,
 				F1000500020 /* WidgetViews */,
@@ -200,6 +233,7 @@
 				F1000012000 /* UserSettings.swift */,
 				F1000013000 /* SubscriptionStatus.swift */,
 				F1000014000 /* LifePath.swift */,
+				F1000120000 /* Friend.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -214,8 +248,48 @@
 				F100050001C /* Dashboard */,
 				F100050001A /* Settings */,
 				F100050001B /* Onboarding */,
+				F1000500021 /* Social */,
+				F1000500022 /* iPad */,
+				F1000500023 /* Mac */,
+				F1000500024 /* Components */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		F1000500021 /* Social */ = {
+			isa = PBXGroup;
+			children = (
+				F1000121000 /* FriendsView.swift */,
+				F1000122000 /* AddFriendView.swift */,
+				F1000123000 /* FriendDetailView.swift */,
+				F1000124000 /* SendCheerView.swift */,
+				F1000125000 /* EditProfileView.swift */,
+			);
+			path = Social;
+			sourceTree = "<group>";
+		};
+		F1000500022 /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+				F1000130000 /* iPadLayoutView.swift */,
+			);
+			path = iPad;
+			sourceTree = "<group>";
+		};
+		F1000500023 /* Mac */ = {
+			isa = PBXGroup;
+			children = (
+				F1000131000 /* MacKeyboardShortcuts.swift */,
+			);
+			path = Mac;
+			sourceTree = "<group>";
+		};
+		F1000500024 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				F1000136000 /* IconPickerView.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		F1000500013 /* Services */ = {
@@ -225,6 +299,9 @@
 				F1000081000 /* HealthKitManager.swift */,
 				F1000082000 /* NotificationManager.swift */,
 				F1000083000 /* PurchaseManager.swift */,
+				F1000132000 /* FocusModeManager.swift */,
+				F1000133000 /* AppIntents.swift */,
+				F1000134000 /* CloudSyncManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -262,6 +339,7 @@
 			children = (
 				F1000030000 /* DailyCheckInView.swift */,
 				F1000031000 /* QuestionCardView.swift */,
+				F1000137000 /* DailyNoteView.swift */,
 			);
 			path = CheckIn;
 			sourceTree = "<group>";
@@ -281,6 +359,7 @@
 				F1000050000 /* StatsView.swift */,
 				F1000051000 /* StreakView.swift */,
 				F1000053000 /* StreakShareCardView.swift */,
+				F1000135000 /* ProgressReportView.swift */,
 			);
 			path = Analytics;
 			sourceTree = "<group>";
@@ -290,6 +369,7 @@
 			children = (
 				F1000060000 /* SettingsView.swift */,
 				F1000061000 /* PremiumView.swift */,
+				F1000138000 /* MultiplePathsView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -448,6 +528,21 @@
 				F1000091001 /* DateHelpers.swift in Sources */,
 				F1000014001 /* LifePath.swift in Sources */,
 				F1000052001 /* PathDashboardView.swift in Sources */,
+				F1000120001 /* Friend.swift in Sources */,
+				F1000121001 /* FriendsView.swift in Sources */,
+				F1000122001 /* AddFriendView.swift in Sources */,
+				F1000123001 /* FriendDetailView.swift in Sources */,
+				F1000124001 /* SendCheerView.swift in Sources */,
+				F1000125001 /* EditProfileView.swift in Sources */,
+				F1000130001 /* iPadLayoutView.swift in Sources */,
+				F1000131001 /* MacKeyboardShortcuts.swift in Sources */,
+				F1000132001 /* FocusModeManager.swift in Sources */,
+				F1000133001 /* AppIntents.swift in Sources */,
+				F1000134001 /* CloudSyncManager.swift in Sources */,
+				F1000135001 /* ProgressReportView.swift in Sources */,
+				F1000136001 /* IconPickerView.swift in Sources */,
+				F1000137001 /* DailyNoteView.swift in Sources */,
+				F1000138001 /* MultiplePathsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -457,6 +552,7 @@
 			files = (
 				F1000100001 /* LifeBlocksWidget.swift in Sources */,
 				F1000101001 /* WidgetBundle.swift in Sources */,
+				F1000117001 /* StandByWidget.swift in Sources */,
 				F1000102001 /* SmallWidgetView.swift in Sources */,
 				F1000103001 /* MediumWidgetView.swift in Sources */,
 				F1000104001 /* LargeWidgetView.swift in Sources */,

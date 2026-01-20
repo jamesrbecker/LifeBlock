@@ -147,16 +147,16 @@ struct MacToolbar: ToolbarContent {
     @Binding var showingCheckIn: Bool
 
     var body: some ToolbarContent {
-        #if targetEnvironment(macCatalyst)
         ToolbarItem(placement: .primaryAction) {
             Button {
                 showingCheckIn = true
             } label: {
                 Label("Check In", systemImage: "plus.circle.fill")
             }
+            #if targetEnvironment(macCatalyst)
             .keyboardShortcut("n", modifiers: [.command])
+            #endif
         }
-        #endif
     }
 }
 
