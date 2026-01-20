@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-LifeGrid Social Media Banner Generator
+LifeBlocks Social Media Banner Generator
 Creates banners for Twitter, Instagram, and promotional use
 """
 
@@ -17,7 +17,7 @@ GREEN_BRIGHT = (57, 211, 83)
 WHITE = (255, 255, 255)
 GRAY = (139, 148, 158)
 
-OUTPUT_DIR = "/Users/jamesbecker/Desktop/LifeGrid/Marketing/Banners"
+OUTPUT_DIR = "/Users/jamesbecker/Desktop/LifeBlocks/Marketing/Banners"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 def get_font(size):
@@ -61,7 +61,7 @@ def create_twitter_header():
     draw_mini_grid(draw, 50, 100, cell_size=28, gap=6, cols=12, rows=10)
 
     # Text on right
-    draw.text((800, 150), "LifeGrid", fill=WHITE, font=font_large, anchor="lm")
+    draw.text((800, 150), "LifeBlocks", fill=WHITE, font=font_large, anchor="lm")
     draw.text((800, 230), "Build your life, one square at a time", fill=GRAY, font=font_med, anchor="lm")
 
     # Tagline
@@ -80,7 +80,7 @@ def create_instagram_square():
     font_med = get_font(40)
 
     # Title
-    draw.text((width//2, 120), "LifeGrid", fill=WHITE, font=font_large, anchor="mm")
+    draw.text((width//2, 120), "LifeBlocks", fill=WHITE, font=font_large, anchor="mm")
     draw.text((width//2, 200), "Build your life, one square at a time", fill=GRAY, font=font_med, anchor="mm")
 
     # Large grid in center
@@ -126,7 +126,7 @@ def create_feature_graphic():
             draw.rounded_rectangle([x, y, x + icon_size, y + icon_size], radius=10, fill=color)
 
     # Text
-    draw.text((350, 180), "LifeGrid", fill=WHITE, font=font_large, anchor="lm")
+    draw.text((350, 180), "LifeBlocks", fill=WHITE, font=font_large, anchor="lm")
     draw.text((350, 260), "Build your life, one square at a time", fill=GRAY, font=font_med, anchor="lm")
 
     # Mini feature grid on right
@@ -151,7 +151,7 @@ def create_og_image():
     draw_mini_grid(draw, 50, 80, cell_size=32, gap=8, cols=8, rows=6)
 
     # Main content
-    draw.text((600, 200), "LifeGrid", fill=WHITE, font=font_large, anchor="lm")
+    draw.text((600, 200), "LifeBlocks", fill=WHITE, font=font_large, anchor="lm")
     draw.text((600, 290), "Build your life,", fill=GRAY, font=font_med, anchor="lm")
     draw.text((600, 340), "one square at a time", fill=GRAY, font=font_med, anchor="lm")
 
@@ -178,7 +178,7 @@ def create_app_store_preview():
 
     # Text content on right
     text_x = 750
-    draw.text((text_x, 250), "LifeGrid", fill=WHITE, font=font_large, anchor="lm")
+    draw.text((text_x, 250), "LifeBlocks", fill=WHITE, font=font_large, anchor="lm")
     draw.text((text_x, 370), "Build your life,", fill=WHITE, font=font_med, anchor="lm")
     draw.text((text_x, 430), "one square at a time", fill=GREEN_BRIGHT, font=font_med, anchor="lm")
 

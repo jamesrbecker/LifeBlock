@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-LifeGrid App Store Screenshot Generator
+LifeBlocks App Store Screenshot Generator
 Creates promotional screenshots for App Store listing
 """
 
@@ -23,7 +23,7 @@ GRAY = (139, 148, 158)
 ORANGE = (255, 149, 0)
 YELLOW = (255, 214, 10)
 
-OUTPUT_DIR = "/Users/jamesbecker/Desktop/LifeGrid/Marketing/Screenshots"
+OUTPUT_DIR = "/Users/jamesbecker/Desktop/LifeBlocks/Marketing/Screenshots"
 
 def get_font(size, bold=False):
     """Get system font - falls back to default if not found"""
@@ -361,7 +361,7 @@ def create_screenshot_5():
         radius=40,
         fill=CARD_BG
     )
-    draw.text((small_x + 30, small_y + 30), "LifeGrid", fill=GRAY, font=font_small, anchor="lt")
+    draw.text((small_x + 30, small_y + 30), "LifeBlocks", fill=GRAY, font=font_small, anchor="lt")
     draw.text((small_x + small_size//2, small_y + 150), "23", fill=WHITE, font=get_font(100), anchor="mm")
     draw.text((small_x + small_size//2, small_y + 250), "Day Streak", fill=GRAY, font=font_small, anchor="mm")
 
@@ -373,7 +373,7 @@ def create_screenshot_5():
         radius=40,
         fill=CARD_BG
     )
-    draw.text((med_x + 30, med_y + 30), "LifeGrid", fill=GRAY, font=font_small, anchor="lt")
+    draw.text((med_x + 30, med_y + 30), "LifeBlocks", fill=GRAY, font=font_small, anchor="lt")
     # Mini grid in medium widget
     draw_contribution_grid(draw, med_x + 50, med_y + 100, cell_size=30, gap=5, weeks=8)
 
@@ -385,7 +385,7 @@ def create_screenshot_5():
         radius=40,
         fill=CARD_BG
     )
-    draw.text((large_x + 30, large_y + 30), "LifeGrid", fill=GRAY, font=font_small, anchor="lt")
+    draw.text((large_x + 30, large_y + 30), "LifeBlocks", fill=GRAY, font=font_small, anchor="lt")
 
     # Grid in large widget
     draw_contribution_grid(draw, large_x + 50, large_y + 100, cell_size=38, gap=6, weeks=14)
@@ -484,7 +484,7 @@ def create_screenshot_6():
     draw.text((WIDTH//2, cta_y + 60), "Start Building Your Life", fill=BACKGROUND, font=font_med, anchor="mm")
 
     # Tagline
-    draw.text((WIDTH//2, 1900), "LifeGrid", fill=WHITE, font=font_large, anchor="mm")
+    draw.text((WIDTH//2, 1900), "LifeBlocks", fill=WHITE, font=font_large, anchor="mm")
     draw.text((WIDTH//2, 2000), "One square at a time", fill=GRAY, font=font_med, anchor="mm")
 
     img.save(f"{OUTPUT_DIR}/06_privacy_free.png")

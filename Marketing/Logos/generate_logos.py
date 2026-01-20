@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-LifeGrid Logo Variations Generator
+LifeBlocks Logo Variations Generator
 Creates logos for different use cases
 """
 
@@ -16,7 +16,7 @@ GREEN_LIGHT = (38, 166, 65)
 GREEN_BRIGHT = (57, 211, 83)
 WHITE = (255, 255, 255)
 
-OUTPUT_DIR = "/Users/jamesbecker/Desktop/LifeGrid/Marketing/Logos"
+OUTPUT_DIR = "/Users/jamesbecker/Desktop/LifeBlocks/Marketing/Logos"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 def get_font(size):
@@ -56,7 +56,7 @@ def create_logo_horizontal_dark():
 
     # Text
     font = get_font(72)
-    draw.text((200, 100), "LifeGrid", fill=WHITE, font=font, anchor="lm")
+    draw.text((200, 100), "LifeBlocks", fill=WHITE, font=font, anchor="lm")
 
     img.save(f"{OUTPUT_DIR}/logo_horizontal_dark.png")
     print("Created: logo_horizontal_dark.png")
@@ -72,7 +72,7 @@ def create_logo_horizontal_light():
 
     # Text (dark)
     font = get_font(72)
-    draw.text((200, 100), "LifeGrid", fill=BACKGROUND, font=font, anchor="lm")
+    draw.text((200, 100), "LifeBlocks", fill=BACKGROUND, font=font, anchor="lm")
 
     img.save(f"{OUTPUT_DIR}/logo_horizontal_light.png")
     print("Created: logo_horizontal_light.png")
@@ -92,7 +92,7 @@ def create_logo_stacked_dark():
 
     # Text centered below
     font = get_font(56)
-    draw.text((width // 2, 280), "LifeGrid", fill=WHITE, font=font, anchor="mm")
+    draw.text((width // 2, 280), "LifeBlocks", fill=WHITE, font=font, anchor="mm")
 
     img.save(f"{OUTPUT_DIR}/logo_stacked_dark.png")
     print("Created: logo_stacked_dark.png")
@@ -112,7 +112,7 @@ def create_logo_stacked_light():
 
     # Text centered below
     font = get_font(56)
-    draw.text((width // 2, 280), "LifeGrid", fill=BACKGROUND, font=font, anchor="mm")
+    draw.text((width // 2, 280), "LifeBlocks", fill=BACKGROUND, font=font, anchor="mm")
 
     img.save(f"{OUTPUT_DIR}/logo_stacked_light.png")
     print("Created: logo_stacked_light.png")
@@ -170,7 +170,7 @@ def create_logo_with_tagline():
     font_large = get_font(64)
     font_small = get_font(28)
 
-    draw.text((220, 90), "LifeGrid", fill=WHITE, font=font_large, anchor="lm")
+    draw.text((220, 90), "LifeBlocks", fill=WHITE, font=font_large, anchor="lm")
     draw.text((220, 160), "Build your life, one square at a time", fill=(139, 148, 158), font=font_small, anchor="lm")
 
     img.save(f"{OUTPUT_DIR}/logo_with_tagline.png")

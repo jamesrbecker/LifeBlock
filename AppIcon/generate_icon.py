@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-LifeGrid App Icon Generator
+LifeBlocks App Icon Generator
 Generates a 1024x1024 app icon with a 3x3 gradient grid
 """
 
@@ -62,7 +62,7 @@ def main():
     icon = create_icon(1024)
 
     # Save main icon
-    icon.save('/Users/jamesbecker/Desktop/LifeGrid/AppIcon/AppIcon-1024.png', 'PNG')
+    icon.save('/Users/jamesbecker/Desktop/LifeBlocks/AppIcon/AppIcon-1024.png', 'PNG')
     print("Created: AppIcon-1024.png")
 
     # Generate all required sizes for iOS
@@ -82,7 +82,7 @@ def main():
 
     for size, filename in sizes:
         resized = icon.resize((size, size), Image.Resampling.LANCZOS)
-        resized.save(f'/Users/jamesbecker/Desktop/LifeGrid/AppIcon/{filename}', 'PNG')
+        resized.save(f'/Users/jamesbecker/Desktop/LifeBlocks/AppIcon/{filename}', 'PNG')
         print(f"Created: {filename}")
 
     print("\nAll icons generated successfully!")
