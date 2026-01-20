@@ -1,0 +1,11 @@
+# App Store Connect credentials
+# Your Apple ID email
+app_identifier "com.lifeblock.app"
+apple_id ENV["APPLE_ID"] || "your@email.com"  # Set via environment variable or replace
+team_id "6FMFXY9RYK"  # Your Apple Developer Team ID
+
+# App Store Connect
+itc_team_id "126834122"  # Your App Store Connect Team ID (if different)
+
+# For more information about the Appfile, see:
+# https://docs.fastlane.tools/advanced/#appfile

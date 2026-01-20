@@ -181,7 +181,7 @@ No demo account needed - all data is stored locally.
 
 ## Step 8: Build Upload
 
-1. Open Xcode: `/Users/jamesbecker/Desktop/LifeBlocks/LifeGrid.xcodeproj`
+1. Open Xcode: `/Users/jamesbecker/Desktop/LifeBlock/LifeGrid.xcodeproj`
 2. Select your Apple Developer team in Signing & Capabilities
 3. Select **Any iOS Device** as destination
 4. **Product → Archive**

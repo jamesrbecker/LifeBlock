@@ -1,0 +1,67 @@
+LifeBlocks - Visual Habit Tracker
+
+Stack your days. Build your life.
+
+LifeBlocks transforms habit tracking into a visual journey. Inspired by GitHub's contribution graph, watch your consistency grow as you build colorful streaks of progress.
+
+THE PHILOSOPHY
+
+Life is about building blocks. Every skill learned, every habit formed, every day of progress adds another block to your foundation. LifeBlocks makes this philosophy visual - see your commitment grow one square at a time.
+
+CORE FEATURES
+
+Visual Progress Grid
+- GitHub-style contribution graph for your life
+- See patterns in your habits at a glance
+- Watch your consistency grow over time
+- Multiple color themes to match your style
+
+Smart Daily Check-ins
+- Quick 30-second daily reviews
+- Track multiple habits per day
+- Add notes and reflections
+- HealthKit integration for automatic tracking
+
+Streak Tracking
+- Overall streak counter with milestones
+- Per-habit individual streaks
+- Shareable streak cards for social media
+- Motivational milestone celebrations
+
+WIDGETS
+
+- Home screen widgets (small, medium, large)
+- Lock screen widgets for quick glances
+- StandBy mode support for iOS 17
+- Interactive widgets to check in from anywhere
+
+SOCIAL FEATURES (NEW in 2.0)
+
+- Connect with friends via unique codes
+- Send cheers to celebrate achievements
+- Accountability partner mode
+- View friends' progress for motivation
+
+MULTI-PLATFORM
+
+- iPhone: Optimized for all screen sizes
+- iPad: Beautiful split-view layout
+- Mac: Native Catalyst support with keyboard shortcuts
+- Apple Watch: Coming soon
+
+PREMIUM FEATURES
+
+Unlock the full potential with LifeBlocks Premium:
+- Unlimited habits (free tier: 5 habits)
+- All color themes and customization
+- Weekly and monthly progress reports
+- Friends and accountability features
+- Priority support
+
+PRIVACY FOCUSED
+
+Your data stays on your device and syncs via iCloud. We don't have access to your habits or personal information.
+
+Whether you're building a workout routine, learning a new skill, or simply trying to drink more water - LifeBlocks helps you see your progress and stay consistent.
+
+Download LifeBlocks and start stacking your blocks today.

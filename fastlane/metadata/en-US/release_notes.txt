@@ -1,0 +1,33 @@
+LifeBlocks 2.0 - Build Better Habits, Together
+
+NEW: Friends & Accountability Partners
+- Connect with friends using unique friend codes
+- Send and receive cheers to celebrate streaks
+- View friends' activity and stay motivated together
+- Accountability partner mode for extra commitment
+
+NEW: iPad Optimized Layout
+- Beautiful split-view design built for iPad
+- See your grid and details side-by-side
+- Full support for all iPad sizes
+
+NEW: Mac Support
+- LifeBlocks now runs natively on Mac
+- Keyboard shortcuts for power users (Cmd+N to check in)
+- Seamless sync across all your Apple devices
+
+NEW: StandBy Widget (iOS 17)
+- Glanceable streak display for nightstand mode
+- Circular progress ring shows milestone progress
+- Weekly activity grid at a glance
+
+NEW: Focus Mode Integration
+- Automatic habit suggestions based on your Focus
+- Morning, Work, Personal, and Sleep mode support
+- Smart recommendations throughout your day
+
+Additional Improvements:
+- Full SF Symbols icon picker for habits
+- Weekly and monthly progress reports (Premium)
+- Siri Shortcuts support for automation
+- Performance and stability improvements

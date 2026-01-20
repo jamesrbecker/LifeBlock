@@ -1,0 +1,142 @@
+# Fastfile for LifeBlocks
+# Automates build, test, and deployment to App Store
+#
+# Note: The Xcode project/scheme is still named "LifeGrid" internally,
+# but the app displays as "LifeBlocks" to users (via CFBundleDisplayName)
+
+default_platform(:ios)
+
+platform :ios do
+
+  # ===========================
+  # LANE: test
+  # Run tests before release
+  # ===========================
+  desc "Run tests"
+  lane :test do
+    run_tests(
+      scheme: "LifeGrid",  # Xcode scheme name
+      devices: ["iPhone 16 Pro"],
+      clean: true
+    )
+  end
+
+  # ===========================
+  # LANE: beta
+  # Build and upload to TestFlight
+  # ===========================
+  desc "Build and upload to TestFlight"
+  lane :beta do
+    # Increment build number automatically
+    increment_build_number(
+      xcodeproj: "LifeGrid.xcodeproj"
+    )
+
+    # Build the app
+    build_app(
+      scheme: "LifeGrid",  # Xcode scheme name
+      export_method: "app-store",
+      output_directory: "./build",
+      output_name: "LifeBlocks.ipa"
+    )
+
+    # Upload to TestFlight
+    upload_to_testflight(
+      skip_waiting_for_build_processing: true,
+      apple_id: "6745405954"  # LifeBlocks App Store ID
+    )
+
+    # Commit the version bump
+    commit_version_bump(
+      message: "Bump build number for TestFlight",
+      xcodeproj: "LifeGrid.xcodeproj"
+    )
+
+    # Push to git
+    push_to_git_remote
+  end
+
+  # ===========================
+  # LANE: release
+  # Build and submit to App Store Review
+  # ===========================
+  desc "Build and submit to App Store"
+  lane :release do
+    # Ensure we're on main branch
+    ensure_git_branch(branch: "main")
+
+    # Ensure clean git status
+    ensure_git_status_clean
+
+    # Build the app
+    build_app(
+      scheme: "LifeGrid",  # Xcode scheme name
+      export_method: "app-store",
+      output_directory: "./build",
+      output_name: "LifeBlocks.ipa"
+    )
+
+    # Upload to App Store Connect
+    deliver(
+      submit_for_review: false,
+      automatic_release: false,
+      force: true,
+      metadata_path: "./fastlane/metadata",
+      screenshots_path: "./fastlane/screenshots"
+    )
+
+    # Tag the release
+    add_git_tag(
+      tag: "v#{get_version_number(xcodeproj: 'LifeGrid.xcodeproj')}"
+    )
+
+    push_to_git_remote(tags: true)
+  end
+
+  # ===========================
+  # LANE: screenshots
+  # Capture screenshots for App Store
+  # ===========================
+  desc "Capture screenshots"
+  lane :screenshots do
+    capture_screenshots(
+      scheme: "LifeGrid",  # Xcode scheme name
+      devices: [
+        "iPhone 16 Pro Max",
+        "iPhone 16 Pro",
+        "iPhone SE (3rd generation)",
+        "iPad Pro 13-inch (M4)"
+      ],
+      languages: ["en-US"],
+      output_directory: "./fastlane/screenshots"
+    )
+
+    frame_screenshots(
+      path: "./fastlane/screenshots"
+    )
+  end
+
+  # ===========================
+  # LANE: build_only
+  # Just build without uploading
+  # ===========================
+  desc "Build app for App Store (without upload)"
+  lane :build_only do
+    build_app(
+      scheme: "LifeGrid",  # Xcode scheme name
+      export_method: "app-store",
+      output_directory: "./build",
+      output_name: "LifeBlocks.ipa",
+      include_bitcode: false
+    )
+  end
+
+  # ===========================
+  # Error handling
+  # ===========================
+  error do |lane, exception|
+    # Slack notification could go here
+    puts "Error in lane #{lane}: #{exception.message}"
+  end
+
+end

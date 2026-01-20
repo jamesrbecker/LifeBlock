@@ -1,4 +1,4 @@
-# LifeGrid - Social Media Marketing Kit
+# LifeBlocks - Social Media Marketing Kit
 
 ## Launch Announcement Posts
 
@@ -6,7 +6,7 @@
 
 **Post 1 - Launch Day**
 ```
-Just launched LifeGrid 🟩
+Just launched LifeBlocks 🟩
 
 Stop watching your life pass. Start building it.
 
@@ -25,11 +25,11 @@ Your life, visualized.
 
 Every green square = a day you showed up for yourself.
 
-LifeGrid turns your daily habits into a contribution grid. Watch your progress grow over time.
+LifeBlocks turns your daily habits into a contribution grid. Watch your progress grow over time.
 
 Download free: [link]
 
-#selfimprovement #habits #lifegrid
+#selfimprovement #habits #lifeblocks
 ```
 
 **Post 3 - Path Feature**
@@ -43,7 +43,7 @@ What's your path?
 📈 Investor
 🧘 Health & Wellness
 
-LifeGrid gives you curated daily habits for YOUR goals.
+LifeBlocks gives you curated daily habits for YOUR goals.
 
 Choose your path. Build your life.
 ```
@@ -63,7 +63,7 @@ Slide 5: "Free on the App Store"
 Caption:
 Stop watching your life pass by. Start building it. 🟩
 
-LifeGrid is the habit tracker for people who actually want to change.
+LifeBlocks is the habit tracker for people who actually want to change.
 
 → Choose your life path
 → Get curated daily habits
@@ -72,7 +72,7 @@ LifeGrid is the habit tracker for people who actually want to change.
 
 Link in bio.
 
-#habittracker #productivity #selfimprovement #goals #lifegrid #iosapp #dailyhabits
+#habittracker #productivity #selfimprovement #goals #lifeblocks #iosapp #dailyhabits
 ```
 
 **Post 2 - Single Image (use grid screenshot)**
@@ -81,7 +81,7 @@ Link in bio.
 
 What would YOUR grid look like?
 
-LifeGrid - Free on the App Store
+LifeBlocks - Free on the App Store
 
 #consistency #habits #progress #motivation
 ```
@@ -96,7 +96,7 @@ I built an app to solve my own problem.
 
 I wanted to be more consistent with my daily habits. But every app felt like a chore—complex dashboards, too many features, guilt-tripping notifications.
 
-So I built LifeGrid.
+So I built LifeBlocks.
 
 The idea is simple:
 • Choose your life path (entrepreneur, engineer, creator, etc.)
@@ -130,7 +130,7 @@ What I really wanted was:
 2. A simple daily check-in (not 10 minutes of logging)
 3. Habits that actually matched my goals
 
-So I built LifeGrid.
+So I built LifeBlocks.
 
 Key features:
 - Choose a "life path" (entrepreneur, software engineer, content creator, etc.) and get curated habits
@@ -156,7 +156,7 @@ Green squares = days I did
 
 No complex analytics. No guilt trips. Just a visual record of consistency.
 
-I built an app around this concept called LifeGrid. It's basically GitHub contributions for your life.
+I built an app around this concept called LifeBlocks. It's basically GitHub contributions for your life.
 
 The best part: you choose your "path" (what you're trying to become—entrepreneur, creator, engineer, etc.) and it suggests habits that actually matter for that goal.
 
@@ -168,7 +168,7 @@ Free on the App Store if anyone wants to try it.
 ## Hashtag Strategy
 
 **Primary hashtags:**
-#lifegrid #habittracker #productivity #selfimprovement #dailyhabits
+#lifeblocks #habittracker #productivity #selfimprovement #dailyhabits
 
 **Secondary hashtags:**
 #iosapp #appstore #consistency #goals #motivation #discipline #buildyourlife #streaks #progressnotperfection
@@ -197,7 +197,7 @@ Free on the App Store if anyone wants to try it.
 
 ## Influencer Outreach Template
 
-**Subject:** LifeGrid - Habit tracker you might actually like
+**Subject:** LifeBlocks - Habit tracker you might actually like
 
 **Body:**
 ```
@@ -205,7 +205,7 @@ Hey [Name],
 
 I'm a fan of your content on [productivity/self-improvement/tech].
 
-I just launched LifeGrid—a habit tracker that shows your year as a GitHub-style contribution grid.
+I just launched LifeBlocks—a habit tracker that shows your year as a GitHub-style contribution grid.
 
 What makes it different:
 - Choose a "life path" and get curated habits for YOUR goals
