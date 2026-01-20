@@ -25,6 +25,7 @@
 		F1000041001 /* HabitEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000041000 /* HabitEditorView.swift */; };
 		F1000050001 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000050000 /* StatsView.swift */; };
 		F1000051001 /* StreakView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000051000 /* StreakView.swift */; };
+		F1000053001 /* StreakShareCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000053000 /* StreakShareCardView.swift */; };
 		F1000052001 /* PathDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000052000 /* PathDashboardView.swift */; };
 		F1000060001 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000060000 /* SettingsView.swift */; };
 		F1000061001 /* PremiumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000061000 /* PremiumView.swift */; };
@@ -92,6 +93,7 @@
 		F1000041000 /* HabitEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitEditorView.swift; sourceTree = "<group>"; };
 		F1000050000 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		F1000051000 /* StreakView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakView.swift; sourceTree = "<group>"; };
+		F1000053000 /* StreakShareCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakShareCardView.swift; sourceTree = "<group>"; };
 		F1000052000 /* PathDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathDashboardView.swift; sourceTree = "<group>"; };
 		F1000060000 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		F1000061000 /* PremiumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumView.swift; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 			children = (
 				F1000050000 /* StatsView.swift */,
 				F1000051000 /* StreakView.swift */,
+				F1000053000 /* StreakShareCardView.swift */,
 			);
 			path = Analytics;
 			sourceTree = "<group>";
@@ -433,6 +436,7 @@
 				F1000041001 /* HabitEditorView.swift in Sources */,
 				F1000050001 /* StatsView.swift in Sources */,
 				F1000051001 /* StreakView.swift in Sources */,
+				F1000053001 /* StreakShareCardView.swift in Sources */,
 				F1000060001 /* SettingsView.swift in Sources */,
 				F1000061001 /* PremiumView.swift in Sources */,
 				F1000070001 /* OnboardingView.swift in Sources */,

@@ -3,6 +3,13 @@ import SwiftUI
 struct StreakView: View {
     let currentStreak: Int
     let longestStreak: Int
+    var pathCategory: LifePathCategory = .custom
+    var recentActivity: [DayEntry] = []
+    var showShareButton: Bool = true
+
+    private var isMilestone: Bool {
+        [7, 14, 21, 30, 50, 100, 200, 365].contains(currentStreak)
+    }
 
     var body: some View {
         VStack(spacing: 20) {
@@ -65,6 +72,17 @@ struct StreakView: View {
                         .fontWeight(.medium)
                         .foregroundStyle(.orange)
                 }
+            }
+
+            // Share button for milestones
+            if isMilestone && showShareButton {
+                MilestoneShareButton(
+                    streakDays: currentStreak,
+                    pathCategory: pathCategory,
+                    userName: "",
+                    recentActivity: recentActivity
+                )
+                .padding(.top, 8)
             }
         }
         .padding()
