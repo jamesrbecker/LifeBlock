@@ -2,7 +2,7 @@ import SwiftUI
 import WidgetKit
 
 struct MediumWidgetView: View {
-    let entry: LifeGridEntry
+    let entry: LifeBlocksEntry
 
     private let colorScheme = GridColorScheme.green
 
@@ -113,9 +113,9 @@ struct MediumWidgetView: View {
 }
 
 #Preview(as: .systemMedium) {
-    LifeGridWidget()
+    LifeBlocksWidget()
 } timeline: {
-    LifeGridEntry(
+    LifeBlocksEntry(
         date: Date(),
         dayScores: [:],
         currentStreak: 12,

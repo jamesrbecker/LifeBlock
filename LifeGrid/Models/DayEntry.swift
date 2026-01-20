@@ -8,6 +8,8 @@ final class DayEntry {
     var totalScore: Int // 0-4 scale like GitHub
     var checkedIn: Bool
     var checkedInAt: Date?
+    var note: String? // Daily journal note (Premium feature)
+    var mood: Int? // 1-5 mood rating (Premium feature)
 
     init(date: Date) {
         self.id = UUID()
@@ -15,6 +17,8 @@ final class DayEntry {
         self.totalScore = 0
         self.checkedIn = false
         self.checkedInAt = nil
+        self.note = nil
+        self.mood = nil
     }
 
     var intensityLevel: IntensityLevel {

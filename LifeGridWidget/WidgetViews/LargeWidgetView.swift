@@ -2,7 +2,7 @@ import SwiftUI
 import WidgetKit
 
 struct LargeWidgetView: View {
-    let entry: LifeGridEntry
+    let entry: LifeBlocksEntry
 
     private let colorScheme = GridColorScheme.green
     private let squareSize: CGFloat = 14
@@ -29,7 +29,7 @@ struct LargeWidgetView: View {
     private var headerSection: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
-                Text("LifeGrid")
+                Text("LifeBlocks")
                     .font(.headline)
                     .fontWeight(.bold)
 
@@ -159,9 +159,9 @@ struct LargeWidgetView: View {
 }
 
 #Preview(as: .systemLarge) {
-    LifeGridWidget()
+    LifeBlocksWidget()
 } timeline: {
-    LifeGridEntry(
+    LifeBlocksEntry(
         date: Date(),
         dayScores: [:],
         currentStreak: 23,

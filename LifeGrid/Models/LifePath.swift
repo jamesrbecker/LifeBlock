@@ -261,8 +261,8 @@ enum LifePathCategory: String, CaseIterable, Codable {
                 HabitTemplate(name: "Post Content", icon: "arrow.up.circle.fill", color: "#4ECDC4", description: "Share your work with the world"),
                 HabitTemplate(name: "Engage Community", icon: "bubble.left.and.bubble.right.fill", color: "#45B7D1", description: "Reply to comments, DMs, engage"),
                 HabitTemplate(name: "Learn Platform", icon: "lightbulb.fill", color: "#96CEB4", description: "Study trends, algorithm, competitors"),
-                HabitTemplate(name: "Batch Content", icon: "square.stack.3d.up.fill", color: "#FFEAA7", description: "Prepare content in advance"),
-                HabitTemplate(name: "Networking", icon: "person.3.fill", color: "#DDA0DD", description: "Connect with other creators")
+                HabitTemplate(name: "Monetization", icon: "dollarsign.circle.fill", color: "#FFEAA7", description: "Work on sponsors, brand deals, products"),
+                HabitTemplate(name: "Track Revenue", icon: "chart.bar.fill", color: "#DDA0DD", description: "Review earnings, analytics, growth")
             ]
         case .fitnessInfluencer:
             return [
@@ -270,8 +270,8 @@ enum LifePathCategory: String, CaseIterable, Codable {
                 HabitTemplate(name: "Track Macros", icon: "fork.knife", color: "#4ECDC4", description: "Log your nutrition"),
                 HabitTemplate(name: "Post Fitness Content", icon: "camera.fill", color: "#45B7D1", description: "Share your journey"),
                 HabitTemplate(name: "Meal Prep", icon: "refrigerator.fill", color: "#96CEB4", description: "Prepare healthy meals"),
-                HabitTemplate(name: "Recovery/Stretch", icon: "figure.yoga", color: "#FFEAA7", description: "Take care of your body"),
-                HabitTemplate(name: "10K Steps", icon: "figure.walk", color: "#DDA0DD", description: "Stay active throughout the day")
+                HabitTemplate(name: "Brand Outreach", icon: "dollarsign.circle.fill", color: "#FFEAA7", description: "Contact sponsors, brands, collabs"),
+                HabitTemplate(name: "Track Revenue", icon: "chart.bar.fill", color: "#DDA0DD", description: "Monitor income streams, affiliate sales")
             ]
         case .entrepreneur:
             return [
@@ -287,9 +287,9 @@ enum LifePathCategory: String, CaseIterable, Codable {
                 HabitTemplate(name: "Code", icon: "chevron.left.forwardslash.chevron.right", color: "#45B7D1", description: "Write code for projects"),
                 HabitTemplate(name: "Learn New Tech", icon: "book.fill", color: "#4ECDC4", description: "Study documentation, tutorials"),
                 HabitTemplate(name: "LeetCode/Practice", icon: "brain.head.profile", color: "#FF6B6B", description: "Solve coding problems"),
-                HabitTemplate(name: "Side Project", icon: "hammer.fill", color: "#96CEB4", description: "Build something for yourself"),
-                HabitTemplate(name: "Read Tech News", icon: "newspaper.fill", color: "#FFEAA7", description: "Stay current with industry"),
-                HabitTemplate(name: "Contribute OSS", icon: "arrow.triangle.branch", color: "#DDA0DD", description: "Open source contributions")
+                HabitTemplate(name: "Side Project", icon: "hammer.fill", color: "#96CEB4", description: "Build income-generating projects"),
+                HabitTemplate(name: "Freelance/Contracts", icon: "dollarsign.circle.fill", color: "#FFEAA7", description: "Find clients, side gigs, contracts"),
+                HabitTemplate(name: "Career Growth", icon: "chart.line.uptrend.xyaxis", color: "#DDA0DD", description: "Negotiate raises, job hunt, network")
             ]
         case .investor:
             return [
@@ -315,35 +315,35 @@ enum LifePathCategory: String, CaseIterable, Codable {
                 HabitTemplate(name: "Practice Craft", icon: "pencil.tip", color: "#FF6B6B", description: "Deliberate practice"),
                 HabitTemplate(name: "Consume Inspiration", icon: "eye.fill", color: "#4ECDC4", description: "Study other artists"),
                 HabitTemplate(name: "Share Work", icon: "square.and.arrow.up", color: "#45B7D1", description: "Put your work out there"),
-                HabitTemplate(name: "Learn Technique", icon: "book.fill", color: "#96CEB4", description: "Study tutorials, classes"),
-                HabitTemplate(name: "Journal/Reflect", icon: "text.book.closed.fill", color: "#FFEAA7", description: "Document your journey")
+                HabitTemplate(name: "Sell/Commission", icon: "dollarsign.circle.fill", color: "#96CEB4", description: "List work, take commissions, sell prints"),
+                HabitTemplate(name: "Track Art Income", icon: "chart.bar.fill", color: "#FFEAA7", description: "Monitor sales, pricing, markets")
             ]
         case .student:
             return [
                 HabitTemplate(name: "Study Session", icon: "book.fill", color: "#45B7D1", description: "Focused study time"),
                 HabitTemplate(name: "Review Notes", icon: "doc.text.fill", color: "#4ECDC4", description: "Review what you learned"),
                 HabitTemplate(name: "Practice Problems", icon: "pencil.and.list.clipboard", color: "#FF6B6B", description: "Apply your knowledge"),
-                HabitTemplate(name: "Read Ahead", icon: "arrow.right.doc.on.clipboard", color: "#96CEB4", description: "Preview upcoming material"),
-                HabitTemplate(name: "Ask Questions", icon: "questionmark.circle.fill", color: "#FFEAA7", description: "Clarify what you don't understand"),
-                HabitTemplate(name: "Teach Someone", icon: "person.2.fill", color: "#DDA0DD", description: "Explain concepts to others")
+                HabitTemplate(name: "Scholarship/Aid", icon: "dollarsign.circle.fill", color: "#96CEB4", description: "Apply for scholarships, grants, aid"),
+                HabitTemplate(name: "Part-Time Income", icon: "briefcase.fill", color: "#FFEAA7", description: "Work, tutoring, freelance gigs"),
+                HabitTemplate(name: "Budget/Save", icon: "banknote.fill", color: "#DDA0DD", description: "Track spending, save for goals")
             ]
         case .musician:
             return [
                 HabitTemplate(name: "Practice Instrument", icon: "music.note", color: "#9933FF", description: "Dedicated practice time"),
                 HabitTemplate(name: "Write Music", icon: "pencil.and.list.clipboard", color: "#FF6B6B", description: "Compose or write lyrics"),
                 HabitTemplate(name: "Record/Produce", icon: "waveform", color: "#4ECDC4", description: "Work on recordings"),
-                HabitTemplate(name: "Learn Music Theory", icon: "book.fill", color: "#45B7D1", description: "Study theory or technique"),
-                HabitTemplate(name: "Listen Actively", icon: "headphones", color: "#96CEB4", description: "Study music you admire"),
-                HabitTemplate(name: "Promote Your Music", icon: "megaphone.fill", color: "#FFEAA7", description: "Share on social media, reach out")
+                HabitTemplate(name: "Gig/Performance", icon: "music.mic", color: "#45B7D1", description: "Book shows, play live, perform"),
+                HabitTemplate(name: "Music Income", icon: "dollarsign.circle.fill", color: "#96CEB4", description: "Streaming royalties, merch, licensing"),
+                HabitTemplate(name: "Promote & Grow", icon: "chart.line.uptrend.xyaxis", color: "#FFEAA7", description: "Marketing, playlists, fan growth")
             ]
         case .actor:
             return [
                 HabitTemplate(name: "Rehearse/Practice", icon: "theatermasks.fill", color: "#E64980", description: "Run lines, practice scenes"),
                 HabitTemplate(name: "Audition Prep", icon: "doc.text.fill", color: "#FF6B6B", description: "Prepare for upcoming auditions"),
-                HabitTemplate(name: "Watch & Study", icon: "play.tv.fill", color: "#4ECDC4", description: "Study performances, films, shows"),
-                HabitTemplate(name: "Voice/Body Work", icon: "figure.yoga", color: "#45B7D1", description: "Voice exercises, movement"),
-                HabitTemplate(name: "Self-Tape", icon: "video.fill", color: "#96CEB4", description: "Record yourself, review performance"),
-                HabitTemplate(name: "Network", icon: "person.3.fill", color: "#FFEAA7", description: "Connect with industry people")
+                HabitTemplate(name: "Self-Tape/Reel", icon: "video.fill", color: "#4ECDC4", description: "Record auditions, update demo reel"),
+                HabitTemplate(name: "Agent/Casting", icon: "person.crop.circle.badge.checkmark", color: "#45B7D1", description: "Agent calls, casting director outreach"),
+                HabitTemplate(name: "Booking Income", icon: "dollarsign.circle.fill", color: "#96CEB4", description: "Track bookings, residuals, pay"),
+                HabitTemplate(name: "Side Hustle", icon: "briefcase.fill", color: "#FFEAA7", description: "Flexible income between roles")
             ]
         case .doctor:
             return [
@@ -351,8 +351,8 @@ enum LifePathCategory: String, CaseIterable, Codable {
                 HabitTemplate(name: "Clinical Practice", icon: "stethoscope", color: "#FF6B6B", description: "Patient care or simulation"),
                 HabitTemplate(name: "Research", icon: "magnifyingglass", color: "#4ECDC4", description: "Read journals, stay current"),
                 HabitTemplate(name: "Self-Care", icon: "heart.fill", color: "#45B7D1", description: "Rest, exercise, mental health"),
-                HabitTemplate(name: "Flashcards/ANKI", icon: "rectangle.stack.fill", color: "#96CEB4", description: "Active recall practice"),
-                HabitTemplate(name: "Teaching/Explaining", icon: "person.2.fill", color: "#FFEAA7", description: "Teach others to solidify knowledge")
+                HabitTemplate(name: "Loan Payoff", icon: "dollarsign.circle.fill", color: "#96CEB4", description: "Track student loans, pay extra"),
+                HabitTemplate(name: "Financial Plan", icon: "chart.bar.fill", color: "#FFEAA7", description: "Investing, retirement, wealth building")
             ]
         case .athlete:
             return [
@@ -360,8 +360,8 @@ enum LifePathCategory: String, CaseIterable, Codable {
                 HabitTemplate(name: "Skill Drills", icon: "target", color: "#FF6B6B", description: "Sport-specific skill work"),
                 HabitTemplate(name: "Recovery", icon: "bed.double.fill", color: "#4ECDC4", description: "Stretching, massage, rest"),
                 HabitTemplate(name: "Nutrition", icon: "fork.knife", color: "#45B7D1", description: "Eat for performance"),
-                HabitTemplate(name: "Film Study", icon: "play.rectangle.fill", color: "#96CEB4", description: "Watch game tape, learn"),
-                HabitTemplate(name: "Mental Training", icon: "brain.head.profile", color: "#FFEAA7", description: "Visualization, focus work")
+                HabitTemplate(name: "Sponsorships", icon: "dollarsign.circle.fill", color: "#96CEB4", description: "Brand deals, endorsements, NIL"),
+                HabitTemplate(name: "Contract/Career", icon: "doc.text.fill", color: "#FFEAA7", description: "Agent talks, contract negotiations")
             ]
         case .gameDeveloper:
             return [
@@ -369,17 +369,17 @@ enum LifePathCategory: String, CaseIterable, Codable {
                 HabitTemplate(name: "Design/Plan", icon: "pencil.and.ruler.fill", color: "#FF6B6B", description: "Game design, documentation"),
                 HabitTemplate(name: "Art/Assets", icon: "paintbrush.fill", color: "#4ECDC4", description: "Create or source game assets"),
                 HabitTemplate(name: "Playtest", icon: "gamecontroller.fill", color: "#45B7D1", description: "Test your game, find bugs"),
-                HabitTemplate(name: "Learn Engine", icon: "book.fill", color: "#96CEB4", description: "Unity, Unreal, Godot tutorials"),
-                HabitTemplate(name: "Community", icon: "bubble.left.and.bubble.right.fill", color: "#FFEAA7", description: "Share progress, get feedback")
+                HabitTemplate(name: "Monetization", icon: "dollarsign.circle.fill", color: "#96CEB4", description: "Pricing, IAPs, Steam page, publisher talks"),
+                HabitTemplate(name: "Marketing", icon: "megaphone.fill", color: "#FFEAA7", description: "Wishlists, devlogs, social media")
             ]
         case .writer:
             return [
                 HabitTemplate(name: "Write", icon: "pencil.line", color: "#996633", description: "Put words on the page"),
                 HabitTemplate(name: "Read", icon: "book.fill", color: "#FF6B6B", description: "Read in your genre"),
                 HabitTemplate(name: "Edit/Revise", icon: "pencil.and.outline", color: "#4ECDC4", description: "Polish your work"),
-                HabitTemplate(name: "Outline/Plan", icon: "list.bullet", color: "#45B7D1", description: "Plot, structure, plan"),
-                HabitTemplate(name: "Submit/Pitch", icon: "paperplane.fill", color: "#96CEB4", description: "Send to agents, publishers, markets"),
-                HabitTemplate(name: "Writing Craft", icon: "graduationcap.fill", color: "#FFEAA7", description: "Study craft, take courses")
+                HabitTemplate(name: "Submit/Pitch", icon: "paperplane.fill", color: "#45B7D1", description: "Send to agents, publishers, markets"),
+                HabitTemplate(name: "Writing Income", icon: "dollarsign.circle.fill", color: "#96CEB4", description: "Royalties, advances, freelance gigs"),
+                HabitTemplate(name: "Build Platform", icon: "chart.line.uptrend.xyaxis", color: "#FFEAA7", description: "Newsletter, social media, audience")
             ]
         case .parent:
             return [
@@ -387,17 +387,17 @@ enum LifePathCategory: String, CaseIterable, Codable {
                 HabitTemplate(name: "Read Together", icon: "book.fill", color: "#FF6B6B", description: "Read to/with your children"),
                 HabitTemplate(name: "Self-Care", icon: "heart.fill", color: "#4ECDC4", description: "Take care of yourself too"),
                 HabitTemplate(name: "Family Meal", icon: "fork.knife", color: "#45B7D1", description: "Eat together as a family"),
-                HabitTemplate(name: "Active Play", icon: "figure.play", color: "#96CEB4", description: "Physical activity with kids"),
-                HabitTemplate(name: "Learning Activity", icon: "brain.head.profile", color: "#FFEAA7", description: "Educational games, homework help")
+                HabitTemplate(name: "Family Budget", icon: "dollarsign.circle.fill", color: "#96CEB4", description: "Track expenses, save for kids' future"),
+                HabitTemplate(name: "College Fund", icon: "banknote.fill", color: "#FFEAA7", description: "529 contribution, education savings")
             ]
         case .digitalNomad:
             return [
                 HabitTemplate(name: "Deep Work", icon: "laptopcomputer", color: "#33CCCC", description: "Focused work session"),
                 HabitTemplate(name: "Client/Project Work", icon: "briefcase.fill", color: "#FF6B6B", description: "Billable work or main project"),
                 HabitTemplate(name: "Explore Local", icon: "map.fill", color: "#4ECDC4", description: "Discover your current location"),
-                HabitTemplate(name: "Language Learning", icon: "character.bubble.fill", color: "#45B7D1", description: "Learn the local language"),
-                HabitTemplate(name: "Exercise", icon: "figure.run", color: "#96CEB4", description: "Stay fit on the road"),
-                HabitTemplate(name: "Connect Home", icon: "phone.fill", color: "#FFEAA7", description: "Call friends, family back home")
+                HabitTemplate(name: "Track Income", icon: "dollarsign.circle.fill", color: "#45B7D1", description: "Monitor client payments, invoices"),
+                HabitTemplate(name: "Savings/Emergency", icon: "banknote.fill", color: "#96CEB4", description: "Save for emergencies, travel fund"),
+                HabitTemplate(name: "Find New Clients", icon: "person.badge.plus", color: "#FFEAA7", description: "Outreach, proposals, networking")
             ]
         case .custom:
             return []

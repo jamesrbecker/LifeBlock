@@ -2,8 +2,9 @@ import WidgetKit
 import SwiftUI
 
 @main
-struct LifeGridWidgetBundle: WidgetBundle {
+struct LifeBlocksWidgetBundle: WidgetBundle {
     var body: some Widget {
-        LifeGridWidget()
+        LifeBlocksWidget()
+        StandByWidget()
     }
 }

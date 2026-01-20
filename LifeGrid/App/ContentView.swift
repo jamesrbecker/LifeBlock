@@ -48,7 +48,7 @@ struct ContentView: View {
                 .padding(.vertical)
             }
             .background(Color.gridBackground)
-            .navigationTitle("LifeGrid")
+            .navigationTitle("LifeBlocks")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink {

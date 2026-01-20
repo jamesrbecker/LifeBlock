@@ -74,6 +74,50 @@ final class AppSettings {
         set { defaults.set(newValue, forKey: "todayScore") }
     }
 
+    // MARK: - Multiple Paths (Premium Feature)
+
+    /// Secondary path for users tracking multiple life areas
+    var secondaryPath: LifePathCategory? {
+        get {
+            guard let rawValue = defaults.string(forKey: "secondaryPath") else { return nil }
+            return LifePathCategory(rawValue: rawValue)
+        }
+        set {
+            defaults.set(newValue?.rawValue, forKey: "secondaryPath")
+        }
+    }
+
+    /// Tertiary path for power users
+    var tertiaryPath: LifePathCategory? {
+        get {
+            guard let rawValue = defaults.string(forKey: "tertiaryPath") else { return nil }
+            return LifePathCategory(rawValue: rawValue)
+        }
+        set {
+            defaults.set(newValue?.rawValue, forKey: "tertiaryPath")
+        }
+    }
+
+    /// All active paths (primary + secondary + tertiary)
+    var activePaths: [LifePathCategory] {
+        var paths: [LifePathCategory] = []
+        if let primary = userLifePath?.selectedPath {
+            paths.append(primary)
+        }
+        if let secondary = secondaryPath {
+            paths.append(secondary)
+        }
+        if let tertiary = tertiaryPath {
+            paths.append(tertiary)
+        }
+        return paths
+    }
+
+    /// Maximum number of paths allowed based on subscription
+    var maxPaths: Int {
+        isPremium ? 3 : 1
+    }
+
     func updateStreak(checkedInToday: Bool) {
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())

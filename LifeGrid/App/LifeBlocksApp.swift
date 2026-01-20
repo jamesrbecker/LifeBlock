@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftData
 
 @main
-struct LifeGridApp: App {
+struct LifeBlocksApp: App {
     @State private var hasCompletedOnboarding = AppSettings.shared.hasCompletedOnboarding
 
     var sharedModelContainer: ModelContainer = {
@@ -10,7 +10,10 @@ struct LifeGridApp: App {
             Habit.self,
             HabitCompletion.self,
             DayEntry.self,
-            UserSettings.self
+            UserSettings.self,
+            Friend.self,
+            FriendRequest.self,
+            Cheer.self
         ])
 
         let modelConfiguration = ModelConfiguration(
@@ -30,7 +33,7 @@ struct LifeGridApp: App {
         WindowGroup {
             Group {
                 if hasCompletedOnboarding {
-                    MainTabView()
+                    AdaptiveRootView()
                 } else {
                     OnboardingView(hasCompletedOnboarding: $hasCompletedOnboarding)
                 }
@@ -90,17 +93,23 @@ struct MainTabView: View {
                 }
                 .tag(1)
 
+            FriendsView()
+                .tabItem {
+                    Label("Friends", systemImage: "person.2.fill")
+                }
+                .tag(2)
+
             HabitListView()
                 .tabItem {
                     Label("Habits", systemImage: "list.bullet")
                 }
-                .tag(2)
+                .tag(3)
 
             SettingsView()
                 .tabItem {
                     Label("Settings", systemImage: "gearshape.fill")
                 }
-                .tag(3)
+                .tag(4)
         }
         .tint(.accentGreen)
     }

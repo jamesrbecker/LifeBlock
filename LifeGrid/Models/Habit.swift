@@ -13,6 +13,12 @@ final class Habit {
     var isActive: Bool
     var sortOrder: Int
 
+    // Per-habit streak tracking
+    var currentStreak: Int
+    var longestStreak: Int
+    var lastCompletedDate: Date?
+    var totalCompletions: Int
+
     @Relationship(deleteRule: .cascade, inverse: \HabitCompletion.habit)
     var completions: [HabitCompletion]?
 
@@ -33,6 +39,10 @@ final class Habit {
         self.createdAt = Date()
         self.isActive = true
         self.sortOrder = sortOrder
+        self.currentStreak = 0
+        self.longestStreak = 0
+        self.lastCompletedDate = nil
+        self.totalCompletions = 0
     }
 
     static let systemHabits: [(name: String, icon: String, healthKitType: String?)] = [
@@ -84,5 +94,73 @@ extension Habit {
 
     func completionLevel(for date: Date) -> Int {
         completion(for: date)?.completionLevel ?? 0
+    }
+
+    // MARK: - Streak Management
+
+    /// Updates the streak when a habit is completed
+    func updateStreak(completedDate: Date = Date()) {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: completedDate)
+
+        // Increment total completions
+        totalCompletions += 1
+
+        if let lastDate = lastCompletedDate {
+            let lastDay = calendar.startOfDay(for: lastDate)
+            let daysSinceLast = calendar.dateComponents([.day], from: lastDay, to: today).day ?? 0
+
+            if daysSinceLast == 1 {
+                // Consecutive day - extend streak
+                currentStreak += 1
+            } else if daysSinceLast == 0 {
+                // Same day - do nothing
+                return
+            } else {
+                // Streak broken - start new
+                currentStreak = 1
+            }
+        } else {
+            // First completion
+            currentStreak = 1
+        }
+
+        // Update longest streak
+        longestStreak = max(longestStreak, currentStreak)
+        lastCompletedDate = today
+    }
+
+    /// Checks if streak should be reset (called on app launch)
+    func checkStreakStatus() {
+        guard let lastDate = lastCompletedDate else { return }
+
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        let lastDay = calendar.startOfDay(for: lastDate)
+        let daysSinceLast = calendar.dateComponents([.day], from: lastDay, to: today).day ?? 0
+
+        // If more than 1 day has passed without completion, reset streak
+        if daysSinceLast > 1 {
+            currentStreak = 0
+        }
+    }
+
+    /// Returns streak status text
+    var streakStatusText: String {
+        if currentStreak == 0 {
+            return "Start your streak!"
+        } else if currentStreak == 1 {
+            return "1 day"
+        } else {
+            return "\(currentStreak) days"
+        }
+    }
+
+    /// Returns completion rate as percentage
+    var completionRate: Double {
+        let calendar = Calendar.current
+        let daysSinceCreation = calendar.dateComponents([.day], from: createdAt, to: Date()).day ?? 1
+        guard daysSinceCreation > 0 else { return 0 }
+        return min(Double(totalCompletions) / Double(daysSinceCreation) * 100, 100)
     }
 }

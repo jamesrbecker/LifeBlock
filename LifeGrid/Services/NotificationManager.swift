@@ -300,3 +300,156 @@ extension NotificationManager {
         notificationCenter.setNotificationCategories([category])
     }
 }
+
+// MARK: - Notification Settings View
+
+import SwiftUI
+
+struct NotificationSettingsView: View {
+    @StateObject private var notificationManager = NotificationManager.shared
+    @AppStorage("reminderEnabled") private var reminderEnabled = false
+    @AppStorage("reminderHour") private var reminderHour = 9
+    @AppStorage("reminderMinute") private var reminderMinute = 0
+    @AppStorage("morningMotivationEnabled") private var morningMotivationEnabled = false
+    @AppStorage("streakReminderEnabled") private var streakReminderEnabled = true
+
+    @State private var reminderTime = Date()
+
+    var body: some View {
+        List {
+            Section {
+                Toggle(isOn: $reminderEnabled) {
+                    Label {
+                        VStack(alignment: .leading) {
+                            Text("Daily Reminder")
+                            Text("Get reminded to check in")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    } icon: {
+                        Image(systemName: "bell.fill")
+                            .foregroundStyle(.orange)
+                    }
+                }
+                .onChange(of: reminderEnabled) { _, newValue in
+                    if newValue {
+                        Task {
+                            await notificationManager.scheduleDailyReminder(at: reminderTime)
+                        }
+                    } else {
+                        notificationManager.cancelDailyReminder()
+                    }
+                }
+
+                if reminderEnabled {
+                    DatePicker(
+                        "Reminder Time",
+                        selection: $reminderTime,
+                        displayedComponents: .hourAndMinute
+                    )
+                    .onChange(of: reminderTime) { _, newValue in
+                        reminderHour = Calendar.current.component(.hour, from: newValue)
+                        reminderMinute = Calendar.current.component(.minute, from: newValue)
+                        Task {
+                            await notificationManager.scheduleDailyReminder(at: newValue)
+                        }
+                    }
+                }
+            }
+
+            Section {
+                Toggle(isOn: $morningMotivationEnabled) {
+                    Label {
+                        VStack(alignment: .leading) {
+                            Text("Morning Motivation")
+                            Text("Start your day with inspiration")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    } icon: {
+                        Image(systemName: "sunrise.fill")
+                            .foregroundStyle(.yellow)
+                    }
+                }
+                .onChange(of: morningMotivationEnabled) { _, newValue in
+                    if newValue {
+                        Task {
+                            await notificationManager.scheduleMorningMotivation(at: 8)
+                        }
+                    } else {
+                        UNUserNotificationCenter.current().removePendingNotificationRequests(
+                            withIdentifiers: ["morning-motivation"]
+                        )
+                    }
+                }
+
+                Toggle(isOn: $streakReminderEnabled) {
+                    Label {
+                        VStack(alignment: .leading) {
+                            Text("Streak Reminder")
+                            Text("Evening reminder if you haven't checked in")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    } icon: {
+                        Image(systemName: "flame.fill")
+                            .foregroundStyle(.red)
+                    }
+                }
+            }
+
+            if !notificationManager.isAuthorized {
+                Section {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Label("Notifications Disabled", systemImage: "exclamationmark.triangle")
+                            .foregroundStyle(.orange)
+
+                        Text("Enable notifications in Settings to receive reminders.")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+
+                        Button("Open Settings") {
+                            if let url = URL(string: UIApplication.openSettingsURLString) {
+                                UIApplication.shared.open(url)
+                            }
+                        }
+                    }
+                    .padding(.vertical, 8)
+                }
+            }
+
+            Section {
+                VStack(alignment: .leading, spacing: 8) {
+                    Label("How Reminders Work", systemImage: "info.circle")
+                        .font(.headline)
+
+                    Text("Daily reminders help you stay consistent. Streak reminders notify you at 9 PM if you haven't checked in yet that day.")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+                .padding(.vertical, 8)
+            }
+        }
+        .navigationTitle("Notifications")
+        .onAppear {
+            // Load saved time
+            var components = DateComponents()
+            components.hour = reminderHour
+            components.minute = reminderMinute
+            if let date = Calendar.current.date(from: components) {
+                reminderTime = date
+            }
+
+            Task {
+                await notificationManager.checkAuthorizationStatus()
+            }
+        }
+    }
+}
+
+#Preview {
+    NavigationView {
+        NotificationSettingsView()
+    }
+    .preferredColorScheme(.dark)
+}

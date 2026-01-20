@@ -120,9 +120,15 @@ struct SettingsView: View {
                     }
                 }
 
-                // Appearance section (Premium)
-                Section("Appearance") {
+                // Premium Features
+                Section("Premium Features") {
                     if purchases.isPremium {
+                        NavigationLink {
+                            MultiplePathsView()
+                        } label: {
+                            Label("Multiple Paths", systemImage: "arrow.triangle.branch")
+                        }
+
                         NavigationLink {
                             ThemePickerView()
                         } label: {
@@ -133,7 +139,24 @@ struct SettingsView: View {
                                     .foregroundStyle(.secondary)
                             }
                         }
+
+                        NavigationLink {
+                            CloudSyncSettingsView()
+                        } label: {
+                            Label("iCloud Sync", systemImage: "icloud.fill")
+                        }
                     } else {
+                        HStack {
+                            Label("Multiple Paths", systemImage: "arrow.triangle.branch")
+                            Spacer()
+                            Button("Premium") {
+                                showingPremium = true
+                            }
+                            .font(.caption)
+                            .buttonStyle(.borderedProminent)
+                            .tint(.yellow)
+                        }
+
                         HStack {
                             Label("Color Theme", systemImage: "paintpalette.fill")
                             Spacer()
@@ -144,6 +167,26 @@ struct SettingsView: View {
                             .buttonStyle(.borderedProminent)
                             .tint(.yellow)
                         }
+
+                        HStack {
+                            Label("iCloud Sync", systemImage: "icloud.fill")
+                            Spacer()
+                            Button("Premium") {
+                                showingPremium = true
+                            }
+                            .font(.caption)
+                            .buttonStyle(.borderedProminent)
+                            .tint(.yellow)
+                        }
+                    }
+                }
+
+                // Notifications
+                Section("Notifications") {
+                    NavigationLink {
+                        NotificationSettingsView()
+                    } label: {
+                        Label("Reminder Settings", systemImage: "bell.fill")
                     }
                 }
 
@@ -274,40 +317,103 @@ struct SettingsView: View {
 }
 
 struct ThemePickerView: View {
-    @State private var selectedTheme: GridColorScheme = .green
+    @AppStorage("selectedTheme") private var selectedTheme: String = "green"
+
+    let themes: [(name: String, colors: [Color], isPremium: Bool)] = [
+        ("green", [Color(hex: "#161B22"), Color(hex: "#0E4429"), Color(hex: "#006D32"), Color(hex: "#26A641"), Color(hex: "#39D353")], false),
+        ("blue", [Color(hex: "#161B22"), Color(hex: "#0D3B66"), Color(hex: "#1E6091"), Color(hex: "#3A8BC2"), Color(hex: "#5AB4F5")], false),
+        ("purple", [Color(hex: "#161B22"), Color(hex: "#3D1A5C"), Color(hex: "#6B2D8C"), Color(hex: "#9945BD"), Color(hex: "#C75DEF")], true),
+        ("orange", [Color(hex: "#161B22"), Color(hex: "#5C2D0E"), Color(hex: "#8C4516"), Color(hex: "#BD5D1F"), Color(hex: "#EF7627")], true),
+        ("pink", [Color(hex: "#161B22"), Color(hex: "#5C1A3D"), Color(hex: "#8C2D5C"), Color(hex: "#BD457B"), Color(hex: "#EF5D9A")], true),
+        ("red", [Color(hex: "#161B22"), Color(hex: "#5C1A1A"), Color(hex: "#8C2D2D"), Color(hex: "#BD4545"), Color(hex: "#EF5D5D")], true),
+        ("gold", [Color(hex: "#161B22"), Color(hex: "#5C4A0E"), Color(hex: "#8C7016"), Color(hex: "#BD961F"), Color(hex: "#EFBC27")], true),
+        ("cyan", [Color(hex: "#161B22"), Color(hex: "#0E4A5C"), Color(hex: "#167A8C"), Color(hex: "#1FAABD"), Color(hex: "#27DAEF")], true),
+        ("monochrome", [Color(hex: "#161B22"), Color(hex: "#333333"), Color(hex: "#666666"), Color(hex: "#999999"), Color(hex: "#CCCCCC")], true),
+        ("neon", [Color(hex: "#0D0D0D"), Color(hex: "#FF00FF").opacity(0.3), Color(hex: "#FF00FF").opacity(0.5), Color(hex: "#FF00FF").opacity(0.7), Color(hex: "#FF00FF")], true),
+    ]
 
     var body: some View {
         List {
-            ForEach(GridColorScheme.allCases, id: \.rawValue) { theme in
-                Button {
-                    selectedTheme = theme
-                } label: {
-                    HStack {
-                        // Theme preview
-                        HStack(spacing: 3) {
-                            ForEach(0..<5, id: \.self) { level in
-                                RoundedRectangle(cornerRadius: 3)
-                                    .fill(theme.color(for: level, isDarkMode: true))
-                                    .frame(width: 20, height: 20)
+            Section {
+                ForEach(themes, id: \.name) { theme in
+                    Button {
+                        if !theme.isPremium || PurchaseManager.shared.isPremium {
+                            selectedTheme = theme.name
+                        }
+                    } label: {
+                        HStack {
+                            // Theme preview
+                            HStack(spacing: 3) {
+                                ForEach(0..<5, id: \.self) { level in
+                                    RoundedRectangle(cornerRadius: 3)
+                                        .fill(theme.colors[level])
+                                        .frame(width: 20, height: 20)
+                                }
+                            }
+
+                            Text(theme.name.capitalized)
+                                .padding(.leading, 12)
+
+                            if theme.isPremium && !PurchaseManager.shared.isPremium {
+                                Image(systemName: "crown.fill")
+                                    .font(.caption)
+                                    .foregroundStyle(.yellow)
+                            }
+
+                            Spacer()
+
+                            if selectedTheme == theme.name {
+                                Image(systemName: "checkmark")
+                                    .foregroundStyle(.green)
                             }
                         }
-
-                        Text(theme.rawValue.capitalized)
-                            .padding(.leading, 12)
-
-                        Spacer()
-
-                        if selectedTheme == theme {
-                            Image(systemName: "checkmark")
-                                .foregroundStyle(Color.accentGreen)
-                        }
+                        .padding(.vertical, 8)
+                        .opacity(theme.isPremium && !PurchaseManager.shared.isPremium ? 0.6 : 1)
                     }
-                    .padding(.vertical, 8)
+                    .buttonStyle(.plain)
                 }
-                .buttonStyle(.plain)
+            }
+
+            Section {
+                VStack(alignment: .leading, spacing: 8) {
+                    Label("About Themes", systemImage: "info.circle")
+                        .font(.headline)
+
+                    Text("Themes change the color of your activity grid. Premium themes are marked with a crown icon.")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+                .padding(.vertical, 8)
             }
         }
         .navigationTitle("Color Theme")
+    }
+}
+
+// MARK: - Color Extension for Hex
+extension Color {
+    init(hex: String) {
+        let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        var int: UInt64 = 0
+        Scanner(string: hex).scanHexInt64(&int)
+        let a, r, g, b: UInt64
+        switch hex.count {
+        case 3: // RGB (12-bit)
+            (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
+        case 6: // RGB (24-bit)
+            (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
+        case 8: // ARGB (32-bit)
+            (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
+        default:
+            (a, r, g, b) = (1, 1, 1, 0)
+        }
+        self.init(
+            .sRGB,
+            red: Double(r) / 255,
+            green: Double(g) / 255,
+            blue: Double(b) / 255,
+            opacity: Double(a) / 255
+        )
     }
 }
 
