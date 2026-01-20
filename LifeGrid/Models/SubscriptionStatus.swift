@@ -45,8 +45,8 @@ final class SubscriptionStatus: ObservableObject {
     @Published var isLoading: Bool = false
 
     // Product IDs - configure these in App Store Connect
-    static let monthlyProductID = "com.lifegrid.premium.monthly"
-    static let yearlyProductID = "com.lifegrid.premium.yearly"
+    static let monthlyProductID = "com.lifeblock.premium.monthly"
+    static let yearlyProductID = "com.lifeblock.premium.yearly"
 
     private init() {
         // Check cached status

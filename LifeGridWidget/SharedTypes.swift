@@ -4,7 +4,7 @@ import Foundation
 final class AppSettings {
     static let shared = AppSettings()
 
-    private let defaults = UserDefaults(suiteName: "group.com.lifegrid.app") ?? .standard
+    private let defaults = UserDefaults(suiteName: "group.com.lifeblock.app") ?? .standard
 
     private init() {}
 

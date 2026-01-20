@@ -8,17 +8,17 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.lifegrid.app</string>
+			<string>com.lifeblock.app</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>lifegrid</string>
+				<string>lifeblock</string>
 			</array>
 		</dict>
 	</array>
 	<key>NSHealthShareUsageDescription</key>
-	<string>LifeGrid uses your health data to automatically track exercise minutes and sleep hours, making check-ins faster and more accurate.</string>
+	<string>LifeBlock uses your health data to automatically track exercise minutes and sleep hours, making check-ins faster and more accurate.</string>
 	<key>NSHealthUpdateUsageDescription</key>
-	<string>LifeGrid needs write access to save your habit tracking data to Health.</string>
+	<string>LifeBlock needs write access to save your habit tracking data to Health.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
@@ -26,7 +26,7 @@
 	</array>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
-		<string>com.lifegrid.app.refresh</string>
+		<string>com.lifeblock.app.refresh</string>
 	</array>
 </dict>
 </plist>

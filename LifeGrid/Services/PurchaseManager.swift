@@ -11,8 +11,8 @@ final class PurchaseManager: ObservableObject {
     @Published var errorMessage: String?
 
     private let productIDs = [
-        "com.lifegrid.premium.monthly",
-        "com.lifegrid.premium.yearly"
+        "com.lifeblock.premium.monthly",
+        "com.lifeblock.premium.yearly"
     ]
 
     private var updateListenerTask: Task<Void, Error>?
@@ -32,11 +32,11 @@ final class PurchaseManager: ObservableObject {
     // MARK: - Products
 
     var monthlyProduct: Product? {
-        products.first { $0.id == "com.lifegrid.premium.monthly" }
+        products.first { $0.id == "com.lifeblock.premium.monthly" }
     }
 
     var yearlyProduct: Product? {
-        products.first { $0.id == "com.lifegrid.premium.yearly" }
+        products.first { $0.id == "com.lifeblock.premium.yearly" }
     }
 
     var isPremium: Bool {

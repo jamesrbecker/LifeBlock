@@ -213,7 +213,7 @@ struct ContentView: View {
     }
 
     private func handleDeepLink(_ url: URL) {
-        guard url.scheme == "lifegrid" else { return }
+        guard url.scheme == "lifeblock" else { return }
 
         switch url.host {
         case "checkin":

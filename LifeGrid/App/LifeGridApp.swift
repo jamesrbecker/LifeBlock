@@ -16,7 +16,7 @@ struct LifeGridApp: App {
         let modelConfiguration = ModelConfiguration(
             schema: schema,
             isStoredInMemoryOnly: false,
-            groupContainer: .identifier("group.com.lifegrid.app")
+            groupContainer: .identifier("group.com.lifeblock.app")
         )
 
         do {
@@ -135,7 +135,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         switch response.actionIdentifier {
         case "CHECK_IN":
             // Navigate to check-in via deep link
-            if let url = URL(string: "lifegrid://checkin") {
+            if let url = URL(string: "lifeblock://checkin") {
                 UIApplication.shared.open(url)
             }
 

@@ -201,13 +201,14 @@ struct SettingsView: View {
                         Text("Restore Purchases")
                     }
 
-                    if let privacyURL = URL(string: "https://lifegrid.app/privacy") {
+                    // Privacy and Terms links - update with your Notion URLs
+                    if let privacyURL = URL(string: "https://lifeblock.notion.site/privacy") {
                         Link(destination: privacyURL) {
                             Text("Privacy Policy")
                         }
                     }
 
-                    if let termsURL = URL(string: "https://lifegrid.app/terms") {
+                    if let termsURL = URL(string: "https://lifeblock.notion.site/terms") {
                         Link(destination: termsURL) {
                             Text("Terms of Service")
                         }
@@ -258,7 +259,7 @@ struct SettingsView: View {
 
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        let filename = "lifegrid-export-\(dateFormatter.string(from: Date())).json"
+        let filename = "lifeblock-export-\(dateFormatter.string(from: Date())).json"
 
         // Save to temp file and share
         let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent(filename)

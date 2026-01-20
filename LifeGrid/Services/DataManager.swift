@@ -184,7 +184,7 @@ final class DataManager: ObservableObject {
 
         // Save to shared UserDefaults
         if let data = try? JSONEncoder().encode(scores) {
-            let defaults = UserDefaults(suiteName: "group.com.lifegrid.app")
+            let defaults = UserDefaults(suiteName: "group.com.lifeblock.app")
             defaults?.set(data, forKey: "dayScores")
         }
 

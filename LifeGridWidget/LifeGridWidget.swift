@@ -44,7 +44,7 @@ struct LifeGridTimelineProvider: TimelineProvider {
     }
 
     private func loadDayScores() -> [Date: Int] {
-        let defaults = UserDefaults(suiteName: "group.com.lifegrid.app") ?? .standard
+        let defaults = UserDefaults(suiteName: "group.com.lifeblock.app") ?? .standard
 
         guard let data = defaults.data(forKey: "dayScores"),
               let scores = try? JSONDecoder().decode([String: Int].self, from: data) else {
@@ -78,11 +78,11 @@ struct LifeGridTimelineProvider: TimelineProvider {
 struct DeepLink {
     static func url(for date: Date) -> URL {
         let timestamp = Int(date.timeIntervalSince1970)
-        return URL(string: "lifegrid://day/\(timestamp)")!
+        return URL(string: "lifeblock://day/\(timestamp)")!
     }
 
     static func checkInURL() -> URL {
-        return URL(string: "lifegrid://checkin")!
+        return URL(string: "lifeblock://checkin")!
     }
 }
 
