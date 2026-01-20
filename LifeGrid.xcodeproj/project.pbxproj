@@ -1,0 +1,797 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		/* App Files */
+		F1000001001 /* LifeGridApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000001000 /* LifeGridApp.swift */; };
+		F1000002001 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000002000 /* ContentView.swift */; };
+		F1000003001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F1000003000 /* Assets.xcassets */; };
+
+		/* Models */
+		F1000010001 /* Habit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000010000 /* Habit.swift */; };
+		F1000011001 /* DayEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000011000 /* DayEntry.swift */; };
+		F1000012001 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000012000 /* UserSettings.swift */; };
+		F1000013001 /* SubscriptionStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000013000 /* SubscriptionStatus.swift */; };
+		F1000014001 /* LifePath.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000014000 /* LifePath.swift */; };
+
+		/* Views - Grid */
+		F1000020001 /* ContributionGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000020000 /* ContributionGridView.swift */; };
+		F1000021001 /* DaySquareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000021000 /* DaySquareView.swift */; };
+		F1000022001 /* GridLegendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000022000 /* GridLegendView.swift */; };
+		F1000023001 /* DayDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000023000 /* DayDetailView.swift */; };
+
+		/* Views - CheckIn */
+		F1000030001 /* DailyCheckInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000030000 /* DailyCheckInView.swift */; };
+		F1000031001 /* QuestionCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000031000 /* QuestionCardView.swift */; };
+
+		/* Views - Habits */
+		F1000040001 /* HabitListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000040000 /* HabitListView.swift */; };
+		F1000041001 /* HabitEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000041000 /* HabitEditorView.swift */; };
+
+		/* Views - Analytics */
+		F1000050001 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000050000 /* StatsView.swift */; };
+		F1000051001 /* StreakView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000051000 /* StreakView.swift */; };
+
+		/* Views - Dashboard */
+		F1000052001 /* PathDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000052000 /* PathDashboardView.swift */; };
+
+		/* Views - Settings */
+		F1000060001 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000060000 /* SettingsView.swift */; };
+		F1000061001 /* PremiumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000061000 /* PremiumView.swift */; };
+
+		/* Views - Onboarding */
+		F1000070001 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000070000 /* OnboardingView.swift */; };
+
+		/* Services */
+		F1000080001 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000080000 /* DataManager.swift */; };
+		F1000081001 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000081000 /* HealthKitManager.swift */; };
+		F1000082001 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000082000 /* NotificationManager.swift */; };
+		F1000083001 /* PurchaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000083000 /* PurchaseManager.swift */; };
+
+		/* Utilities */
+		F1000090001 /* ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000090000 /* ColorScheme.swift */; };
+		F1000091001 /* DateHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000091000 /* DateHelpers.swift */; };
+
+		/* Widget Files */
+		F1000100001 /* LifeGridWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000100000 /* LifeGridWidget.swift */; };
+		F1000101001 /* WidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000101000 /* WidgetBundle.swift */; };
+		F1000102001 /* SmallWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000102000 /* SmallWidgetView.swift */; };
+		F1000103001 /* MediumWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000103000 /* MediumWidgetView.swift */; };
+		F1000104001 /* LargeWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000104000 /* LargeWidgetView.swift */; };
+		F1000105001 /* WidgetAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F1000105000 /* WidgetAssets.xcassets */; };
+		F1000106001 /* LifeGridWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = F1000106000 /* LifeGridWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+
+		/* Widget Helper Files */
+		F1000115001 /* SharedTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000115000 /* SharedTypes.swift */; };
+		F1000116001 /* WidgetHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000116000 /* WidgetHelpers.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F1000200000 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F1000000000 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F1000106010;
+			remoteInfo = LifeGridWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F1000300000 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				F1000106001 /* LifeGridWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		/* App Files */
+		F1000001000 /* LifeGridApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeGridApp.swift; sourceTree = "<group>"; };
+		F1000002000 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		F1000003000 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F1000004000 /* LifeGrid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LifeGrid.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F1000005000 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F1000006000 /* LifeGrid.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LifeGrid.entitlements; sourceTree = "<group>"; };
+
+		/* Models */
+		F1000010000 /* Habit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Habit.swift; sourceTree = "<group>"; };
+		F1000011000 /* DayEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayEntry.swift; sourceTree = "<group>"; };
+		F1000012000 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
+		F1000013000 /* SubscriptionStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionStatus.swift; sourceTree = "<group>"; };
+		F1000014000 /* LifePath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifePath.swift; sourceTree = "<group>"; };
+
+		/* Views - Grid */
+		F1000020000 /* ContributionGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributionGridView.swift; sourceTree = "<group>"; };
+		F1000021000 /* DaySquareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySquareView.swift; sourceTree = "<group>"; };
+		F1000022000 /* GridLegendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridLegendView.swift; sourceTree = "<group>"; };
+		F1000023000 /* DayDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayDetailView.swift; sourceTree = "<group>"; };
+
+		/* Views - CheckIn */
+		F1000030000 /* DailyCheckInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyCheckInView.swift; sourceTree = "<group>"; };
+		F1000031000 /* QuestionCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionCardView.swift; sourceTree = "<group>"; };
+
+		/* Views - Habits */
+		F1000040000 /* HabitListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitListView.swift; sourceTree = "<group>"; };
+		F1000041000 /* HabitEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitEditorView.swift; sourceTree = "<group>"; };
+
+		/* Views - Analytics */
+		F1000050000 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
+		F1000051000 /* StreakView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakView.swift; sourceTree = "<group>"; };
+		F1000052000 /* PathDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathDashboardView.swift; sourceTree = "<group>"; };
+
+		/* Views - Settings */
+		F1000060000 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		F1000061000 /* PremiumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumView.swift; sourceTree = "<group>"; };
+
+		/* Views - Onboarding */
+		F1000070000 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+
+		/* Services */
+		F1000080000 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		F1000081000 /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
+		F1000082000 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		F1000083000 /* PurchaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseManager.swift; sourceTree = "<group>"; };
+
+		/* Utilities */
+		F1000090000 /* ColorScheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorScheme.swift; sourceTree = "<group>"; };
+		F1000091000 /* DateHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelpers.swift; sourceTree = "<group>"; };
+
+		/* Widget Files */
+		F1000100000 /* LifeGridWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeGridWidget.swift; sourceTree = "<group>"; };
+		F1000101000 /* WidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetBundle.swift; sourceTree = "<group>"; };
+		F1000102000 /* SmallWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallWidgetView.swift; sourceTree = "<group>"; };
+		F1000103000 /* MediumWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumWidgetView.swift; sourceTree = "<group>"; };
+		F1000104000 /* LargeWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeWidgetView.swift; sourceTree = "<group>"; };
+		F1000105000 /* WidgetAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = WidgetAssets.xcassets; sourceTree = "<group>"; };
+		F1000106000 /* LifeGridWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LifeGridWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		F1000107000 /* LifeGridWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LifeGridWidgetExtension.entitlements; sourceTree = "<group>"; };
+		F1000108000 /* WidgetInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F1000115000 /* SharedTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTypes.swift; sourceTree = "<group>"; };
+		F1000116000 /* WidgetHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetHelpers.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F1000400000 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F1000400001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F1000500000 = {
+			isa = PBXGroup;
+			children = (
+				F1000500001 /* LifeGrid */,
+				F1000500002 /* LifeGridWidget */,
+				F1000500003 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F1000500001 /* LifeGrid */ = {
+			isa = PBXGroup;
+			children = (
+				F1000500010 /* App */,
+				F1000500011 /* Models */,
+				F1000500012 /* Views */,
+				F1000500013 /* Services */,
+				F1000500014 /* Utilities */,
+				F1000500015 /* Resources */,
+				F1000005000 /* Info.plist */,
+				F1000006000 /* LifeGrid.entitlements */,
+			);
+			path = LifeGrid;
+			sourceTree = "<group>";
+		};
+		F1000500002 /* LifeGridWidget */ = {
+			isa = PBXGroup;
+			children = (
+				F1000100000 /* LifeGridWidget.swift */,
+				F1000101000 /* WidgetBundle.swift */,
+				F1000115000 /* SharedTypes.swift */,
+				F1000116000 /* WidgetHelpers.swift */,
+				F1000500020 /* WidgetViews */,
+				F1000105000 /* WidgetAssets.xcassets */,
+				F1000107000 /* LifeGridWidgetExtension.entitlements */,
+				F1000108000 /* Info.plist */,
+			);
+			path = LifeGridWidget;
+			sourceTree = "<group>";
+		};
+		F1000500003 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F1000004000 /* LifeGrid.app */,
+				F1000106000 /* LifeGridWidgetExtension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F1000500010 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				F1000001000 /* LifeGridApp.swift */,
+				F1000002000 /* ContentView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		F1000500011 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F1000010000 /* Habit.swift */,
+				F1000011000 /* DayEntry.swift */,
+				F1000012000 /* UserSettings.swift */,
+				F1000013000 /* SubscriptionStatus.swift */,
+				F1000014000 /* LifePath.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F1000500012 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F1000500016 /* Grid */,
+				F1000500017 /* CheckIn */,
+				F1000500018 /* Habits */,
+				F1000500019 /* Analytics */,
+				F100050001C /* Dashboard */,
+				F100050001A /* Settings */,
+				F100050001B /* Onboarding */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F100050001C /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				F1000052000 /* PathDashboardView.swift */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		F1000500013 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				F1000080000 /* DataManager.swift */,
+				F1000081000 /* HealthKitManager.swift */,
+				F1000082000 /* NotificationManager.swift */,
+				F1000083000 /* PurchaseManager.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		F1000500014 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				F1000090000 /* ColorScheme.swift */,
+				F1000091000 /* DateHelpers.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		F1000500015 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F1000003000 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		F1000500016 /* Grid */ = {
+			isa = PBXGroup;
+			children = (
+				F1000020000 /* ContributionGridView.swift */,
+				F1000021000 /* DaySquareView.swift */,
+				F1000022000 /* GridLegendView.swift */,
+				F1000023000 /* DayDetailView.swift */,
+			);
+			path = Grid;
+			sourceTree = "<group>";
+		};
+		F1000500017 /* CheckIn */ = {
+			isa = PBXGroup;
+			children = (
+				F1000030000 /* DailyCheckInView.swift */,
+				F1000031000 /* QuestionCardView.swift */,
+			);
+			path = CheckIn;
+			sourceTree = "<group>";
+		};
+		F1000500018 /* Habits */ = {
+			isa = PBXGroup;
+			children = (
+				F1000040000 /* HabitListView.swift */,
+				F1000041000 /* HabitEditorView.swift */,
+			);
+			path = Habits;
+			sourceTree = "<group>";
+		};
+		F1000500019 /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				F1000050000 /* StatsView.swift */,
+				F1000051000 /* StreakView.swift */,
+			);
+			path = Analytics;
+			sourceTree = "<group>";
+		};
+		F100050001A /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				F1000060000 /* SettingsView.swift */,
+				F1000061000 /* PremiumView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		F100050001B /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				F1000070000 /* OnboardingView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		F1000500020 /* WidgetViews */ = {
+			isa = PBXGroup;
+			children = (
+				F1000102000 /* SmallWidgetView.swift */,
+				F1000103000 /* MediumWidgetView.swift */,
+				F1000104000 /* LargeWidgetView.swift */,
+			);
+			path = WidgetViews;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F1000600000 /* LifeGrid */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F1000700000 /* Build configuration list for PBXNativeTarget "LifeGrid" */;
+			buildPhases = (
+				F1000600001 /* Sources */,
+				F1000400000 /* Frameworks */,
+				F1000600002 /* Resources */,
+				F1000300000 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F1000200001 /* PBXTargetDependency */,
+			);
+			name = LifeGrid;
+			productName = LifeGrid;
+			productReference = F1000004000 /* LifeGrid.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F1000106010 /* LifeGridWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F1000700001 /* Build configuration list for PBXNativeTarget "LifeGridWidgetExtension" */;
+			buildPhases = (
+				F1000600003 /* Sources */,
+				F1000400001 /* Frameworks */,
+				F1000600004 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LifeGridWidgetExtension;
+			productName = LifeGridWidgetExtension;
+			productReference = F1000106000 /* LifeGridWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F1000000000 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					F1000600000 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+					F1000106010 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = F1000800000 /* Build configuration list for PBXProject "LifeGrid" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F1000500000;
+			productRefGroup = F1000500003 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F1000600000 /* LifeGrid */,
+				F1000106010 /* LifeGridWidgetExtension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F1000600002 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F1000003001 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F1000600004 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F1000105001 /* WidgetAssets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F1000600001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F1000001001 /* LifeGridApp.swift in Sources */,
+				F1000002001 /* ContentView.swift in Sources */,
+				F1000010001 /* Habit.swift in Sources */,
+				F1000011001 /* DayEntry.swift in Sources */,
+				F1000012001 /* UserSettings.swift in Sources */,
+				F1000013001 /* SubscriptionStatus.swift in Sources */,
+				F1000020001 /* ContributionGridView.swift in Sources */,
+				F1000021001 /* DaySquareView.swift in Sources */,
+				F1000022001 /* GridLegendView.swift in Sources */,
+				F1000023001 /* DayDetailView.swift in Sources */,
+				F1000030001 /* DailyCheckInView.swift in Sources */,
+				F1000031001 /* QuestionCardView.swift in Sources */,
+				F1000040001 /* HabitListView.swift in Sources */,
+				F1000041001 /* HabitEditorView.swift in Sources */,
+				F1000050001 /* StatsView.swift in Sources */,
+				F1000051001 /* StreakView.swift in Sources */,
+				F1000060001 /* SettingsView.swift in Sources */,
+				F1000061001 /* PremiumView.swift in Sources */,
+				F1000070001 /* OnboardingView.swift in Sources */,
+				F1000080001 /* DataManager.swift in Sources */,
+				F1000081001 /* HealthKitManager.swift in Sources */,
+				F1000082001 /* NotificationManager.swift in Sources */,
+				F1000083001 /* PurchaseManager.swift in Sources */,
+				F1000090001 /* ColorScheme.swift in Sources */,
+				F1000091001 /* DateHelpers.swift in Sources */,
+				F1000014001 /* LifePath.swift in Sources */,
+				F1000052001 /* PathDashboardView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F1000600003 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F1000100001 /* LifeGridWidget.swift in Sources */,
+				F1000101001 /* WidgetBundle.swift in Sources */,
+				F1000102001 /* SmallWidgetView.swift in Sources */,
+				F1000103001 /* MediumWidgetView.swift in Sources */,
+				F1000104001 /* LargeWidgetView.swift in Sources */,
+				F1000115001 /* SharedTypes.swift in Sources */,
+				F1000116001 /* WidgetHelpers.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F1000200001 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F1000106010 /* LifeGridWidgetExtension */;
+			targetProxy = F1000200000 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		F1000800001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		F1000800002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F1000700002 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = LifeGrid/LifeGrid.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LifeGrid/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = LifeGrid;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "LifeGrid uses your health data to automatically track exercise and sleep habits.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "LifeGrid needs write access to save your habit data.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lifegrid.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F1000700003 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = LifeGrid/LifeGrid.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LifeGrid/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = LifeGrid;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "LifeGrid uses your health data to automatically track exercise and sleep habits.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "LifeGrid needs write access to save your habit data.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lifegrid.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		F1000700004 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = LifeGridWidget/LifeGridWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LifeGridWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = LifeGridWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lifegrid.app.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F1000700005 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = LifeGridWidget/LifeGridWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LifeGridWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = LifeGridWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lifegrid.app.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F1000800000 /* Build configuration list for PBXProject "LifeGrid" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F1000800001 /* Debug */,
+				F1000800002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F1000700000 /* Build configuration list for PBXNativeTarget "LifeGrid" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F1000700002 /* Debug */,
+				F1000700003 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F1000700001 /* Build configuration list for PBXNativeTarget "LifeGridWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F1000700004 /* Debug */,
+				F1000700005 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F1000000000 /* Project object */;
+}
