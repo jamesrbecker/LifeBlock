@@ -201,14 +201,14 @@ struct SettingsView: View {
                         Text("Restore Purchases")
                     }
 
-                    // Privacy and Terms links - update with your Notion URLs
-                    if let privacyURL = URL(string: "https://lifeblock.notion.site/privacy") {
+                    // Privacy and Terms links - hosted on GitHub Pages
+                    if let privacyURL = URL(string: "https://jamesrbecker.github.io/LifeBlock/privacy.html") {
                         Link(destination: privacyURL) {
                             Text("Privacy Policy")
                         }
                     }
 
-                    if let termsURL = URL(string: "https://lifeblock.notion.site/terms") {
+                    if let termsURL = URL(string: "https://jamesrbecker.github.io/LifeBlock/terms.html") {
                         Link(destination: termsURL) {
                             Text("Terms of Service")
                         }

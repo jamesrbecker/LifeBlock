@@ -26,7 +26,7 @@
 - **Secondary Category:** Lifestyle
 
 ### Privacy Policy URL
-`[Your Notion URL - create this first]`
+`https://jamesrbecker.github.io/LifeBlock/privacy.html`
 
 ### Support URL
 `https://x.com/lifeblockapp` (or your X handle)
