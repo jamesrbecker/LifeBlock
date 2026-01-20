@@ -11,7 +11,6 @@ struct DayDetailView: View {
 
     init(date: Date) {
         self.date = date
-        let targetDate = Calendar.current.startOfDay(for: date)
         _habits = Query(filter: #Predicate<Habit> { $0.isActive }, sort: \Habit.sortOrder)
     }
 

@@ -184,17 +184,7 @@ struct AddFriendView: View {
     }
 
     private func sendFriendRequest(to user: UserProfile) {
-        let settings = AppSettings.shared
-
-        let request = FriendRequest(
-            fromUserID: settings.userID,
-            fromDisplayName: settings.displayName,
-            fromAvatarEmoji: settings.avatarEmoji,
-            toUserID: user.userID,
-            includesAccountabilityPartner: makeAccountabilityPartner
-        )
-
-        // In production, this would sync to CloudKit
+        // In production, this would create a FriendRequest and sync to CloudKit
         // For now, directly create the friend connection (demo mode)
         let friend = Friend(
             userID: user.userID,

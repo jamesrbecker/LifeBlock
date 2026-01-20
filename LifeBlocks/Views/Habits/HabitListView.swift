@@ -148,7 +148,7 @@ struct HabitRow: View {
                     .font(.body)
                     .foregroundStyle(habit.isActive ? .primary : .secondary)
 
-                if let healthType = habit.healthKitType {
+                if habit.healthKitType != nil {
                     Label("Auto-tracked", systemImage: "heart.fill")
                         .font(.caption2)
                         .foregroundStyle(.pink)

@@ -572,7 +572,7 @@ struct OnboardingView: View {
         guard let path = selectedPath else { return }
 
         // Save life path
-        var lifePath = UserLifePath(path: path)
+        let lifePath = UserLifePath(path: path)
         AppSettings.shared.userLifePath = lifePath
         AppSettings.shared.pathStartDate = Date()
 

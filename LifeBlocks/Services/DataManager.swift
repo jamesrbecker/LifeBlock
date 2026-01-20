@@ -166,7 +166,7 @@ final class DataManager: ObservableObject {
     // MARK: - Widget Data Sync
 
     func syncWidgetData() {
-        guard let context = modelContext else { return }
+        guard modelContext != nil else { return }
 
         // Get last 365 days of data
         let startDate = DateHelpers.daysAgo(365)
