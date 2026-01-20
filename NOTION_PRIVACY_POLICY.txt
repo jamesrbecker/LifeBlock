@@ -1,0 +1,58 @@
+LIFEBLOCK PRIVACY POLICY
+
+Last updated: January 2026
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+SUMMARY
+
+Your data stays on your device. We don't collect, sell, or share anything. Period.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+WHAT WE COLLECT
+
+Nothing. All your habit data, check-ins, streaks, and settings are stored locally on your iPhone. We have no servers. We can't see your data even if we wanted to.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+DATA STORAGE
+
+• Local Storage: All data is stored on your device using Apple's secure systems
+• iCloud Sync: If enabled, your data syncs through YOUR personal iCloud account - we never access it
+• HealthKit: We read exercise and sleep data (with your permission) to auto-fill check-ins. This data never leaves your device.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+THIRD PARTIES
+
+• Apple App Store: Handles all payments. We never see your credit card or payment info.
+• Apple Push Notifications: Used for daily reminders. Managed entirely by Apple.
+
+That's it. No analytics companies. No ad networks. No data brokers.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+YOUR RIGHTS
+
+• Access: All your data is visible in the app
+• Export: Premium users can export all data as JSON
+• Delete: Uninstall the app to delete all local data. For iCloud data, go to Settings → Apple ID → iCloud → Manage Storage
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+CHILDREN'S PRIVACY
+
+LifeBlock does not knowingly collect any data from anyone, including children under 13.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+CHANGES
+
+We may update this policy. Check back occasionally.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+CONTACT
+
+Questions? Reach us on X: @lifeblockapp
