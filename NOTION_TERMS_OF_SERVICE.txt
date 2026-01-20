@@ -6,13 +6,13 @@ Last updated: January 2026
 
 AGREEMENT
 
-By using LifeBlock, you agree to these terms. If you don't agree, don't use the app.
+By using LifeBlocks, you agree to these terms. If you don't agree, don't use the app.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 THE APP
 
-LifeBlock is a habit tracking app. We help you track daily habits and visualize your progress. That's it.
+LifeBlocks is a habit tracking app. We help you track daily habits and visualize your progress. That's it.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -37,7 +37,7 @@ YOUR RESPONSIBILITIES
 
 HEALTH DISCLAIMER
 
-LifeBlock is a habit tracker, NOT medical advice. The HealthKit integration is for convenience only. Consult healthcare professionals for health decisions.
+LifeBlocks is a habit tracker, NOT medical advice. The HealthKit integration is for convenience only. Consult healthcare professionals for health decisions.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -49,7 +49,7 @@ The app is provided "as is." We don't guarantee it will be perfect or uninterrup
 
 LIMITATION OF LIABILITY
 
-We're not liable for indirect, incidental, or consequential damages from using LifeBlock.
+We're not liable for indirect, incidental, or consequential damages from using LifeBlocks.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 

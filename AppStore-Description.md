@@ -1,10 +1,10 @@
-# LifeBlock - App Store Listing
+# LifeBlocks - App Store Listing
 
 ## App Name
-**LifeBlock**
+**LifeBlocks**
 
 ## Subtitle (30 characters max)
-`Build your life, block by block`
+`Build Your Life. Block by Block.`
 
 ## Promotional Text (170 characters)
 Stop scrolling. Start building. Choose your life path, track daily habits in 30 seconds, and watch your progress grid turn green. Block by block.
@@ -15,7 +15,7 @@ Stop scrolling. Start building. Choose your life path, track daily habits in 30 
 
 **Stop scrolling. Start building.**
 
-LifeBlock is the habit tracker for people who want to actually build the life they envision—not just watch time pass.
+LifeBlocks is the habit tracker for people who want to actually build the life they envision—not just watch time pass.
 
 **CHOOSE YOUR PATH**
 Select from 8 life paths—Content Creator, Entrepreneur, Software Engineer, Fitness, Investor, Health & Wellness, Creative, or Student—and get curated daily habits designed for your goals.
@@ -68,7 +68,7 @@ Build your life. Block by block.
 
 ## What's New in This Version (Version 1.0)
 ```
-Welcome to LifeBlock!
+Welcome to LifeBlocks!
 
 • Choose your life path from 8 archetypes
 • Track daily habits with simple swipe cards
@@ -77,7 +77,7 @@ Welcome to LifeBlock!
 • Home screen widgets
 • Daily motivational quotes
 
-Build your life, block by block.
+Build Your Life. Block by Block..
 ```
 
 ---

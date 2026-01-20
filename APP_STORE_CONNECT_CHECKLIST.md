@@ -1,4 +1,4 @@
-# LifeBlock - App Store Connect Setup Checklist
+# LifeBlocks - App Store Connect Setup Checklist
 
 ## Step 1: Create App in App Store Connect
 
@@ -9,7 +9,7 @@
 | Field | Value |
 |-------|-------|
 | Platform | iOS |
-| Name | **LifeBlock** |
+| Name | **LifeBlocks** |
 | Primary Language | English (U.S.) |
 | Bundle ID | **com.lifeblock.app** |
 | SKU | **lifeblock001** |
@@ -20,13 +20,13 @@
 ## Step 2: App Information
 
 ### Basic Info
-- **Name:** LifeBlock
-- **Subtitle:** Build your life, block by block
+- **Name:** LifeBlocks
+- **Subtitle:** Build Your Life. Block by Block.
 - **Category:** Health & Fitness
 - **Secondary Category:** Lifestyle
 
 ### Privacy Policy URL
-`https://jamesrbecker.github.io/LifeBlock/privacy.html`
+`https://jamesrbecker.github.io/LifeBlocks/privacy.html`
 
 ### Support URL
 `https://x.com/lifeblockapp` (or your X handle)
@@ -45,7 +45,7 @@
 Go to **In-App Purchases** → **+** → **Auto-Renewable Subscription**
 
 ### Create Subscription Group
-- **Group Name:** LifeBlock Premium
+- **Group Name:** LifeBlocks Premium
 
 ### Monthly Subscription
 | Field | Value |
@@ -88,7 +88,7 @@ Stop scrolling. Start building. Choose your life path, track daily habits in 30 
 ```
 Stop scrolling. Start building.
 
-LifeBlock is the habit tracker for people who want to actually build the life they envision—not just watch time pass.
+LifeBlocks is the habit tracker for people who want to actually build the life they envision—not just watch time pass.
 
 CHOOSE YOUR PATH
 Select from 8 life paths—Content Creator, Entrepreneur, Software Engineer, Fitness, Investor, Health & Wellness, Creative, or Student—and get curated daily habits designed for your goals.
@@ -133,7 +133,7 @@ habit tracker,daily habits,goal setting,productivity,streak,motivation,self impr
 
 ### What's New (Version 1.0)
 ```
-Welcome to LifeBlock!
+Welcome to LifeBlocks!
 
 • Choose your life path from 8 archetypes
 • Track daily habits with simple swipe cards
@@ -142,7 +142,7 @@ Welcome to LifeBlock!
 • Home screen widgets
 • Daily motivational quotes
 
-Build your life, block by block.
+Build Your Life. Block by Block..
 ```
 
 ---
@@ -157,7 +157,7 @@ Build your life, block by block.
 
 ### Notes for Review
 ```
-LifeBlock is a habit tracking app.
+LifeBlocks is a habit tracking app.
 
 To test the full experience:
 1. Complete onboarding and select a life path
@@ -181,7 +181,7 @@ No demo account needed - all data is stored locally.
 
 ## Step 8: Build Upload
 
-1. Open Xcode: `/Users/jamesbecker/Desktop/LifeBlock/LifeGrid.xcodeproj`
+1. Open Xcode: `/Users/jamesbecker/Desktop/LifeBlocks/LifeGrid.xcodeproj`
 2. Select your Apple Developer team in Signing & Capabilities
 3. Select **Any iOS Device** as destination
 4. **Product → Archive**
