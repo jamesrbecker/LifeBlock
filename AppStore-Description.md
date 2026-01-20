@@ -18,7 +18,7 @@ Stop scrolling. Start building. Choose your life path, track daily habits in 30 
 LifeBlocks is the habit tracker for people who want to actually build the life they envision—not just watch time pass.
 
 **CHOOSE YOUR PATH**
-Select from 8 life paths—Content Creator, Entrepreneur, Software Engineer, Fitness, Investor, Health & Wellness, Creative, or Student—and get curated daily habits designed for your goals.
+Select from 16 life paths—Content Creator, Entrepreneur, Software Engineer, Fitness, Investor, Health & Wellness, Creative, Student, Musician, Actor, Doctor, Athlete, Game Developer, Writer, Parent, or Digital Nomad—and get curated daily habits designed for your goals.
 
 **TRACK IN 30 SECONDS**
 Swipe through simple cards. Done, partial, or skipped. That's it. No complex logging. No guilt trips.
@@ -33,7 +33,7 @@ Your effort becomes a visual grid. Watch it turn green over time. Every block is
 • Milestones at 7, 14, 21, 30, 100, and 365 days
 
 **FEATURES**
-• 8 life path templates with curated habits
+• 16 life path templates with curated habits
 • GitHub-style contribution grid
 • Custom habit creation
 • Apple Health integration (auto-track exercise & sleep)
@@ -70,14 +70,14 @@ Build your life. Block by block.
 ```
 Welcome to LifeBlocks!
 
-• Choose your life path from 8 archetypes
+• Choose your life path from 16 archetypes
 • Track daily habits with simple swipe cards
 • Visualize progress with a contribution grid
 • Apple Health integration
 • Home screen widgets
 • Daily motivational quotes
 
-Build Your Life. Block by Block..
+Build Your Life. Block by Block.
 ```
 
 ---
