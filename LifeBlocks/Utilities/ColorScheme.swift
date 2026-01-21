@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 // GitHub-style contribution colors
 enum GridColorScheme: String, CaseIterable {
@@ -176,47 +177,81 @@ extension Color {
 }
 
 // App-wide theme colors - WCAG AA compliant contrast in both light and dark modes
-// NOTE: gridBackground, cardBackground, cardBackgroundLight, secondaryText, tertiaryText,
-// placeholderText, and borderColor are auto-generated from the asset catalog.
-// Access them via Color.gridBackground, Color.secondaryText, etc.
+// IMPORTANT: These override asset catalog colors to guarantee readability
 
 extension Color {
     // Text colors - HIGH CONTRAST for readability in all conditions
     static let primaryText = Color.primary  // System primary - adapts automatically
     static let inputText = Color.primary  // Uses system for best contrast
 
+    // MARK: - Secondary Text - VERY BRIGHT for readability
+    // Dark mode: Near-white (#E8ECF0), Light mode: Dark gray (#3D4752)
+    static var secondaryText: Color {
+        Color(UIColor { traitCollection in
+            traitCollection.userInterfaceStyle == .dark
+                ? UIColor(red: 0.91, green: 0.93, blue: 0.94, alpha: 1.0)  // #E8ECF0 - very bright
+                : UIColor(red: 0.24, green: 0.28, blue: 0.32, alpha: 1.0)  // #3D4752 - dark
+        })
+    }
+
+    // MARK: - Tertiary Text - Still readable
+    // Dark mode: Light gray (#D0D7DE), Light mode: Medium gray (#57606A)
+    static var tertiaryText: Color {
+        Color(UIColor { traitCollection in
+            traitCollection.userInterfaceStyle == .dark
+                ? UIColor(red: 0.82, green: 0.84, blue: 0.87, alpha: 1.0)  // #D0D7DE
+                : UIColor(red: 0.34, green: 0.38, blue: 0.42, alpha: 1.0)  // #57606A
+        })
+    }
+
+    // MARK: - Placeholder Text
+    // Dark mode: #B8C0C8, Light mode: #6B7280
+    static var placeholderText: Color {
+        Color(UIColor { traitCollection in
+            traitCollection.userInterfaceStyle == .dark
+                ? UIColor(red: 0.72, green: 0.75, blue: 0.78, alpha: 1.0)  // #B8C0C8
+                : UIColor(red: 0.42, green: 0.45, blue: 0.50, alpha: 1.0)  // #6B7280
+        })
+    }
+
+    // MARK: - Backgrounds
+    static var gridBackground: Color {
+        Color(UIColor { traitCollection in
+            traitCollection.userInterfaceStyle == .dark
+                ? UIColor(red: 0.05, green: 0.07, blue: 0.09, alpha: 1.0)  // #0D1117
+                : UIColor(red: 0.96, green: 0.97, blue: 0.98, alpha: 1.0)  // #F6F8FA
+        })
+    }
+
+    static var cardBackground: Color {
+        Color(UIColor { traitCollection in
+            traitCollection.userInterfaceStyle == .dark
+                ? UIColor(red: 0.09, green: 0.11, blue: 0.13, alpha: 1.0)  // #161B22
+                : UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)     // #FFFFFF
+        })
+    }
+
+    static var cardBackgroundLight: Color {
+        Color(UIColor { traitCollection in
+            traitCollection.userInterfaceStyle == .dark
+                ? UIColor(red: 0.13, green: 0.16, blue: 0.19, alpha: 1.0)  // #21262D
+                : UIColor(red: 0.98, green: 0.98, blue: 0.99, alpha: 1.0)  // #FAFBFC
+        })
+    }
+
+    // MARK: - Border
+    static var borderColor: Color {
+        Color(UIColor { traitCollection in
+            traitCollection.userInterfaceStyle == .dark
+                ? UIColor(red: 0.24, green: 0.27, blue: 0.30, alpha: 1.0)  // #3D444D
+                : UIColor(red: 0.78, green: 0.82, blue: 0.85, alpha: 1.0)  // #C8D0D8
+        })
+    }
+
     // Accent colors
     static let accentGreen = Color(hex: "#34C759")      // iMessage green
     static let accentSkyBlue = Color(hex: "#5AC8FA")    // iOS Sky Blue
     static let accentLavender = Color(hex: "#BDB5D5")   // Soft Lavender
-
-    // Border - manually defined since asset may not generate properly
-    static let borderColor = Color("BorderColor", bundle: nil)
-
-    // MARK: - Explicit Light/Dark Mode Colors
-    // Use these when you need guaranteed contrast regardless of color scheme
-
-    /// High contrast secondary text - guaranteed readable
-    /// Dark mode: #E1E6EB (bright), Light mode: #57606A (dark gray)
-    static func adaptiveSecondary(_ colorScheme: ColorScheme) -> Color {
-        colorScheme == .dark ? Color(hex: "#E1E6EB") : Color(hex: "#57606A")
-    }
-
-    /// High contrast tertiary text - guaranteed readable
-    /// Dark mode: #C7CFD7 (brighter), Light mode: #6E7781
-    static func adaptiveTertiary(_ colorScheme: ColorScheme) -> Color {
-        colorScheme == .dark ? Color(hex: "#C7CFD7") : Color(hex: "#6E7781")
-    }
-
-    /// Card background adaptive
-    static func adaptiveCardBackground(_ colorScheme: ColorScheme) -> Color {
-        colorScheme == .dark ? Color(hex: "#161B22") : Color(hex: "#FFFFFF")
-    }
-
-    /// Grid background adaptive
-    static func adaptiveGridBackground(_ colorScheme: ColorScheme) -> Color {
-        colorScheme == .dark ? Color(hex: "#0D1117") : Color(hex: "#F6F8FA")
-    }
 }
 
 // MARK: - Theme Manager
