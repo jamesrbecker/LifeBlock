@@ -63,6 +63,8 @@
 		F1000138001 /* MultiplePathsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000138000 /* MultiplePathsView.swift */; };
 		F1000139001 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000139000 /* HapticManager.swift */; };
 		F1000140001 /* WeeklyReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000140000 /* WeeklyReviewView.swift */; };
+		F1000141001 /* LeaderboardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000141000 /* LeaderboardService.swift */; };
+		F1000142001 /* LeaderboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000142000 /* LeaderboardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -151,6 +153,8 @@
 		F1000138000 /* MultiplePathsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiplePathsView.swift; sourceTree = "<group>"; };
 		F1000139000 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 		F1000140000 /* WeeklyReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyReviewView.swift; sourceTree = "<group>"; };
+		F1000141000 /* LeaderboardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardService.swift; sourceTree = "<group>"; };
+		F1000142000 /* LeaderboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -268,6 +272,7 @@
 				F1000123000 /* FriendDetailView.swift */,
 				F1000124000 /* SendCheerView.swift */,
 				F1000125000 /* EditProfileView.swift */,
+				F1000142000 /* LeaderboardView.swift */,
 			);
 			path = Social;
 			sourceTree = "<group>";
@@ -306,6 +311,7 @@
 				F1000132000 /* FocusModeManager.swift */,
 				F1000133000 /* AppIntents.swift */,
 				F1000134000 /* CloudSyncManager.swift */,
+				F1000141000 /* LeaderboardService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -551,6 +557,8 @@
 				F1000138001 /* MultiplePathsView.swift in Sources */,
 				F1000139001 /* HapticManager.swift in Sources */,
 				F1000140001 /* WeeklyReviewView.swift in Sources */,
+				F1000141001 /* LeaderboardService.swift in Sources */,
+				F1000142001 /* LeaderboardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

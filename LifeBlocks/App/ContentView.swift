@@ -11,6 +11,7 @@ struct ContentView: View {
     @State private var selectedDate: Date?
     @State private var showingDayDetail = false
     @State private var showingWeeklyReview = false
+    @State private var showingLeaderboard = false
 
     private var todayEntry: DayEntry? {
         dayEntries.first { $0.date.isSameDay(as: Date()) }
@@ -52,12 +53,22 @@ struct ContentView: View {
             .navigationTitle("LifeBlocks")
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        HapticManager.shared.lightTap()
-                        showingWeeklyReview = true
-                    } label: {
-                        Image(systemName: "calendar.badge.clock")
-                            .foregroundStyle(.secondary)
+                    HStack(spacing: 16) {
+                        Button {
+                            HapticManager.shared.lightTap()
+                            showingWeeklyReview = true
+                        } label: {
+                            Image(systemName: "calendar.badge.clock")
+                                .foregroundStyle(.secondary)
+                        }
+
+                        Button {
+                            HapticManager.shared.lightTap()
+                            showingLeaderboard = true
+                        } label: {
+                            Image(systemName: "trophy")
+                                .foregroundStyle(.secondary)
+                        }
                     }
                 }
 
@@ -85,6 +96,9 @@ struct ContentView: View {
             }
             .sheet(isPresented: $showingWeeklyReview) {
                 WeeklyReviewView()
+            }
+            .sheet(isPresented: $showingLeaderboard) {
+                LeaderboardView()
             }
             .onOpenURL { url in
                 handleDeepLink(url)
