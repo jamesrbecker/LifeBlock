@@ -77,20 +77,48 @@ extension Date {
 // MARK: - Grid Color Scheme for Widget
 enum GridColorScheme: String, CaseIterable {
     case green = "green"
+    case skyblue = "skyblue"
+    case lavender = "lavender"
     case blue = "blue"
     case purple = "purple"
     case orange = "orange"
     case pink = "pink"
+
+    /// Get the user's selected theme from UserDefaults
+    static var userSelected: GridColorScheme {
+        let defaults = UserDefaults(suiteName: "group.com.lifeblock.app") ?? .standard
+        if let themeName = defaults.string(forKey: "selectedTheme"),
+           let theme = GridColorScheme(rawValue: themeName) {
+            return theme
+        }
+        return .green
+    }
 
     var colors: [Color] {
         switch self {
         case .green:
             return [
                 Color(hex: "#161B22"),
-                Color(hex: "#0E4429"),
-                Color(hex: "#006D32"),
-                Color(hex: "#26A641"),
-                Color(hex: "#39D353")
+                Color(hex: "#0D3D1F"),
+                Color(hex: "#1A7A3E"),
+                Color(hex: "#28A745"),
+                Color(hex: "#34C759")
+            ]
+        case .skyblue:
+            return [
+                Color(hex: "#161B22"),
+                Color(hex: "#0C3A5A"),
+                Color(hex: "#1877B8"),
+                Color(hex: "#3DA5E0"),
+                Color(hex: "#5AC8FA")
+            ]
+        case .lavender:
+            return [
+                Color(hex: "#161B22"),
+                Color(hex: "#3D2E5C"),
+                Color(hex: "#6B5B95"),
+                Color(hex: "#9B8DC2"),
+                Color(hex: "#BDB5D5")
             ]
         case .blue:
             return [

@@ -4,116 +4,116 @@ import WidgetKit
 struct MediumWidgetView: View {
     let entry: LifeBlocksEntry
 
-    private let colorScheme = GridColorScheme.green
+    private var colorScheme: GridColorScheme {
+        GridColorScheme.userSelected
+    }
 
-    private var last14Days: [Date] {
-        (0..<14).map { WidgetDateHelpers.daysAgo(13 - $0) }
+    // 12 weeks for medium widget
+    private var gridDates: [[Date]] {
+        WidgetDateHelpers.gridDates(weeks: 12)
+    }
+
+    private var monthLabels: [(month: String, weekIndex: Int)] {
+        WidgetDateHelpers.monthLabels(for: gridDates)
     }
 
     var body: some View {
-        HStack(spacing: 16) {
-            VStack(spacing: 6) {
-                HStack(spacing: 4) {
-                    Text(entry.streakEmoji)
-                        .font(.caption)
-                    Text("\(entry.currentStreak)")
-                        .font(.caption)
-                        .fontWeight(.bold)
-                    Text("day streak")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+        Link(destination: DeepLink.checkInURL()) {
+            VStack(alignment: .leading, spacing: 6) {
+                // Month labels
+                GeometryReader { geometry in
+                    let weekWidth: CGFloat = 13
+                    ZStack(alignment: .leading) {
+                        ForEach(monthLabels, id: \.weekIndex) { label in
+                            Text(label.month)
+                                .font(.system(size: 9))
+                                .foregroundStyle(.secondary)
+                                .offset(x: CGFloat(label.weekIndex) * weekWidth)
+                        }
+                    }
                 }
+                .frame(height: 12)
+                .padding(.leading, 16)
 
-                Link(destination: DeepLink.checkInURL()) {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 16)
-                            .fill(colorScheme.color(for: entry.todayScore, isDarkMode: true))
-                            .frame(width: 68, height: 68)
+                // GitHub-style contribution grid
+                HStack(alignment: .top, spacing: 2) {
+                    // Day labels
+                    VStack(spacing: 2) {
+                        ForEach(["", "M", "", "W", "", "F", ""], id: \.self) { label in
+                            Text(label)
+                                .font(.system(size: 8))
+                                .foregroundStyle(.secondary)
+                                .frame(width: 12, height: 11)
+                        }
+                    }
 
-                        VStack(spacing: 2) {
-                            if entry.checkedInToday {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .font(.title3)
-                            } else {
-                                Image(systemName: "plus.circle")
-                                    .font(.title3)
+                    // Grid
+                    HStack(alignment: .top, spacing: 2) {
+                        ForEach(Array(gridDates.enumerated()), id: \.offset) { _, week in
+                            VStack(spacing: 2) {
+                                ForEach(week, id: \.self) { date in
+                                    let score = entry.dayScores[date.widgetStartOfDay] ?? 0
+                                    RoundedRectangle(cornerRadius: 2)
+                                        .fill(colorScheme.color(for: score, isDarkMode: true))
+                                        .frame(width: 11, height: 11)
+                                        .overlay {
+                                            if date.widgetIsToday {
+                                                RoundedRectangle(cornerRadius: 2)
+                                                    .strokeBorder(Color.white.opacity(0.6), lineWidth: 1)
+                                            }
+                                        }
+                                }
+
+                                // Pad incomplete weeks
+                                if week.count < 7 {
+                                    ForEach(0..<(7 - week.count), id: \.self) { _ in
+                                        Color.clear
+                                            .frame(width: 11, height: 11)
+                                    }
+                                }
                             }
-
-                            Text(entry.checkedInToday ? "Done" : "Check in")
-                                .font(.caption2)
-                                .foregroundStyle(.white.opacity(0.8))
-                        }
-                        .foregroundStyle(.white)
-                    }
-                }
-
-                Text(entry.motivationalMessage)
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
-                    .lineLimit(1)
-            }
-            .frame(width: 90)
-
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Last 2 Weeks")
-                    .font(.caption)
-                    .fontWeight(.medium)
-                    .foregroundStyle(.secondary)
-
-                VStack(spacing: 4) {
-                    HStack(spacing: 4) {
-                        ForEach(0..<7, id: \.self) { index in
-                            let date = last14Days[index]
-                            daySquare(for: date)
-                        }
-                    }
-
-                    HStack(spacing: 4) {
-                        ForEach(7..<14, id: \.self) { index in
-                            let date = last14Days[index]
-                            daySquare(for: date)
                         }
                     }
                 }
 
-                HStack(spacing: 4) {
-                    ForEach(["M", "T", "W", "T", "F", "S", "S"], id: \.self) { label in
-                        Text(label)
+                // Minimal footer with legend
+                HStack {
+                    if entry.currentStreak > 0 {
+                        HStack(spacing: 3) {
+                            Image(systemName: "flame.fill")
+                                .font(.system(size: 9))
+                                .foregroundStyle(.orange)
+                            Text("\(entry.currentStreak) day streak")
+                                .font(.system(size: 10))
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+
+                    Spacer()
+
+                    // Legend
+                    HStack(spacing: 2) {
+                        Text("Less")
                             .font(.system(size: 8))
                             .foregroundStyle(.secondary)
-                            .frame(width: 18)
+
+                        HStack(spacing: 2) {
+                            ForEach(0..<5, id: \.self) { level in
+                                RoundedRectangle(cornerRadius: 1)
+                                    .fill(colorScheme.color(for: level, isDarkMode: true))
+                                    .frame(width: 8, height: 8)
+                            }
+                        }
+
+                        Text("More")
+                            .font(.system(size: 8))
+                            .foregroundStyle(.secondary)
                     }
                 }
             }
+            .padding(12)
         }
-        .padding(16)
-    }
-
-    @ViewBuilder
-    private func daySquare(for date: Date) -> some View {
-        let score = entry.dayScores[date.widgetStartOfDay] ?? 0
-
-        Link(destination: DeepLink.url(for: date)) {
-            RoundedRectangle(cornerRadius: 3)
-                .fill(colorScheme.color(for: score, isDarkMode: true))
-                .frame(width: 18, height: 18)
-                .overlay {
-                    if date.widgetIsToday {
-                        RoundedRectangle(cornerRadius: 3)
-                            .strokeBorder(Color.white.opacity(0.6), lineWidth: 1.5)
-                    }
-                }
-        }
-    }
-
-    private var scoreLabel: String {
-        switch entry.todayScore {
-        case 4: return "Maximum!"
-        case 3: return "High"
-        case 2: return "Moderate"
-        case 1: return "Light"
-        default: return "Check in"
-        }
+        .containerBackground(Color(hex: "#0D1117"), for: .widget)
     }
 }
 

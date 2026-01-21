@@ -4,12 +4,15 @@ import WidgetKit
 struct LargeWidgetView: View {
     let entry: LifeBlocksEntry
 
-    private let colorScheme = GridColorScheme.green
-    private let squareSize: CGFloat = 14
+    private var colorScheme: GridColorScheme {
+        GridColorScheme.userSelected
+    }
+
+    private let squareSize: CGFloat = 12
     private let spacing: CGFloat = 3
 
     private var gridDates: [[Date]] {
-        WidgetDateHelpers.gridDates(weeks: 16)
+        WidgetDateHelpers.gridDates(weeks: 20)
     }
 
     private var monthLabels: [(month: String, weekIndex: Int)] {
@@ -17,63 +20,22 @@ struct LargeWidgetView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            headerSection
-            monthLabelsSection
-            gridSection
-            legendSection
-        }
-        .padding(16)
-    }
+        Link(destination: DeepLink.checkInURL()) {
+            VStack(alignment: .leading, spacing: 8) {
+                // Month labels
+                monthLabelsSection
 
-    private var headerSection: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 4) {
-                Text("LifeBlocks")
-                    .font(.headline)
-                    .fontWeight(.bold)
+                // Main grid
+                gridSection
 
-                Text("Last 16 weeks")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                Spacer(minLength: 4)
+
+                // Minimal footer
+                footerSection
             }
-
-            Spacer()
-
-            HStack(spacing: 16) {
-                VStack(spacing: 2) {
-                    HStack(spacing: 2) {
-                        Image(systemName: "flame.fill")
-                            .font(.caption)
-                            .foregroundStyle(.orange)
-                        Text("\(entry.currentStreak)")
-                            .font(.subheadline)
-                            .fontWeight(.bold)
-                    }
-                    Text("Streak")
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
-                }
-
-                Link(destination: DeepLink.checkInURL()) {
-                    VStack(spacing: 2) {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 6)
-                                .fill(colorScheme.color(for: entry.todayScore, isDarkMode: true))
-                                .frame(width: 28, height: 28)
-
-                            Text("\(entry.todayScore)")
-                                .font(.caption)
-                                .fontWeight(.bold)
-                                .foregroundStyle(.white)
-                        }
-                        Text("Today")
-                            .font(.caption2)
-                            .foregroundStyle(.secondary)
-                    }
-                }
-            }
+            .padding(14)
         }
+        .containerBackground(Color(hex: "#0D1117"), for: .widget)
     }
 
     private var monthLabelsSection: some View {
@@ -95,6 +57,7 @@ struct LargeWidgetView: View {
 
     private var gridSection: some View {
         HStack(alignment: .top, spacing: spacing) {
+            // Day labels
             VStack(spacing: spacing) {
                 ForEach(["", "M", "", "W", "", "F", ""], id: \.self) { label in
                     Text(label)
@@ -104,23 +67,22 @@ struct LargeWidgetView: View {
                 }
             }
 
+            // Grid
             HStack(alignment: .top, spacing: spacing) {
-                ForEach(Array(gridDates.enumerated()), id: \.offset) { weekIndex, week in
+                ForEach(Array(gridDates.enumerated()), id: \.offset) { _, week in
                     VStack(spacing: spacing) {
                         ForEach(week, id: \.self) { date in
                             let score = entry.dayScores[date.widgetStartOfDay] ?? 0
 
-                            Link(destination: DeepLink.url(for: date)) {
-                                RoundedRectangle(cornerRadius: 2)
-                                    .fill(colorScheme.color(for: score, isDarkMode: true))
-                                    .frame(width: squareSize, height: squareSize)
-                                    .overlay {
-                                        if date.widgetIsToday {
-                                            RoundedRectangle(cornerRadius: 2)
-                                                .strokeBorder(Color.white.opacity(0.6), lineWidth: 1)
-                                        }
+                            RoundedRectangle(cornerRadius: 2)
+                                .fill(colorScheme.color(for: score, isDarkMode: true))
+                                .frame(width: squareSize, height: squareSize)
+                                .overlay {
+                                    if date.widgetIsToday {
+                                        RoundedRectangle(cornerRadius: 2)
+                                            .strokeBorder(Color.white.opacity(0.6), lineWidth: 1)
                                     }
-                            }
+                                }
                         }
 
                         if week.count < 7 {
@@ -135,25 +97,40 @@ struct LargeWidgetView: View {
         }
     }
 
-    private var legendSection: some View {
+    private var footerSection: some View {
         HStack {
-            Spacer()
-
-            Text("Less")
-                .font(.system(size: 9))
-                .foregroundStyle(.secondary)
-
-            HStack(spacing: 3) {
-                ForEach(0..<5, id: \.self) { level in
-                    RoundedRectangle(cornerRadius: 2)
-                        .fill(colorScheme.color(for: level, isDarkMode: true))
-                        .frame(width: 10, height: 10)
+            // Streak info
+            if entry.currentStreak > 0 {
+                HStack(spacing: 4) {
+                    Image(systemName: "flame.fill")
+                        .font(.system(size: 10))
+                        .foregroundStyle(.orange)
+                    Text("\(entry.currentStreak) day streak")
+                        .font(.system(size: 11))
+                        .foregroundStyle(.secondary)
                 }
             }
 
-            Text("More")
-                .font(.system(size: 9))
-                .foregroundStyle(.secondary)
+            Spacer()
+
+            // Legend
+            HStack(spacing: 3) {
+                Text("Less")
+                    .font(.system(size: 9))
+                    .foregroundStyle(.secondary)
+
+                HStack(spacing: 2) {
+                    ForEach(0..<5, id: \.self) { level in
+                        RoundedRectangle(cornerRadius: 2)
+                            .fill(colorScheme.color(for: level, isDarkMode: true))
+                            .frame(width: 10, height: 10)
+                    }
+                }
+
+                Text("More")
+                    .font(.system(size: 9))
+                    .foregroundStyle(.secondary)
+            }
         }
     }
 }
