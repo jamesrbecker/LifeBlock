@@ -140,10 +140,12 @@ struct SettingsView: View {
                             }
                         }
 
-                        NavigationLink {
-                            CloudSyncSettingsView()
-                        } label: {
+                        HStack {
                             Label("iCloud Sync", systemImage: "icloud.fill")
+                            Spacer()
+                            Text("Coming Soon")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
                         }
                     } else {
                         HStack {
@@ -171,12 +173,9 @@ struct SettingsView: View {
                         HStack {
                             Label("iCloud Sync", systemImage: "icloud.fill")
                             Spacer()
-                            Button("Premium") {
-                                showingPremium = true
-                            }
-                            .font(.caption)
-                            .buttonStyle(.borderedProminent)
-                            .tint(.yellow)
+                            Text("Coming Soon")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
                         }
                     }
                 }
