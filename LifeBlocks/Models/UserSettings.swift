@@ -247,7 +247,10 @@ final class AppSettings: ObservableObject {
 
     var colorSchemeOverride: String? {
         get { defaults.string(forKey: "colorSchemeOverride") }
-        set { defaults.set(newValue, forKey: "colorSchemeOverride") }
+        set {
+            defaults.set(newValue, forKey: "colorSchemeOverride")
+            objectWillChange.send()
+        }
     }
 
     // MARK: - Family Plan

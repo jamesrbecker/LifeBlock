@@ -4,6 +4,7 @@ import SwiftData
 @main
 struct LifeBlocksApp: App {
     @State private var hasCompletedOnboarding = AppSettings.shared.hasCompletedOnboarding
+    @ObservedObject private var appSettings = AppSettings.shared
 
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
@@ -61,8 +62,17 @@ struct LifeBlocksApp: App {
                 configureAppearance()
                 configureManagers()
             }
+            .preferredColorScheme(colorSchemePreference)
         }
         .modelContainer(sharedModelContainer)
+    }
+
+    private var colorSchemePreference: ColorScheme? {
+        switch appSettings.colorSchemeOverride {
+        case "light": return .light
+        case "dark": return .dark
+        default: return nil
+        }
     }
 
     private func configureAppearance() {
