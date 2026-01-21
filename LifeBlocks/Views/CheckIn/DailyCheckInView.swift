@@ -252,6 +252,14 @@ struct DailyCheckInView: View {
             if currentIndex < habits.count - 1 {
                 currentIndex += 1
             } else {
+                // Celebrate completion based on score
+                if totalScore == 4 {
+                    HapticManager.shared.celebration()
+                } else if totalScore >= 2 {
+                    HapticManager.shared.success()
+                } else {
+                    HapticManager.shared.mediumTap()
+                }
                 showingResults = true
             }
         }

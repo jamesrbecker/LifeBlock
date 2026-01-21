@@ -91,9 +91,15 @@ struct QuestionCardView: View {
 
     private func selectAnswer(_ answer: Int) {
         selectedAnswer = answer
-        // Haptic feedback
-        let impact = UIImpactFeedbackGenerator(style: .medium)
-        impact.impactOccurred()
+
+        // Haptic feedback based on answer
+        if answer == 2 {
+            HapticManager.shared.success()
+        } else if answer == 1 {
+            HapticManager.shared.mediumTap()
+        } else {
+            HapticManager.shared.lightTap()
+        }
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             onAnswer(answer)
@@ -101,6 +107,13 @@ struct QuestionCardView: View {
     }
 
     private func swipeOff(direction: CGFloat, answer: Int) {
+        // Haptic on swipe
+        if direction > 0 {
+            HapticManager.shared.success()
+        } else {
+            HapticManager.shared.lightTap()
+        }
+
         withAnimation(.easeOut(duration: 0.3)) {
             offset = direction * 500
         }

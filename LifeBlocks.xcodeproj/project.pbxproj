@@ -61,6 +61,8 @@
 		F1000136001 /* IconPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000136000 /* IconPickerView.swift */; };
 		F1000137001 /* DailyNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000137000 /* DailyNoteView.swift */; };
 		F1000138001 /* MultiplePathsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000138000 /* MultiplePathsView.swift */; };
+		F1000139001 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000139000 /* HapticManager.swift */; };
+		F1000140001 /* WeeklyReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000140000 /* WeeklyReviewView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -147,6 +149,8 @@
 		F1000136000 /* IconPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPickerView.swift; sourceTree = "<group>"; };
 		F1000137000 /* DailyNoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyNoteView.swift; sourceTree = "<group>"; };
 		F1000138000 /* MultiplePathsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiplePathsView.swift; sourceTree = "<group>"; };
+		F1000139000 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
+		F1000140000 /* WeeklyReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyReviewView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -311,6 +315,7 @@
 			children = (
 				F1000090000 /* ColorScheme.swift */,
 				F1000091000 /* DateHelpers.swift */,
+				F1000139000 /* HapticManager.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -360,6 +365,7 @@
 				F1000051000 /* StreakView.swift */,
 				F1000053000 /* StreakShareCardView.swift */,
 				F1000135000 /* ProgressReportView.swift */,
+				F1000140000 /* WeeklyReviewView.swift */,
 			);
 			path = Analytics;
 			sourceTree = "<group>";
@@ -543,6 +549,8 @@
 				F1000136001 /* IconPickerView.swift in Sources */,
 				F1000137001 /* DailyNoteView.swift in Sources */,
 				F1000138001 /* MultiplePathsView.swift in Sources */,
+				F1000139001 /* HapticManager.swift in Sources */,
+				F1000140001 /* WeeklyReviewView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

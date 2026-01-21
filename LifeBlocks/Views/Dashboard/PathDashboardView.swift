@@ -231,7 +231,10 @@ struct QuickActionCard: View {
     let action: () -> Void
 
     var body: some View {
-        Button(action: action) {
+        Button {
+            HapticManager.shared.mediumTap()
+            action()
+        } label: {
             HStack(spacing: 16) {
                 // Animated icon
                 ZStack {

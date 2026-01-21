@@ -10,6 +10,7 @@ struct ContentView: View {
     @State private var showingCheckIn = false
     @State private var selectedDate: Date?
     @State private var showingDayDetail = false
+    @State private var showingWeeklyReview = false
 
     private var todayEntry: DayEntry? {
         dayEntries.first { $0.date.isSameDay(as: Date()) }
@@ -50,6 +51,16 @@ struct ContentView: View {
             .background(Color.gridBackground)
             .navigationTitle("LifeBlocks")
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        HapticManager.shared.lightTap()
+                        showingWeeklyReview = true
+                    } label: {
+                        Image(systemName: "calendar.badge.clock")
+                            .foregroundStyle(.secondary)
+                    }
+                }
+
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink {
                         SettingsView()
@@ -71,6 +82,9 @@ struct ContentView: View {
                 if let date = selectedDate {
                     DayDetailView(date: date)
                 }
+            }
+            .sheet(isPresented: $showingWeeklyReview) {
+                WeeklyReviewView()
             }
             .onOpenURL { url in
                 handleDeepLink(url)
@@ -286,6 +300,7 @@ struct InteractiveContributionGridView: View {
                         VStack(spacing: spacing) {
                             ForEach(week, id: \.self) { date in
                                 Button {
+                                    HapticManager.shared.lightTap()
                                     onDateSelected(date)
                                 } label: {
                                     DaySquareView(
