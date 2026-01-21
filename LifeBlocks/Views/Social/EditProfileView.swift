@@ -44,12 +44,12 @@ struct EditProfileView: View {
                             Text(emoji)
                                 .font(.title)
                                 .padding(6)
-                                .background(selectedEmoji == emoji ? Color.green.opacity(0.3) : Color.clear)
+                                .background(selectedEmoji == emoji ? Color.accentGreen.opacity(0.3) : Color.clear)
                                 .clipShape(RoundedRectangle(cornerRadius: 8))
                                 .overlay {
                                     if selectedEmoji == emoji {
                                         RoundedRectangle(cornerRadius: 8)
-                                            .strokeBorder(Color.green, lineWidth: 2)
+                                            .strokeBorder(Color.accentGreen, lineWidth: 2)
                                     }
                                 }
                         }
@@ -85,7 +85,7 @@ struct EditProfileView: View {
                 VStack(alignment: .leading, spacing: 12) {
                     Label("Building Blocks Philosophy", systemImage: "cube.fill")
                         .font(.headline)
-                        .foregroundStyle(.green)
+                        .foregroundStyle(Color.accentGreen)
 
                     Text("Life is about stacking skills, learning, and building blocks toward your goals. Each day you check in, you stack another block. Each habit you complete adds to your foundation.")
                         .font(.subheadline)

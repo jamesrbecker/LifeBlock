@@ -21,7 +21,7 @@ struct AddFriendView: View {
                 VStack(spacing: 8) {
                     Image(systemName: "person.badge.plus")
                         .font(.system(size: 50))
-                        .foregroundStyle(.green)
+                        .foregroundStyle(Color.accentGreen)
 
                     Text("Add a Friend")
                         .font(.title2)
@@ -61,7 +61,7 @@ struct AddFriendView: View {
                                 .foregroundStyle(Color.secondaryText)
                         }
                     }
-                    .tint(.green)
+                    .tint(Color.accentGreen)
                     .padding()
                     .background(Color.gray.opacity(0.1))
                     .clipShape(RoundedRectangle(cornerRadius: 12))
@@ -80,7 +80,7 @@ struct AddFriendView: View {
                                 .font(.headline)
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.green)
+                                .background(Color.accentGreen)
                                 .foregroundStyle(.white)
                                 .clipShape(RoundedRectangle(cornerRadius: 12))
                         } else {
@@ -88,7 +88,7 @@ struct AddFriendView: View {
                                 .font(.headline)
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.green)
+                                .background(Color.accentGreen)
                                 .foregroundStyle(.white)
                                 .clipShape(RoundedRectangle(cornerRadius: 12))
                         }
@@ -103,7 +103,7 @@ struct AddFriendView: View {
                             ProgressView()
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.green)
+                                .background(Color.accentGreen)
                                 .foregroundStyle(.white)
                                 .clipShape(RoundedRectangle(cornerRadius: 12))
                         } else {
@@ -111,7 +111,7 @@ struct AddFriendView: View {
                                 .font(.headline)
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(friendCode.count == 6 ? Color.green : Color.gray)
+                                .background(friendCode.count == 6 ? Color.accentGreen : Color.gray)
                                 .foregroundStyle(.white)
                                 .clipShape(RoundedRectangle(cornerRadius: 12))
                         }
@@ -141,7 +141,7 @@ struct AddFriendView: View {
                         .multilineTextAlignment(.center)
                 }
                 .padding()
-                .background(Color.green.opacity(0.1))
+                .background(Color.accentGreen.opacity(0.1))
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .padding()
             }
@@ -249,14 +249,14 @@ struct FoundUserCard: View {
                 if isPartner {
                     Label("Will be your Accountability Partner", systemImage: "person.2.fill")
                         .font(.caption)
-                        .foregroundStyle(.green)
+                        .foregroundStyle(Color.accentGreen)
                 }
             }
 
             Spacer()
         }
         .padding()
-        .background(Color.green.opacity(0.1))
+        .background(Color.accentGreen.opacity(0.1))
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .padding(.horizontal)
     }

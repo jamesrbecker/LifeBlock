@@ -46,7 +46,7 @@ struct FriendsView: View {
                             showingPrivacySettings = true
                         } label: {
                             Image(systemName: appSettings.isPrivateMode ? "lock.shield.fill" : "lock.shield")
-                                .foregroundStyle(appSettings.isPrivateMode ? .green : Color.secondaryText)
+                                .foregroundStyle(appSettings.isPrivateMode ? Color.accentGreen : Color.secondaryText)
                         }
                     }
                 }
@@ -140,7 +140,7 @@ struct FriendsView: View {
         VStack(spacing: 24) {
             Image(systemName: "person.2.fill")
                 .font(.system(size: 60))
-                .foregroundStyle(.green)
+                .foregroundStyle(Color.accentGreen)
 
             Text("Friends & Accountability")
                 .font(.title2)
@@ -166,7 +166,7 @@ struct FriendsView: View {
                     .font(.headline)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.green)
+                    .background(Color.accentGreen)
                     .foregroundStyle(.white)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
             }
@@ -187,7 +187,7 @@ struct YourProfileCard: View {
             if settings.isPrivateMode {
                 HStack {
                     Image(systemName: "lock.shield.fill")
-                        .foregroundStyle(.green)
+                        .foregroundStyle(Color.accentGreen)
                     Text("Private Mode Active")
                         .font(.caption)
                         .fontWeight(.medium)
@@ -197,7 +197,7 @@ struct YourProfileCard: View {
                         .foregroundStyle(Color.secondaryText)
                 }
                 .padding(8)
-                .background(Color.green.opacity(0.15))
+                .background(Color.accentGreen.opacity(0.15))
                 .clipShape(RoundedRectangle(cornerRadius: 8))
             }
 
@@ -220,7 +220,7 @@ struct YourProfileCard: View {
                         if settings.shareWeeklyScore && !settings.isPrivateMode {
                             Label("\(settings.weeklyScore)", systemImage: "chart.bar.fill")
                                 .font(.caption)
-                                .foregroundStyle(.green)
+                                .foregroundStyle(Color.accentGreen)
                         }
 
                         if settings.isPrivateMode || (!settings.shareStreak && !settings.shareWeeklyScore) {
@@ -238,7 +238,7 @@ struct YourProfileCard: View {
                 } label: {
                     Image(systemName: "pencil.circle.fill")
                         .font(.title2)
-                        .foregroundStyle(.green)
+                        .foregroundStyle(Color.accentGreen)
                 }
             }
 
@@ -311,7 +311,7 @@ struct FriendCard: View {
                     if isPartner {
                         Image(systemName: "checkmark.seal.fill")
                             .font(.caption)
-                            .foregroundStyle(.green)
+                            .foregroundStyle(Color.accentGreen)
                     }
                 }
 
@@ -322,7 +322,7 @@ struct FriendCard: View {
 
                     Label("\(friend.weeklyScore)/wk", systemImage: "chart.bar.fill")
                         .font(.caption)
-                        .foregroundStyle(.green)
+                        .foregroundStyle(Color.accentGreen)
                 }
 
                 if let lastActive = friend.lastActivityDate {
@@ -339,7 +339,7 @@ struct FriendCard: View {
             } label: {
                 Image(systemName: "hand.thumbsup.fill")
                     .font(.title3)
-                    .foregroundStyle(.green)
+                    .foregroundStyle(Color.accentGreen)
             }
         }
         .padding()
@@ -388,7 +388,7 @@ struct FriendRequestCard: View {
                 if request.includesAccountabilityPartner {
                     Text("Wants to be your accountability partner")
                         .font(.caption)
-                        .foregroundStyle(.green)
+                        .foregroundStyle(Color.accentGreen)
                 } else {
                     Text("Wants to connect")
                         .font(.caption)
@@ -413,9 +413,9 @@ struct FriendRequestCard: View {
                     acceptRequest()
                 } label: {
                     Image(systemName: "checkmark")
-                        .foregroundStyle(.green)
+                        .foregroundStyle(Color.accentGreen)
                         .padding(8)
-                        .background(Color.green.opacity(0.1))
+                        .background(Color.accentGreen.opacity(0.1))
                         .clipShape(Circle())
                 }
             }
@@ -472,26 +472,26 @@ struct EmptyFriendsView: View {
             VStack(alignment: .leading, spacing: 8) {
                 HStack(spacing: 8) {
                     Image(systemName: "lock.fill")
-                        .foregroundStyle(.green)
+                        .foregroundStyle(Color.accentGreen)
                     Text("Your path & goals are always private")
                         .font(.caption)
                 }
                 HStack(spacing: 8) {
                     Image(systemName: "lock.fill")
-                        .foregroundStyle(.green)
+                        .foregroundStyle(Color.accentGreen)
                     Text("Your habits are never shared")
                         .font(.caption)
                 }
                 HStack(spacing: 8) {
                     Image(systemName: "lock.fill")
-                        .foregroundStyle(.green)
+                        .foregroundStyle(Color.accentGreen)
                     Text("You control what friends can see")
                         .font(.caption)
                 }
             }
             .foregroundStyle(Color.secondaryText)
             .padding()
-            .background(Color.green.opacity(0.1))
+            .background(Color.accentGreen.opacity(0.1))
             .clipShape(RoundedRectangle(cornerRadius: 12))
 
             Button {
@@ -500,7 +500,7 @@ struct EmptyFriendsView: View {
                 Label("Add Friend", systemImage: "person.badge.plus")
                     .font(.headline)
                     .padding()
-                    .background(Color.green)
+                    .background(Color.accentGreen)
                     .foregroundStyle(.white)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
             }
@@ -518,7 +518,7 @@ struct FeatureRow: View {
     var body: some View {
         HStack(spacing: 12) {
             Image(systemName: icon)
-                .foregroundStyle(.green)
+                .foregroundStyle(Color.accentGreen)
                 .frame(width: 24)
 
             Text(text)

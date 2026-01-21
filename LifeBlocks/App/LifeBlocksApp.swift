@@ -76,21 +76,37 @@ struct LifeBlocksApp: App {
     }
 
     private func configureAppearance() {
-        // Configure global UI appearance
+        // Configure global UI appearance with adaptive colors
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor(Color.gridBackground)
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+
+        // Use adaptive colors that work in both light and dark mode
+        appearance.backgroundColor = UIColor { traitCollection in
+            traitCollection.userInterfaceStyle == .dark
+                ? UIColor(red: 0.05, green: 0.07, blue: 0.09, alpha: 1.0)  // #0D1117
+                : UIColor(red: 0.96, green: 0.97, blue: 0.98, alpha: 1.0)  // #F6F8FA
+        }
+
+        let titleColor = UIColor { traitCollection in
+            traitCollection.userInterfaceStyle == .dark
+                ? UIColor.white
+                : UIColor.black
+        }
+        appearance.titleTextAttributes = [.foregroundColor: titleColor]
+        appearance.largeTitleTextAttributes = [.foregroundColor: titleColor]
 
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
         UINavigationBar.appearance().compactAppearance = appearance
 
-        // Tab bar
+        // Tab bar with adaptive colors
         let tabAppearance = UITabBarAppearance()
         tabAppearance.configureWithOpaqueBackground()
-        tabAppearance.backgroundColor = UIColor(Color.cardBackground)
+        tabAppearance.backgroundColor = UIColor { traitCollection in
+            traitCollection.userInterfaceStyle == .dark
+                ? UIColor(red: 0.09, green: 0.11, blue: 0.13, alpha: 1.0)  // #161B22
+                : UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)     // #FFFFFF
+        }
 
         UITabBar.appearance().standardAppearance = tabAppearance
         UITabBar.appearance().scrollEdgeAppearance = tabAppearance

@@ -248,10 +248,28 @@ extension Color {
         })
     }
 
-    // Accent colors
-    static let accentGreen = Color(hex: "#34C759")      // iMessage green
-    static let accentSkyBlue = Color(hex: "#5AC8FA")    // iOS Sky Blue
-    static let accentLavender = Color(hex: "#BDB5D5")   // Soft Lavender
+    // Accent colors - adaptive for light/dark mode contrast
+    static var accentGreen: Color {
+        Color(UIColor { traitCollection in
+            traitCollection.userInterfaceStyle == .dark
+                ? UIColor(red: 0.20, green: 0.78, blue: 0.35, alpha: 1.0)  // #34C759 - bright for dark bg
+                : UIColor(red: 0.14, green: 0.52, blue: 0.25, alpha: 1.0)  // #248540 - darker for light bg
+        })
+    }
+    static var accentSkyBlue: Color {
+        Color(UIColor { traitCollection in
+            traitCollection.userInterfaceStyle == .dark
+                ? UIColor(red: 0.35, green: 0.78, blue: 0.98, alpha: 1.0)  // #5AC8FA - bright for dark bg
+                : UIColor(red: 0.04, green: 0.52, blue: 1.0, alpha: 1.0)   // #0A84FF - darker for light bg
+        })
+    }
+    static var accentLavender: Color {
+        Color(UIColor { traitCollection in
+            traitCollection.userInterfaceStyle == .dark
+                ? UIColor(red: 0.74, green: 0.71, blue: 0.84, alpha: 1.0)  // #BDB5D5 - bright for dark bg
+                : UIColor(red: 0.42, green: 0.36, blue: 0.58, alpha: 1.0)  // #6B5B95 - darker for light bg
+        })
+    }
 }
 
 // MARK: - Theme Manager
