@@ -1,6 +1,28 @@
 import Foundation
 import SwiftData
 
+// MARK: - Shared Profile (Privacy-Filtered)
+/// What friends can see based on your privacy settings
+
+struct SharedProfile: Codable {
+    let displayName: String
+    let avatarEmoji: String
+    let currentStreak: Int?        // nil if private
+    let longestStreak: Int?        // nil if private
+    let weeklyScore: Int?          // nil if private
+    let isActive: Bool?            // nil if private
+    let path: String?              // nil if private
+    let isPrivate: Bool            // true = full privacy mode
+
+    /// Description for UI display
+    var privacyDescription: String {
+        if isPrivate {
+            return "This user has enabled private mode"
+        }
+        return ""
+    }
+}
+
 @Model
 final class UserSettings {
     var id: UUID
@@ -268,6 +290,91 @@ final class AppSettings: ObservableObject {
     var familyMemberCount: Int {
         get { defaults.integer(forKey: "familyMemberCount") }
         set { defaults.set(newValue, forKey: "familyMemberCount") }
+    }
+
+    // MARK: - Privacy Settings
+    // Privacy-first approach: users control exactly what friends can see
+
+    /// Master privacy mode - when enabled, you appear completely private
+    var isPrivateMode: Bool {
+        get { defaults.bool(forKey: "isPrivateMode") }
+        set { defaults.set(newValue, forKey: "isPrivateMode") }
+    }
+
+    /// Share current streak with friends
+    var shareStreak: Bool {
+        get { defaults.object(forKey: "shareStreak") as? Bool ?? false }  // Default OFF
+        set { defaults.set(newValue, forKey: "shareStreak") }
+    }
+
+    /// Share weekly activity score with friends
+    var shareWeeklyScore: Bool {
+        get { defaults.object(forKey: "shareWeeklyScore") as? Bool ?? false }  // Default OFF
+        set { defaults.set(newValue, forKey: "shareWeeklyScore") }
+    }
+
+    /// Share that you checked in today (no details, just activity indicator)
+    var shareActivityStatus: Bool {
+        get { defaults.object(forKey: "shareActivityStatus") as? Bool ?? true }  // Default ON - minimal
+        set { defaults.set(newValue, forKey: "shareActivityStatus") }
+    }
+
+    /// Share your path/goals with friends (always private by default)
+    var sharePathAndGoals: Bool {
+        get { defaults.object(forKey: "sharePathAndGoals") as? Bool ?? false }  // Default OFF
+        set { defaults.set(newValue, forKey: "sharePathAndGoals") }
+    }
+
+    /// Share achievements/milestones with friends
+    var shareAchievements: Bool {
+        get { defaults.object(forKey: "shareAchievements") as? Bool ?? false }  // Default OFF
+        set { defaults.set(newValue, forKey: "shareAchievements") }
+    }
+
+    /// Share longest streak with friends
+    var shareLongestStreak: Bool {
+        get { defaults.object(forKey: "shareLongestStreak") as? Bool ?? false }  // Default OFF
+        set { defaults.set(newValue, forKey: "shareLongestStreak") }
+    }
+
+    /// Appear on leaderboards
+    var appearOnLeaderboards: Bool {
+        get { defaults.object(forKey: "appearOnLeaderboards") as? Bool ?? false }  // Default OFF
+        set { defaults.set(newValue, forKey: "appearOnLeaderboards") }
+    }
+
+    /// Allow friends to send you cheers
+    var allowCheers: Bool {
+        get { defaults.object(forKey: "allowCheers") as? Bool ?? true }  // Default ON
+        set { defaults.set(newValue, forKey: "allowCheers") }
+    }
+
+    /// Show your display name or anonymous
+    var useAnonymousName: Bool {
+        get { defaults.bool(forKey: "useAnonymousName") }
+        set { defaults.set(newValue, forKey: "useAnonymousName") }
+    }
+
+    /// Get the display name respecting privacy settings
+    var publicDisplayName: String {
+        if isPrivateMode || useAnonymousName {
+            return "Anonymous"
+        }
+        return displayName
+    }
+
+    /// Get a privacy-filtered profile for sharing with friends
+    func getSharedProfile() -> SharedProfile {
+        SharedProfile(
+            displayName: publicDisplayName,
+            avatarEmoji: isPrivateMode ? "🔒" : avatarEmoji,
+            currentStreak: shareStreak ? currentStreak : nil,
+            longestStreak: shareLongestStreak ? longestStreak : nil,
+            weeklyScore: shareWeeklyScore ? weeklyScore : nil,
+            isActive: shareActivityStatus ? (lastCheckInDate?.isToday ?? false) : nil,
+            path: sharePathAndGoals ? userLifePath?.selectedPath.rawValue : nil,
+            isPrivate: isPrivateMode
+        )
     }
 
     // MARK: - Analytics Tracking

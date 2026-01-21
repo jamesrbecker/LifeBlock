@@ -3,6 +3,7 @@ import SwiftData
 
 // MARK: - Friends View (Premium Feature)
 /// Main view for friends and accountability partners
+/// Privacy-first: Your path, goals, and habits are never shared
 
 struct FriendsView: View {
     @Environment(\.modelContext) private var modelContext
@@ -14,8 +15,10 @@ struct FriendsView: View {
     }
 
     @StateObject private var purchases = PurchaseManager.shared
+    @ObservedObject private var appSettings = AppSettings.shared
     @State private var showingAddFriend = false
     @State private var showingPremium = false
+    @State private var showingPrivacySettings = false
     @State private var selectedFriend: Friend?
 
     var accountabilityPartners: [Friend] {
@@ -37,6 +40,16 @@ struct FriendsView: View {
             }
             .navigationTitle("Friends")
             .toolbar {
+                if purchases.isPremium {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button {
+                            showingPrivacySettings = true
+                        } label: {
+                            Image(systemName: appSettings.isPrivateMode ? "lock.shield.fill" : "lock.shield")
+                                .foregroundStyle(appSettings.isPrivateMode ? .green : Color.secondaryText)
+                        }
+                    }
+                }
                 if purchases.isPremium && !friends.isEmpty {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button {
@@ -52,6 +65,18 @@ struct FriendsView: View {
             }
             .sheet(isPresented: $showingPremium) {
                 PremiumView()
+            }
+            .sheet(isPresented: $showingPrivacySettings) {
+                NavigationStack {
+                    PrivacySettingsView()
+                        .toolbar {
+                            ToolbarItem(placement: .topBarTrailing) {
+                                Button("Done") {
+                                    showingPrivacySettings = false
+                                }
+                            }
+                        }
+                }
             }
             .sheet(item: $selectedFriend) { friend in
                 FriendDetailView(friend: friend)
@@ -121,16 +146,16 @@ struct FriendsView: View {
                 .font(.title2)
                 .fontWeight(.bold)
 
-            Text("Connect with friends, share your progress, and stay accountable together. Premium feature.")
+            Text("Stay accountable with friends while keeping your journey private. You control exactly what you share.")
                 .multilineTextAlignment(.center)
                 .foregroundStyle(Color.secondaryText)
                 .padding(.horizontal, 32)
 
             VStack(alignment: .leading, spacing: 12) {
+                FeatureRow(icon: "lock.shield.fill", text: "Privacy-first: control what friends see")
                 FeatureRow(icon: "person.badge.plus", text: "Add friends with a simple code")
-                FeatureRow(icon: "chart.bar.fill", text: "See friends' activity and streaks")
                 FeatureRow(icon: "hand.thumbsup.fill", text: "Send cheers and encouragement")
-                FeatureRow(icon: "person.2.circle.fill", text: "Accountability partner matching")
+                FeatureRow(icon: "eye.slash.fill", text: "Your path & goals stay private")
             }
             .padding(.horizontal, 32)
 
@@ -154,26 +179,55 @@ struct FriendsView: View {
 // MARK: - Your Profile Card
 
 struct YourProfileCard: View {
-    let settings = AppSettings.shared
+    @ObservedObject var settings = AppSettings.shared
 
     var body: some View {
         VStack(spacing: 12) {
+            // Privacy Status Banner
+            if settings.isPrivateMode {
+                HStack {
+                    Image(systemName: "lock.shield.fill")
+                        .foregroundStyle(.green)
+                    Text("Private Mode Active")
+                        .font(.caption)
+                        .fontWeight(.medium)
+                    Spacer()
+                    Text("Friends see minimal info")
+                        .font(.caption2)
+                        .foregroundStyle(Color.secondaryText)
+                }
+                .padding(8)
+                .background(Color.green.opacity(0.15))
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+            }
+
             HStack {
-                Text(settings.avatarEmoji)
+                Text(settings.isPrivateMode ? "🔒" : settings.avatarEmoji)
                     .font(.system(size: 40))
 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(settings.displayName)
+                    Text(settings.publicDisplayName)
                         .font(.headline)
 
+                    // Only show stats that are being shared
                     HStack(spacing: 12) {
-                        Label("\(settings.currentStreak)", systemImage: "flame.fill")
-                            .font(.caption)
-                            .foregroundStyle(.orange)
+                        if settings.shareStreak && !settings.isPrivateMode {
+                            Label("\(settings.currentStreak)", systemImage: "flame.fill")
+                                .font(.caption)
+                                .foregroundStyle(.orange)
+                        }
 
-                        Label("\(settings.weeklyScore)", systemImage: "chart.bar.fill")
-                            .font(.caption)
-                            .foregroundStyle(.green)
+                        if settings.shareWeeklyScore && !settings.isPrivateMode {
+                            Label("\(settings.weeklyScore)", systemImage: "chart.bar.fill")
+                                .font(.caption)
+                                .foregroundStyle(.green)
+                        }
+
+                        if settings.isPrivateMode || (!settings.shareStreak && !settings.shareWeeklyScore) {
+                            Text("Stats hidden")
+                                .font(.caption)
+                                .foregroundStyle(Color.secondaryText)
+                        }
                     }
                 }
 
@@ -206,6 +260,7 @@ struct YourProfileCard: View {
 
                 Button {
                     UIPasteboard.general.string = settings.friendCode
+                    HapticManager.shared.success()
                 } label: {
                     Label("Copy", systemImage: "doc.on.doc")
                         .font(.caption)
@@ -218,6 +273,15 @@ struct YourProfileCard: View {
                 }
                 .buttonStyle(.bordered)
             }
+
+            // Privacy hint
+            HStack {
+                Image(systemName: "info.circle")
+                    .font(.caption2)
+                Text("Your path, goals, and habits are never shared")
+                    .font(.caption2)
+            }
+            .foregroundStyle(Color.secondaryText)
         }
         .padding()
         .background(Color.gray.opacity(0.1))
@@ -391,7 +455,7 @@ struct EmptyFriendsView: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            Image(systemName: "person.2.slash")
+            Image(systemName: "person.2")
                 .font(.system(size: 50))
                 .foregroundStyle(Color.secondaryText)
 
@@ -399,10 +463,36 @@ struct EmptyFriendsView: View {
                 .font(.title3)
                 .fontWeight(.semibold)
 
-            Text("Add friends to share your progress and stay motivated together.")
+            Text("Add friends for accountability while keeping your journey private. You choose what to share.")
                 .multilineTextAlignment(.center)
                 .foregroundStyle(Color.secondaryText)
                 .padding(.horizontal, 32)
+
+            // Privacy assurance
+            VStack(alignment: .leading, spacing: 8) {
+                HStack(spacing: 8) {
+                    Image(systemName: "lock.fill")
+                        .foregroundStyle(.green)
+                    Text("Your path & goals are always private")
+                        .font(.caption)
+                }
+                HStack(spacing: 8) {
+                    Image(systemName: "lock.fill")
+                        .foregroundStyle(.green)
+                    Text("Your habits are never shared")
+                        .font(.caption)
+                }
+                HStack(spacing: 8) {
+                    Image(systemName: "lock.fill")
+                        .foregroundStyle(.green)
+                    Text("You control what friends can see")
+                        .font(.caption)
+                }
+            }
+            .foregroundStyle(Color.secondaryText)
+            .padding()
+            .background(Color.green.opacity(0.1))
+            .clipShape(RoundedRectangle(cornerRadius: 12))
 
             Button {
                 showAddFriend = true

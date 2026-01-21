@@ -29,6 +29,7 @@ struct SettingsView: View {
             List {
                 premiumSection
                 streakProtectionSection
+                privacySection
                 appearanceSection
                 analyticsSection
                 remindersSection
@@ -172,6 +173,28 @@ struct SettingsView: View {
             Text("Streak Protection")
         } footer: {
             Text("Freeze days reset at the start of each month")
+        }
+    }
+
+    private var privacySection: some View {
+        Section {
+            NavigationLink {
+                PrivacySettingsView()
+            } label: {
+                HStack {
+                    Label("Privacy", systemImage: "lock.shield.fill")
+                    Spacer()
+                    if appSettings.isPrivateMode {
+                        Text("Private Mode")
+                            .font(.caption)
+                            .foregroundStyle(.green)
+                    }
+                }
+            }
+        } header: {
+            Text("Privacy")
+        } footer: {
+            Text("Control what friends can see. Your path, goals, and progress are private by default.")
         }
     }
 
@@ -780,6 +803,266 @@ struct FamilyFeatureRow: View {
 }
 
 // Note: NotificationSettingsView is defined in NotificationManager.swift
+
+// MARK: - Privacy Settings View
+
+struct PrivacySettingsView: View {
+    @ObservedObject private var appSettings = AppSettings.shared
+
+    var body: some View {
+        List {
+            // Privacy Philosophy Header
+            Section {
+                VStack(alignment: .leading, spacing: 12) {
+                    HStack {
+                        Image(systemName: "lock.shield.fill")
+                            .font(.title)
+                            .foregroundStyle(.green)
+                        Text("Build in Private")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                    }
+
+                    Text("Your path, goals, and achievements are yours alone. Share only what you choose. Let your success speak for itself.")
+                        .font(.subheadline)
+                        .foregroundStyle(Color.secondaryText)
+                }
+                .padding(.vertical, 8)
+            }
+
+            // Master Privacy Toggle
+            Section {
+                Toggle(isOn: Binding(
+                    get: { appSettings.isPrivateMode },
+                    set: { appSettings.isPrivateMode = $0 }
+                )) {
+                    Label {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Private Mode")
+                                .font(.headline)
+                            Text("Completely hide your activity from friends")
+                                .font(.caption)
+                                .foregroundStyle(Color.secondaryText)
+                        }
+                    } icon: {
+                        Image(systemName: "eye.slash.fill")
+                            .foregroundStyle(.green)
+                    }
+                }
+                .tint(.green)
+            } footer: {
+                Text("When enabled, friends only see your name and that you're using LifeBlocks. No stats, no streaks, no details.")
+            }
+
+            // Granular Privacy Controls
+            if !appSettings.isPrivateMode {
+                Section("What Friends Can See") {
+                    PrivacyToggle(
+                        title: "Activity Status",
+                        description: "Show that you checked in today (no details)",
+                        icon: "circle.fill",
+                        isOn: Binding(
+                            get: { appSettings.shareActivityStatus },
+                            set: { appSettings.shareActivityStatus = $0 }
+                        )
+                    )
+
+                    PrivacyToggle(
+                        title: "Current Streak",
+                        description: "Your consecutive days",
+                        icon: "flame.fill",
+                        isOn: Binding(
+                            get: { appSettings.shareStreak },
+                            set: { appSettings.shareStreak = $0 }
+                        )
+                    )
+
+                    PrivacyToggle(
+                        title: "Longest Streak",
+                        description: "Your personal best",
+                        icon: "trophy.fill",
+                        isOn: Binding(
+                            get: { appSettings.shareLongestStreak },
+                            set: { appSettings.shareLongestStreak = $0 }
+                        )
+                    )
+
+                    PrivacyToggle(
+                        title: "Weekly Score",
+                        description: "Your activity this week",
+                        icon: "chart.bar.fill",
+                        isOn: Binding(
+                            get: { appSettings.shareWeeklyScore },
+                            set: { appSettings.shareWeeklyScore = $0 }
+                        )
+                    )
+                }
+
+                Section("Always Private") {
+                    HStack {
+                        Label {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Your Path & Goals")
+                                Text("Never shared with friends")
+                                    .font(.caption)
+                                    .foregroundStyle(Color.secondaryText)
+                            }
+                        } icon: {
+                            Image(systemName: "arrow.triangle.branch")
+                                .foregroundStyle(.green)
+                        }
+                        Spacer()
+                        Image(systemName: "lock.fill")
+                            .foregroundStyle(.green)
+                    }
+
+                    HStack {
+                        Label {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Your Habits")
+                                Text("Never shared with friends")
+                                    .font(.caption)
+                                    .foregroundStyle(Color.secondaryText)
+                            }
+                        } icon: {
+                            Image(systemName: "list.bullet")
+                                .foregroundStyle(.green)
+                        }
+                        Spacer()
+                        Image(systemName: "lock.fill")
+                            .foregroundStyle(.green)
+                    }
+
+                    HStack {
+                        Label {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Daily Notes")
+                                Text("Never shared with friends")
+                                    .font(.caption)
+                                    .foregroundStyle(Color.secondaryText)
+                            }
+                        } icon: {
+                            Image(systemName: "note.text")
+                                .foregroundStyle(.green)
+                        }
+                        Spacer()
+                        Image(systemName: "lock.fill")
+                            .foregroundStyle(.green)
+                    }
+                }
+
+                Section("Social Features") {
+                    PrivacyToggle(
+                        title: "Appear on Leaderboards",
+                        description: "Opt-in to friendly competition",
+                        icon: "list.number",
+                        isOn: Binding(
+                            get: { appSettings.appearOnLeaderboards },
+                            set: { appSettings.appearOnLeaderboards = $0 }
+                        )
+                    )
+
+                    PrivacyToggle(
+                        title: "Receive Cheers",
+                        description: "Allow friends to send encouragement",
+                        icon: "hand.thumbsup.fill",
+                        isOn: Binding(
+                            get: { appSettings.allowCheers },
+                            set: { appSettings.allowCheers = $0 }
+                        )
+                    )
+
+                    PrivacyToggle(
+                        title: "Anonymous Mode",
+                        description: "Hide your name, show as 'Anonymous'",
+                        icon: "person.fill.questionmark",
+                        isOn: Binding(
+                            get: { appSettings.useAnonymousName },
+                            set: { appSettings.useAnonymousName = $0 }
+                        )
+                    )
+                }
+            }
+
+            // Preview Section
+            Section {
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("What Friends See")
+                        .font(.headline)
+
+                    HStack(spacing: 12) {
+                        Text(appSettings.isPrivateMode ? "🔒" : appSettings.avatarEmoji)
+                            .font(.system(size: 40))
+
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(appSettings.publicDisplayName)
+                                .font(.headline)
+
+                            if appSettings.isPrivateMode {
+                                Text("Private Mode")
+                                    .font(.caption)
+                                    .foregroundStyle(.green)
+                            } else {
+                                HStack(spacing: 12) {
+                                    if appSettings.shareStreak {
+                                        Label("\(appSettings.currentStreak)", systemImage: "flame.fill")
+                                            .font(.caption)
+                                            .foregroundStyle(.orange)
+                                    }
+                                    if appSettings.shareWeeklyScore {
+                                        Label("\(appSettings.weeklyScore)", systemImage: "chart.bar.fill")
+                                            .font(.caption)
+                                            .foregroundStyle(.green)
+                                    }
+                                    if appSettings.shareActivityStatus {
+                                        Image(systemName: "circle.fill")
+                                            .font(.system(size: 8))
+                                            .foregroundStyle(.green)
+                                    }
+                                }
+                            }
+                        }
+
+                        Spacer()
+                    }
+                    .padding()
+                    .background(Color.cardBackground)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                }
+                .padding(.vertical, 8)
+            } header: {
+                Text("Preview")
+            } footer: {
+                Text("This is how you appear to friends based on your current privacy settings.")
+            }
+        }
+        .navigationTitle("Privacy")
+    }
+}
+
+struct PrivacyToggle: View {
+    let title: String
+    let description: String
+    let icon: String
+    @Binding var isOn: Bool
+
+    var body: some View {
+        Toggle(isOn: $isOn) {
+            Label {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(title)
+                    Text(description)
+                        .font(.caption)
+                        .foregroundStyle(Color.secondaryText)
+                }
+            } icon: {
+                Image(systemName: icon)
+                    .foregroundStyle(isOn ? .green : Color.secondaryText)
+            }
+        }
+        .tint(.green)
+    }
+}
 
 #Preview {
     SettingsView()
