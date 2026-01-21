@@ -76,38 +76,16 @@ struct MediumWidgetView: View {
                     }
                 }
 
-                // Minimal footer with legend
-                HStack {
-                    if entry.currentStreak > 0 {
-                        HStack(spacing: 3) {
-                            Image(systemName: "flame.fill")
-                                .font(.system(size: 9))
-                                .foregroundStyle(.orange)
-                            Text("\(entry.currentStreak) day streak")
-                                .font(.system(size: 10))
-                                .foregroundStyle(.secondary)
-                        }
-                    }
-
-                    Spacer()
-
-                    // Legend
-                    HStack(spacing: 2) {
-                        Text("Less")
-                            .font(.system(size: 8))
+                // Minimal footer - streak only
+                if entry.currentStreak > 0 {
+                    HStack(spacing: 3) {
+                        Image(systemName: "flame.fill")
+                            .font(.system(size: 9))
+                            .foregroundStyle(.orange)
+                        Text("\(entry.currentStreak) day streak")
+                            .font(.system(size: 10))
                             .foregroundStyle(.secondary)
-
-                        HStack(spacing: 2) {
-                            ForEach(0..<5, id: \.self) { level in
-                                RoundedRectangle(cornerRadius: 1)
-                                    .fill(colorScheme.color(for: level, isDarkMode: true))
-                                    .frame(width: 8, height: 8)
-                            }
-                        }
-
-                        Text("More")
-                            .font(.system(size: 8))
-                            .foregroundStyle(.secondary)
+                        Spacer()
                     }
                 }
             }

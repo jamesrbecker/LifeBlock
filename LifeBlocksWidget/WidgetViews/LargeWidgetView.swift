@@ -99,7 +99,7 @@ struct LargeWidgetView: View {
 
     private var footerSection: some View {
         HStack {
-            // Streak info
+            // Streak info only - no legend
             if entry.currentStreak > 0 {
                 HStack(spacing: 4) {
                     Image(systemName: "flame.fill")
@@ -110,27 +110,7 @@ struct LargeWidgetView: View {
                         .foregroundStyle(.secondary)
                 }
             }
-
             Spacer()
-
-            // Legend
-            HStack(spacing: 3) {
-                Text("Less")
-                    .font(.system(size: 9))
-                    .foregroundStyle(.secondary)
-
-                HStack(spacing: 2) {
-                    ForEach(0..<5, id: \.self) { level in
-                        RoundedRectangle(cornerRadius: 2)
-                            .fill(colorScheme.color(for: level, isDarkMode: true))
-                            .frame(width: 10, height: 10)
-                    }
-                }
-
-                Text("More")
-                    .font(.system(size: 9))
-                    .foregroundStyle(.secondary)
-            }
         }
     }
 }

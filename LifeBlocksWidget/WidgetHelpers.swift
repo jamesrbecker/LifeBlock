@@ -94,63 +94,66 @@ enum GridColorScheme: String, CaseIterable {
         return .green
     }
 
+    /// Empty cell color - white with slight transparency for widget background
+    private static let emptyColor = Color(hex: "#E8E8E8")
+
     var colors: [Color] {
         switch self {
         case .green:
             return [
-                Color(hex: "#161B22"),
-                Color(hex: "#0D3D1F"),
-                Color(hex: "#1A7A3E"),
-                Color(hex: "#28A745"),
-                Color(hex: "#34C759")
+                Self.emptyColor,  // Level 0 - Empty (white/light gray)
+                Color(hex: "#A8E6CF"),  // Level 1 - Light green
+                Color(hex: "#5DD39E"),  // Level 2 - Medium green
+                Color(hex: "#34C759"),  // Level 3 - High green
+                Color(hex: "#248A3D")   // Level 4 - Maximum green
             ]
         case .skyblue:
             return [
-                Color(hex: "#161B22"),
-                Color(hex: "#0C3A5A"),
-                Color(hex: "#1877B8"),
-                Color(hex: "#3DA5E0"),
-                Color(hex: "#5AC8FA")
+                Self.emptyColor,
+                Color(hex: "#B3E0F2"),  // Level 1
+                Color(hex: "#7CC5E3"),  // Level 2
+                Color(hex: "#5AC8FA"),  // Level 3
+                Color(hex: "#0A84FF")   // Level 4
             ]
         case .lavender:
             return [
-                Color(hex: "#161B22"),
-                Color(hex: "#3D2E5C"),
-                Color(hex: "#6B5B95"),
-                Color(hex: "#9B8DC2"),
-                Color(hex: "#BDB5D5")
+                Self.emptyColor,
+                Color(hex: "#E2D9F3"),  // Level 1
+                Color(hex: "#BDB5D5"),  // Level 2
+                Color(hex: "#9B8DC2"),  // Level 3
+                Color(hex: "#6B5B95")   // Level 4
             ]
         case .blue:
             return [
-                Color(hex: "#161B22"),
-                Color(hex: "#0A3069"),
-                Color(hex: "#0550AE"),
+                Self.emptyColor,
+                Color(hex: "#B6D4FF"),
+                Color(hex: "#58A6FF"),
                 Color(hex: "#218BFF"),
-                Color(hex: "#58A6FF")
+                Color(hex: "#0550AE")
             ]
         case .purple:
             return [
-                Color(hex: "#161B22"),
-                Color(hex: "#3D1F5C"),
-                Color(hex: "#6E40C9"),
+                Self.emptyColor,
+                Color(hex: "#DDD6FE"),
+                Color(hex: "#A78BFA"),
                 Color(hex: "#8B5CF6"),
-                Color(hex: "#A78BFA")
+                Color(hex: "#6E40C9")
             ]
         case .orange:
             return [
-                Color(hex: "#161B22"),
-                Color(hex: "#5C2D0E"),
-                Color(hex: "#9A3412"),
+                Self.emptyColor,
+                Color(hex: "#FED7AA"),
+                Color(hex: "#FB923C"),
                 Color(hex: "#EA580C"),
-                Color(hex: "#FB923C")
+                Color(hex: "#9A3412")
             ]
         case .pink:
             return [
-                Color(hex: "#161B22"),
-                Color(hex: "#5C1F4A"),
-                Color(hex: "#9D174D"),
+                Self.emptyColor,
+                Color(hex: "#FBCFE8"),
+                Color(hex: "#F472B6"),
                 Color(hex: "#DB2777"),
-                Color(hex: "#F472B6")
+                Color(hex: "#9D174D")
             ]
         }
     }
