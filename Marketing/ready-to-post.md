@@ -8,7 +8,7 @@ Copy and paste these directly to your platforms.
 
 ### Post 1
 ```
-I built a habit tracker that shows your life like a GitHub contribution graph.
+I built a habit tracker that shows your life as a visual grid.
 
 Green = you showed up
 Empty = you didn't
@@ -60,7 +60,7 @@ Visual accountability hits different.
 ```
 The best productivity system is the one you actually use.
 
-After trying Notion, Habitica, Streaks, and 10 other apps...
+After trying 10+ habit apps that were all too complex...
 
 I needed something stupidly simple.
 
@@ -83,7 +83,7 @@ How to actually build habits that stick:
 
 That's why I built LifeBlocks.
 
-GitHub-style grid for your life. Watch it fill up. Try not to break it.
+A visual grid for your life. Watch it fill up. Try not to break it.
 
 Simple psychology. Real results.
 ```
@@ -179,7 +179,7 @@ Worth every penny.
 
 [Open LifeBlocks]
 
-"It's literally just a grid - like GitHub but for your life"
+"It's literally just a visual grid for your life"
 
 [Show grid]
 
@@ -400,7 +400,7 @@ Ask happy users to post reviews like:
 
 **For any platform:**
 - "Your life as a grid. Every green square = a day you showed up."
-- "GitHub contribution graph, but for your habits."
+- "A visual contribution grid for your habits."
 - "30 seconds to check in. 365 days to transform."
 - "The streak owns me now. In a good way."
 - "Simple beats complex. Every time."

@@ -2,7 +2,7 @@
 
 ## Brand Voice
 - Motivational but not preachy
-- Focus on visual progress (the GitHub-style grid)
+- Focus on visual progress (the contribution grid)
 - Emphasize simplicity and satisfaction
 - Target: people who want to build better habits but hate complex apps
 
@@ -14,7 +14,7 @@
 
 **Tweet 1 - Hook**
 ```
-I built a habit tracker that shows your life like a GitHub contribution graph.
+I built a habit tracker that shows your life as a visual grid.
 
 Every day you check in, your grid fills with green.
 
@@ -66,14 +66,14 @@ Sometimes accountability is just... visual.
 ```
 I've tried every habit app.
 
-Habitica - too gamified
-Streaks - too limited
-Notion - too complex
-Apple Reminders - no visual progress
+Too gamified.
+Too limited.
+Too complex.
+No visual progress.
 
 Then I built what I actually wanted:
 
-A GitHub-style grid for your life.
+A visual grid for your life.
 
 Here's why it works: 🧵
 ```
@@ -98,7 +98,7 @@ Here's why it works: 🧵
 ```
 Stop tracking habits in boring lists.
 
-LifeBlocks shows your entire year as a visual grid - just like GitHub shows code contributions.
+LifeBlocks shows your entire year as a visual grid.
 
 Every green square = a day you showed up for yourself.
 
@@ -199,7 +199,7 @@ Show me you're a productivity nerd without telling me you're a productivity nerd
 
 [Show LifeBlocks with filled grid]
 
-I track my habits like a developer tracks their code commits
+I track my habits with a visual grid
 
 [Zoom on the green grid]
 
@@ -228,7 +228,7 @@ LifeBlocks - link in bio
 ```
 Reply to: "What's an app you can't live without?"
 
-This habit tracker that makes my year look like a GitHub contribution graph
+This habit tracker that turns my year into a visual grid
 
 [Show app]
 
@@ -290,7 +290,7 @@ Available now on iOS.
 Use these opening hooks to capture attention:
 
 1. "The habit app that finally made tracking stick..."
-2. "POV: You're a developer and you want your life to look like your GitHub..."
+2. "POV: You want to see your entire year at a glance..."
 3. "I deleted every other habit app after finding this..."
 4. "Why does seeing green squares hit so different?"
 5. "The fear of breaking a streak > any motivational quote"
@@ -379,7 +379,7 @@ Use these opening hooks to capture attention:
 "A habit tracker that respects your time - 30 seconds to check in, visual proof of your consistency"
 
 **For Developer/Tech Creators:**
-"GitHub contribution graph... but for your life. Built by a developer who wanted the same visual accountability for habits."
+"A visual contribution grid for your life. Built by someone who wanted the same visual accountability for habits that developers get for code."
 
 **For Wellness Creators:**
 "Gentle accountability without guilt. See your progress, celebrate your streaks, learn from your patterns."

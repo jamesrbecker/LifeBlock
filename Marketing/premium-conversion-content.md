@@ -181,14 +181,14 @@ P.S. Your streak carries over. You won't lose anything.
 ```
 Upgraded to LifeBlocks Premium and now I'm tracking 8 habits in one grid.
 
-Fitness ✓
-Reading ✓
-Meditation ✓
-Hydration ✓
-Sleep ✓
-Learning ✓
-Journaling ✓
-No social media before noon ✓
+Fitness
+Reading
+Meditation
+Hydration
+Sleep
+Learning
+Journaling
+No phone before noon
 
 Seeing everything together changes the game.
 ```
@@ -242,9 +242,9 @@ Worth every penny when you're serious about change.
 **Hook:** "Your fitness journey and career growth in one app"
 **Copy:** Create separate paths for different areas of your life. See which parts of your life are thriving and which need attention.
 
-### Feature 3: HealthKit Integration
-**Hook:** "Your Apple Watch does the tracking for you"
-**Copy:** Workouts and sleep auto-sync from Apple Health. No manual check-ins needed. Just live your life and watch your grid fill.
+### Feature 3: Health Integration
+**Hook:** "Your watch does the tracking for you"
+**Copy:** Workouts and sleep auto-sync from your health data. No manual check-ins needed. Just live your life and watch your grid fill.
 
 ### Feature 4: Widgets
 **Hook:** "Your streak on your home screen"
@@ -384,7 +384,7 @@ FREE FEATURES:
 PREMIUM FEATURES:
 • Unlimited habits
 • Multiple life paths
-• Apple Health integration
+• Health app integration
 • Home screen widgets
 • Weekly review analytics
 • Custom color themes
