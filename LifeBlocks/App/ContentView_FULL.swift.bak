@@ -10,6 +10,10 @@ struct ContentView: View {
     @State private var showingCheckIn = false
     @State private var selectedDate: Date?
     @State private var showingDayDetail = false
+    @State private var showingWeeklyReview = false
+    @State private var showingLeaderboard = false
+    @State private var showingShareGrid = false
+    @State private var showingChallenges = false
     @State private var showingMilestoneCelebration = false
     @State private var milestoneToShow: Int = 0
 
@@ -24,23 +28,70 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 24) {
-                    // Main check-in button - the star of the show
-                    checkInButton
-
-                    // Streak display (only if has streak)
-                    if AppSettings.shared.currentStreak > 0 {
-                        streakDisplay
+                VStack(spacing: 20) {
+                    // Path dashboard (if user has selected a path)
+                    if AppSettings.shared.userLifePath != nil {
+                        PathDashboardView()
+                            .padding(.horizontal)
                     }
 
-                    // The contribution grid - core feature
+                    // Quick action check-in card
+                    QuickActionCard(hasCheckedInToday: hasCheckedInToday) {
+                        showingCheckIn = true
+                    }
+                    .padding(.horizontal)
+
+                    // Contribution grid
                     gridSection
+
+                    // Quick stats
+                    statsRow
+
+                    // Future preview (motivational)
+                    FuturePreviewCard(currentStreak: AppSettings.shared.currentStreak)
+                        .padding(.horizontal)
                 }
                 .padding(.vertical)
             }
             .background(Color.gridBackground)
             .navigationTitle("LifeBlocks")
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    HStack(spacing: 16) {
+                        Button {
+                            HapticManager.shared.lightTap()
+                            showingWeeklyReview = true
+                        } label: {
+                            Image(systemName: "calendar.badge.clock")
+                                .foregroundStyle(Color.secondaryText)
+                        }
+
+                        Button {
+                            HapticManager.shared.lightTap()
+                            showingLeaderboard = true
+                        } label: {
+                            Image(systemName: "trophy")
+                                .foregroundStyle(Color.secondaryText)
+                        }
+
+                        Button {
+                            HapticManager.shared.lightTap()
+                            showingShareGrid = true
+                        } label: {
+                            Image(systemName: "square.and.arrow.up")
+                                .foregroundStyle(Color.secondaryText)
+                        }
+
+                        Button {
+                            HapticManager.shared.lightTap()
+                            showingChallenges = true
+                        } label: {
+                            Image(systemName: "flag.checkered")
+                                .foregroundStyle(Color.secondaryText)
+                        }
+                    }
+                }
+
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink {
                         SettingsView()
@@ -53,8 +104,11 @@ struct ContentView: View {
             .sheet(isPresented: $showingCheckIn) {
                 DailyCheckInView()
                     .onDisappear {
+                        // Sync widget data after check-in
                         DataManager.shared.configure(with: modelContext)
                         DataManager.shared.syncWidgetData()
+
+                        // Check for milestone celebration
                         checkForMilestone()
                     }
             }
@@ -69,98 +123,100 @@ struct ContentView: View {
                     DayDetailView(date: date)
                 }
             }
+            .sheet(isPresented: $showingWeeklyReview) {
+                WeeklyReviewView()
+            }
+            .sheet(isPresented: $showingLeaderboard) {
+                LeaderboardView()
+            }
+            .sheet(isPresented: $showingShareGrid) {
+                ShareGridView(
+                    dayEntries: dayEntries,
+                    currentStreak: AppSettings.shared.currentStreak,
+                    longestStreak: AppSettings.shared.longestStreak
+                )
+            }
+            .sheet(isPresented: $showingChallenges) {
+                ChallengesView()
+            }
             .onOpenURL { url in
                 handleDeepLink(url)
             }
         }
     }
 
-    // MARK: - Check-In Button (Hero)
-
-    private var checkInButton: some View {
-        Button {
-            HapticManager.shared.mediumTap()
-            showingCheckIn = true
-        } label: {
-            HStack(spacing: 16) {
-                // Today's score indicator
-                ZStack {
-                    Circle()
-                        .fill(hasCheckedInToday ? Color.accentGreen : Color.cardBackgroundLight)
-                        .frame(width: 56, height: 56)
-
-                    if hasCheckedInToday {
-                        Image(systemName: "checkmark")
-                            .font(.title2.weight(.bold))
-                            .foregroundStyle(.white)
-                    } else {
-                        Image(systemName: "plus")
-                            .font(.title2.weight(.semibold))
-                            .foregroundStyle(Color.accentGreen)
-                    }
-                }
-
+    private var todayCard: some View {
+        VStack(spacing: 16) {
+            HStack {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(hasCheckedInToday ? "Checked in" : "Check in")
-                        .font(.title3.weight(.semibold))
-                        .foregroundStyle(.primary)
-
                     Text(DateHelpers.formatDate(Date(), style: .medium))
-                        .font(.subheadline)
+                        .font(.headline)
                         .foregroundStyle(Color.secondaryText)
+
+                    Text(hasCheckedInToday ? "Checked in!" : "Ready to check in?")
+                        .font(.title2)
+                        .fontWeight(.bold)
                 }
 
                 Spacer()
 
-                if let score = todayEntry?.totalScore, score > 0 {
-                    Text("\(score)")
-                        .font(.title.weight(.bold))
-                        .foregroundStyle(Color.accentGreen)
+                // Today's score square
+                ZStack {
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(GridColorScheme.green.color(for: todayEntry?.totalScore ?? 0, isDarkMode: true))
+                        .frame(width: 60, height: 60)
+
+                    if let score = todayEntry?.totalScore {
+                        Text("\(score)")
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                    } else {
+                        Image(systemName: "plus")
+                            .font(.title2)
+                            .foregroundColor(.white.opacity(0.7))
+                    }
                 }
             }
-            .padding(20)
-            .background(Color.cardBackground)
-            .clipShape(RoundedRectangle(cornerRadius: 16))
-        }
-        .buttonStyle(.plain)
-        .padding(.horizontal)
-    }
 
-    // MARK: - Streak Display (Minimal)
-
-    private var streakDisplay: some View {
-        HStack(spacing: 24) {
-            // Current streak
-            HStack(spacing: 8) {
-                Image(systemName: "flame.fill")
-                    .foregroundStyle(.orange)
-                Text("\(AppSettings.shared.currentStreak)")
-                    .font(.title2.weight(.bold))
-                Text("day streak")
-                    .font(.subheadline)
-                    .foregroundStyle(Color.secondaryText)
+            // Check-in button
+            Button {
+                showingCheckIn = true
+            } label: {
+                HStack {
+                    Image(systemName: hasCheckedInToday ? "checkmark.circle.fill" : "plus.circle.fill")
+                    Text(hasCheckedInToday ? "Update Check-in" : "Check In Now")
+                        .fontWeight(.semibold)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 14)
+                .background(hasCheckedInToday ? Color.cardBackground : Color.accentGreen)
+                .foregroundColor(hasCheckedInToday ? .primary : .white)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .overlay {
+                    if hasCheckedInToday {
+                        RoundedRectangle(cornerRadius: 12)
+                            .strokeBorder(Color.accentGreen, lineWidth: 2)
+                    }
+                }
             }
 
-            Spacer()
-
-            // Best streak (if different)
-            if AppSettings.shared.longestStreak > AppSettings.shared.currentStreak {
-                HStack(spacing: 6) {
-                    Image(systemName: "trophy.fill")
-                        .foregroundStyle(.yellow)
-                        .font(.caption)
-                    Text("\(AppSettings.shared.longestStreak)")
-                        .font(.subheadline.weight(.medium))
-                    Text("best")
+            // Streak badge
+            if AppSettings.shared.currentStreak > 0 {
+                HStack {
+                    StreakBadge(streak: AppSettings.shared.currentStreak, size: .medium)
+                    Spacer()
+                    Text("\(habits.count) habits tracked")
                         .font(.caption)
                         .foregroundStyle(Color.secondaryText)
                 }
             }
         }
-        .padding(.horizontal, 24)
+        .padding()
+        .background(Color.cardBackground)
+        .clipShape(RoundedRectangle(cornerRadius: 20))
+        .padding(.horizontal)
     }
-
-    // MARK: - Grid Section
 
     private var gridSection: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -173,15 +229,15 @@ struct ContentView: View {
                 NavigationLink {
                     StatsView()
                 } label: {
-                    Text("Stats")
-                        .font(.subheadline)
+                    Text("See Stats")
+                        .font(.caption)
                         .foregroundColor(Color.accentGreen)
                 }
             }
             .padding(.horizontal)
 
             ScrollView(.horizontal, showsIndicators: false) {
-                MinimalContributionGridView(
+                InteractiveContributionGridView(
                     onDateSelected: { date in
                         selectedDate = date
                         showingDayDetail = true
@@ -192,7 +248,36 @@ struct ContentView: View {
         }
     }
 
-    // MARK: - Helpers
+    private var statsRow: some View {
+        HStack(spacing: 16) {
+            QuickStatCard(
+                title: "Streak",
+                value: "\(AppSettings.shared.currentStreak)",
+                icon: "flame.fill",
+                color: .orange
+            )
+
+            QuickStatCard(
+                title: "This Week",
+                value: "\(weeklyCheckIns)",
+                icon: "calendar",
+                color: .blue
+            )
+
+            QuickStatCard(
+                title: "Best",
+                value: "\(AppSettings.shared.longestStreak)",
+                icon: "trophy.fill",
+                color: .yellow
+            )
+        }
+        .padding(.horizontal)
+    }
+
+    private var weeklyCheckIns: Int {
+        let weekStart = Calendar.current.date(byAdding: .day, value: -7, to: Date())!
+        return dayEntries.filter { $0.date >= weekStart && $0.checkedIn }.count
+    }
 
     private func handleDeepLink(_ url: URL) {
         guard url.scheme == "lifeblock" else { return }
@@ -217,6 +302,7 @@ struct ContentView: View {
         let currentStreak = AppSettings.shared.currentStreak
         let milestones = [7, 14, 21, 30, 50, 100, 150, 200, 365, 500, 1000]
 
+        // Find the highest milestone the user has reached but not yet celebrated
         for milestone in milestones.reversed() {
             if currentStreak >= milestone && AppSettings.shared.lastCelebratedMilestone < milestone {
                 milestoneToShow = milestone
@@ -229,9 +315,8 @@ struct ContentView: View {
     }
 }
 
-// MARK: - Minimal Contribution Grid
-
-struct MinimalContributionGridView: View {
+// Interactive grid that allows tapping on dates
+struct InteractiveContributionGridView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var dayEntries: [DayEntry]
 
@@ -278,7 +363,7 @@ struct MinimalContributionGridView: View {
                     }
                 }
 
-                // Grid
+                // Grid with tap handlers
                 HStack(alignment: .top, spacing: spacing) {
                     ForEach(Array(gridDates.enumerated()), id: \.offset) { weekIndex, week in
                         VStack(spacing: spacing) {
@@ -318,8 +403,6 @@ struct MinimalContributionGridView: View {
         return dayEntries.first { $0.date.isSameDay(as: targetDate) }?.totalScore ?? 0
     }
 }
-
-// MARK: - Quick Stat Card (kept for StatsView)
 
 struct QuickStatCard: View {
     let title: String

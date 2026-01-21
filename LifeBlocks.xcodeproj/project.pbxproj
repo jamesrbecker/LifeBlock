@@ -48,6 +48,8 @@
 		F1000115001 /* SharedTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000115000 /* SharedTypes.swift */; };
 		F1000116001 /* WidgetHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000116000 /* WidgetHelpers.swift */; };
 		F1000117001 /* StandByWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000117000 /* StandByWidget.swift */; };
+		F1000118001 /* StreakWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000118000 /* StreakWidget.swift */; };
+		F1000119001 /* InteractiveWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000119000 /* InteractiveWidget.swift */; };
 		F1000120001 /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000120000 /* Friend.swift */; };
 		F1000121001 /* FriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000121000 /* FriendsView.swift */; };
 		F1000122001 /* AddFriendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000122000 /* AddFriendView.swift */; };
@@ -162,6 +164,8 @@
 		F1000115000 /* SharedTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTypes.swift; sourceTree = "<group>"; };
 		F1000116000 /* WidgetHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetHelpers.swift; sourceTree = "<group>"; };
 		F1000117000 /* StandByWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandByWidget.swift; sourceTree = "<group>"; };
+		F1000118000 /* StreakWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakWidget.swift; sourceTree = "<group>"; };
+		F1000119000 /* InteractiveWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveWidget.swift; sourceTree = "<group>"; };
 		F1000120000 /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
 		F1000121000 /* FriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsView.swift; sourceTree = "<group>"; };
 		F1000122000 /* AddFriendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriendView.swift; sourceTree = "<group>"; };
@@ -253,6 +257,8 @@
 				F1000100000 /* LifeBlocksWidget.swift */,
 				F1000101000 /* WidgetBundle.swift */,
 				F1000117000 /* StandByWidget.swift */,
+				F1000118000 /* StreakWidget.swift */,
+				F1000119000 /* InteractiveWidget.swift */,
 				F1000115000 /* SharedTypes.swift */,
 				F1000116000 /* WidgetHelpers.swift */,
 				F1000500020 /* WidgetViews */,
@@ -681,6 +687,8 @@
 				F1000100001 /* LifeBlocksWidget.swift in Sources */,
 				F1000101001 /* WidgetBundle.swift in Sources */,
 				F1000117001 /* StandByWidget.swift in Sources */,
+				F1000118001 /* StreakWidget.swift in Sources */,
+				F1000119001 /* InteractiveWidget.swift in Sources */,
 				F1000102001 /* SmallWidgetView.swift in Sources */,
 				F1000103001 /* MediumWidgetView.swift in Sources */,
 				F1000104001 /* LargeWidgetView.swift in Sources */,

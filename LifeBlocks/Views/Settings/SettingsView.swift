@@ -19,6 +19,11 @@ struct SettingsView: View {
     @State private var showingReferralSheet = false
     @State private var showingFamilySheet = false
     @State private var showingInsights = false
+    @State private var showingWeeklyReview = false
+    @State private var showingLeaderboard = false
+    @State private var showingShareGrid = false
+    @State private var showingChallenges = false
+    @State private var showingFriends = false
 
     private var settings: UserSettings {
         userSettings.first ?? UserSettings()
@@ -28,6 +33,7 @@ struct SettingsView: View {
         NavigationStack {
             List {
                 premiumSection
+                socialSection
                 streakProtectionSection
                 privacySection
                 appearanceSection
@@ -48,6 +54,25 @@ struct SettingsView: View {
             }
             .sheet(isPresented: $showingFamilySheet) {
                 FamilyPlanView()
+            }
+            .sheet(isPresented: $showingWeeklyReview) {
+                WeeklyReviewView()
+            }
+            .sheet(isPresented: $showingLeaderboard) {
+                LeaderboardView()
+            }
+            .sheet(isPresented: $showingShareGrid) {
+                ShareGridView(
+                    dayEntries: [],
+                    currentStreak: AppSettings.shared.currentStreak,
+                    longestStreak: AppSettings.shared.longestStreak
+                )
+            }
+            .sheet(isPresented: $showingChallenges) {
+                ChallengesView()
+            }
+            .sheet(isPresented: $showingFriends) {
+                FriendsView()
             }
             .onAppear {
                 loadSettings()
@@ -146,6 +171,40 @@ struct SettingsView: View {
                     }
                     .padding(.vertical, 8)
                 }
+            }
+        }
+    }
+
+    private var socialSection: some View {
+        Section("Activity") {
+            Button {
+                showingWeeklyReview = true
+            } label: {
+                Label("Weekly Review", systemImage: "calendar.badge.clock")
+            }
+
+            Button {
+                showingLeaderboard = true
+            } label: {
+                Label("Leaderboard", systemImage: "trophy")
+            }
+
+            Button {
+                showingChallenges = true
+            } label: {
+                Label("Challenges", systemImage: "flag.checkered")
+            }
+
+            Button {
+                showingFriends = true
+            } label: {
+                Label("Friends", systemImage: "person.2")
+            }
+
+            Button {
+                showingShareGrid = true
+            } label: {
+                Label("Share Progress", systemImage: "square.and.arrow.up")
             }
         }
     }
