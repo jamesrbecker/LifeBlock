@@ -39,12 +39,12 @@ struct SendCheerView: View {
                         }
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 8)
-                        .background(selectedCheer == cheer ? Color.green.opacity(0.2) : Color.gray.opacity(0.1))
+                        .background(selectedCheer == cheer ? Color.accentGreen.opacity(0.2) : Color.gray.opacity(0.1))
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                         .overlay {
                             if selectedCheer == cheer {
                                 RoundedRectangle(cornerRadius: 12)
-                                    .strokeBorder(Color.green, lineWidth: 2)
+                                    .strokeBorder(Color.accentGreen, lineWidth: 2)
                             }
                         }
                     }
@@ -62,7 +62,7 @@ struct SendCheerView: View {
                         .font(.headline)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.green)
+                        .background(Color.accentGreen)
                         .foregroundStyle(.white)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                 } else {
@@ -70,7 +70,7 @@ struct SendCheerView: View {
                         .font(.headline)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(selectedCheer != nil ? Color.green : Color.gray)
+                        .background(selectedCheer != nil ? Color.accentGreen : Color.gray)
                         .foregroundStyle(.white)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                 }

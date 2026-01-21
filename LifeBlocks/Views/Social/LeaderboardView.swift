@@ -347,7 +347,7 @@ struct LeaderboardSettingsView: View {
                             Label("Consistency %", systemImage: "checkmark.circle.fill")
                         }
                         .font(.subheadline)
-                        .foregroundStyle(.green)
+                        .foregroundStyle(Color.accentGreen)
 
                         Divider()
                             .padding(.vertical, 4)

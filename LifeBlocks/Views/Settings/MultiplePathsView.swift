@@ -164,7 +164,7 @@ struct PathRow: View {
                 } else {
                     Image(systemName: "plus.circle.fill")
                         .font(.title2)
-                        .foregroundStyle(.green)
+                        .foregroundStyle(Color.accentGreen)
                         .frame(width: 40)
 
                     VStack(alignment: .leading) {
@@ -233,7 +233,7 @@ struct PathPickerSheet: View {
 
                             if selectedPath == path {
                                 Image(systemName: "checkmark")
-                                    .foregroundStyle(.green)
+                                    .foregroundStyle(Color.accentGreen)
                             }
                         }
                     }

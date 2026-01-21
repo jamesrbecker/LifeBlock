@@ -101,7 +101,7 @@ struct DailyNoteView: View {
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.green)
+                        .background(Color.accentGreen)
                         .clipShape(RoundedRectangle(cornerRadius: 16))
                 }
                 .padding(.horizontal)
@@ -150,11 +150,11 @@ struct MoodButton: View {
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 12)
-            .background(isSelected ? Color.green.opacity(0.2) : Color.cardBackground)
+            .background(isSelected ? Color.accentGreen.opacity(0.2) : Color.cardBackground)
             .clipShape(RoundedRectangle(cornerRadius: 12))
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
-                    .stroke(isSelected ? Color.green : Color.clear, lineWidth: 2)
+                    .stroke(isSelected ? Color.accentGreen : Color.clear, lineWidth: 2)
             )
         }
         .buttonStyle(.plain)

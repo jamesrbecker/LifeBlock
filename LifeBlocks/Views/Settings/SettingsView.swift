@@ -246,7 +246,7 @@ struct SettingsView: View {
                     if appSettings.isPrivateMode {
                         Text("Private Mode")
                             .font(.caption)
-                            .foregroundStyle(.green)
+                            .foregroundStyle(Color.accentGreen)
                     }
                 }
             }
@@ -311,7 +311,7 @@ struct SettingsView: View {
                     HStack {
                         Label("Apple Health", systemImage: "heart.fill")
                         Spacer()
-                        Text("Connected").font(.caption).foregroundStyle(.green)
+                        Text("Connected").font(.caption).foregroundStyle(Color.accentGreen)
                     }
                     HStack {
                         Text("Exercise today")
@@ -414,7 +414,7 @@ struct SettingsView: View {
                 HStack {
                     Text("Bonus Days Earned")
                     Spacer()
-                    Text("\(appSettings.earnedPremiumDays) days").foregroundStyle(.green)
+                    Text("\(appSettings.earnedPremiumDays) days").foregroundStyle(Color.accentGreen)
                 }
             }
             Button { shareReferralCode() } label: {
@@ -473,7 +473,7 @@ struct SettingsView: View {
                 HStack {
                     Text("Subscription")
                     Spacer()
-                    Text("Premium").foregroundStyle(.green)
+                    Text("Premium").foregroundStyle(Color.accentGreen)
                 }
             }
             Button {
@@ -876,7 +876,7 @@ struct PrivacySettingsView: View {
                     HStack {
                         Image(systemName: "lock.shield.fill")
                             .font(.title)
-                            .foregroundStyle(.green)
+                            .foregroundStyle(Color.accentGreen)
                         Text("Build in Private")
                             .font(.title2)
                             .fontWeight(.bold)
@@ -905,10 +905,10 @@ struct PrivacySettingsView: View {
                         }
                     } icon: {
                         Image(systemName: "eye.slash.fill")
-                            .foregroundStyle(.green)
+                            .foregroundStyle(Color.accentGreen)
                     }
                 }
-                .tint(.green)
+                .tint(Color.accentGreen)
             } footer: {
                 Text("When enabled, friends only see your name and that you're using LifeBlocks. No stats, no streaks, no details.")
             }
@@ -968,11 +968,11 @@ struct PrivacySettingsView: View {
                             }
                         } icon: {
                             Image(systemName: "arrow.triangle.branch")
-                                .foregroundStyle(.green)
+                                .foregroundStyle(Color.accentGreen)
                         }
                         Spacer()
                         Image(systemName: "lock.fill")
-                            .foregroundStyle(.green)
+                            .foregroundStyle(Color.accentGreen)
                     }
 
                     HStack {
@@ -985,11 +985,11 @@ struct PrivacySettingsView: View {
                             }
                         } icon: {
                             Image(systemName: "list.bullet")
-                                .foregroundStyle(.green)
+                                .foregroundStyle(Color.accentGreen)
                         }
                         Spacer()
                         Image(systemName: "lock.fill")
-                            .foregroundStyle(.green)
+                            .foregroundStyle(Color.accentGreen)
                     }
 
                     HStack {
@@ -1002,11 +1002,11 @@ struct PrivacySettingsView: View {
                             }
                         } icon: {
                             Image(systemName: "note.text")
-                                .foregroundStyle(.green)
+                                .foregroundStyle(Color.accentGreen)
                         }
                         Spacer()
                         Image(systemName: "lock.fill")
-                            .foregroundStyle(.green)
+                            .foregroundStyle(Color.accentGreen)
                     }
                 }
 
@@ -1060,7 +1060,7 @@ struct PrivacySettingsView: View {
                             if appSettings.isPrivateMode {
                                 Text("Private Mode")
                                     .font(.caption)
-                                    .foregroundStyle(.green)
+                                    .foregroundStyle(Color.accentGreen)
                             } else {
                                 HStack(spacing: 12) {
                                     if appSettings.shareStreak {
@@ -1071,12 +1071,12 @@ struct PrivacySettingsView: View {
                                     if appSettings.shareWeeklyScore {
                                         Label("\(appSettings.weeklyScore)", systemImage: "chart.bar.fill")
                                             .font(.caption)
-                                            .foregroundStyle(.green)
+                                            .foregroundStyle(Color.accentGreen)
                                     }
                                     if appSettings.shareActivityStatus {
                                         Image(systemName: "circle.fill")
                                             .font(.system(size: 8))
-                                            .foregroundStyle(.green)
+                                            .foregroundStyle(Color.accentGreen)
                                     }
                                 }
                             }
@@ -1116,10 +1116,10 @@ struct PrivacyToggle: View {
                 }
             } icon: {
                 Image(systemName: icon)
-                    .foregroundStyle(isOn ? .green : Color.secondaryText)
+                    .foregroundStyle(isOn ? Color.accentGreen : Color.secondaryText)
             }
         }
-        .tint(.green)
+        .tint(Color.accentGreen)
     }
 }
 

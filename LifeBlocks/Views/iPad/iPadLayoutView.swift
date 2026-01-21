@@ -99,7 +99,7 @@ struct iPadLayoutView: View {
                     showingCheckIn = true
                 } label: {
                     Label("Check In Now", systemImage: "plus.circle.fill")
-                        .foregroundStyle(.green)
+                        .foregroundStyle(Color.accentGreen)
                 }
             }
         }

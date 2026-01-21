@@ -27,10 +27,10 @@ struct FriendDetailView: View {
                         if friend.isAccountabilityPartner {
                             Label("Accountability Partner", systemImage: "checkmark.seal.fill")
                                 .font(.subheadline)
-                                .foregroundStyle(.green)
+                                .foregroundStyle(Color.accentGreen)
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 6)
-                                .background(Color.green.opacity(0.1))
+                                .background(Color.accentGreen.opacity(0.1))
                                 .clipShape(Capsule())
                         }
 
@@ -85,7 +85,7 @@ struct FriendDetailView: View {
                                 .font(.headline)
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.green)
+                                .background(Color.accentGreen)
                                 .foregroundStyle(.white)
                                 .clipShape(RoundedRectangle(cornerRadius: 12))
                         }
@@ -260,7 +260,7 @@ struct ComparisonRow: View {
             if winning == -1 {
                 Image(systemName: "chevron.left")
                     .font(.caption2)
-                    .foregroundStyle(.green)
+                    .foregroundStyle(Color.accentGreen)
             } else {
                 Color.clear.frame(width: 10)
             }
@@ -273,7 +273,7 @@ struct ComparisonRow: View {
             if winning == 1 {
                 Image(systemName: "chevron.right")
                     .font(.caption2)
-                    .foregroundStyle(.green)
+                    .foregroundStyle(Color.accentGreen)
             } else {
                 Color.clear.frame(width: 10)
             }

@@ -1212,7 +1212,7 @@ struct PermissionRow: View {
             HStack(spacing: 16) {
                 Image(systemName: icon)
                     .font(.title2)
-                    .foregroundStyle(isEnabled ? .green : Color.secondaryText)
+                    .foregroundStyle(isEnabled ? Color.accentGreen : Color.secondaryText)
                     .frame(width: 32)
 
                 VStack(alignment: .leading, spacing: 2) {
@@ -1229,7 +1229,7 @@ struct PermissionRow: View {
 
                 if isEnabled {
                     Image(systemName: "checkmark.circle.fill")
-                        .foregroundStyle(.green)
+                        .foregroundStyle(Color.accentGreen)
                 } else {
                     Text("Enable")
                         .font(.caption)

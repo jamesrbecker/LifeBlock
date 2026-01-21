@@ -222,7 +222,7 @@ struct DailyCheckInView: View {
             case 2:
                 Label("Done", systemImage: "checkmark.circle.fill")
                     .font(.caption)
-                    .foregroundStyle(.green)
+                    .foregroundStyle(Color.accentGreen)
             case 1:
                 Label("Partial", systemImage: "circle.lefthalf.filled")
                     .font(.caption)
