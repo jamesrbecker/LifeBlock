@@ -125,14 +125,14 @@ Imagine opening your app and seeing this:
 That's what our Premium members see after one month.
 
 They're tracking 5-10 habits across their entire life:
-• Morning routine
-• Workouts
-• Reading
-• Meditation
-• Sleep quality
-• Hydration
-• Learning
-• Relationships
+- Morning routine
+- Workouts
+- Reading
+- Meditation
+- Sleep quality
+- Hydration
+- Learning
+- Relationships
 
 All in one beautiful grid.
 
@@ -156,11 +156,11 @@ That's incredible. But here's the thing:
 You're only seeing part of the picture.
 
 With just 2 habits, you're missing out on tracking:
-• Your workouts (auto-synced from Apple Health)
-• Your sleep quality
-• Your reading habit
-• Your meditation practice
-• [Whatever matters to you]
+- Your workouts (auto-synced from Apple Health)
+- Your sleep quality
+- Your reading habit
+- Your meditation practice
+- Whatever matters to you
 
 Premium members see their ENTIRE life in one grid.
 
@@ -242,9 +242,9 @@ Worth every penny when you're serious about change.
 **Hook:** "Your fitness journey and career growth in one app"
 **Copy:** Create separate paths for different areas of your life. See which parts of your life are thriving and which need attention.
 
-### Feature 3: Health Integration
-**Hook:** "Your watch does the tracking for you"
-**Copy:** Workouts and sleep auto-sync from your health data. No manual check-ins needed. Just live your life and watch your grid fill.
+### Feature 3: HealthKit Integration
+**Hook:** "Your Apple Watch does the tracking for you"
+**Copy:** Workouts and sleep auto-sync from Apple Health. No manual check-ins needed. Just live your life and watch your grid fill.
 
 ### Feature 4: Widgets
 **Hook:** "Your streak on your home screen"
@@ -384,7 +384,7 @@ FREE FEATURES:
 PREMIUM FEATURES:
 • Unlimited habits
 • Multiple life paths
-• Health app integration
+• Apple Health integration
 • Home screen widgets
 • Weekly review analytics
 • Custom color themes
