@@ -84,6 +84,11 @@
 		F1000163003 /* AppIcon-Purple@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F1000163002 /* AppIcon-Purple@3x.png */; };
 		F1000164001 /* AppIcon-Orange@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F1000164000 /* AppIcon-Orange@2x.png */; };
 		F1000164003 /* AppIcon-Orange@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F1000164002 /* AppIcon-Orange@3x.png */; };
+		F1000165001 /* AppIcon-Green@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F1000165000 /* AppIcon-Green@2x~ipad.png */; };
+		F1000165003 /* AppIcon-SkyBlue@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F1000165002 /* AppIcon-SkyBlue@2x~ipad.png */; };
+		F1000165005 /* AppIcon-Lavender@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F1000165004 /* AppIcon-Lavender@2x~ipad.png */; };
+		F1000165007 /* AppIcon-Purple@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F1000165006 /* AppIcon-Purple@2x~ipad.png */; };
+		F1000165009 /* AppIcon-Orange@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F1000165008 /* AppIcon-Orange@2x~ipad.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -193,6 +198,11 @@
 		F1000163002 /* AppIcon-Purple@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Purple@3x.png"; sourceTree = "<group>"; };
 		F1000164000 /* AppIcon-Orange@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Orange@2x.png"; sourceTree = "<group>"; };
 		F1000164002 /* AppIcon-Orange@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Orange@3x.png"; sourceTree = "<group>"; };
+		F1000165000 /* AppIcon-Green@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Green@2x~ipad.png"; sourceTree = "<group>"; };
+		F1000165002 /* AppIcon-SkyBlue@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-SkyBlue@2x~ipad.png"; sourceTree = "<group>"; };
+		F1000165004 /* AppIcon-Lavender@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Lavender@2x~ipad.png"; sourceTree = "<group>"; };
+		F1000165006 /* AppIcon-Purple@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Purple@2x~ipad.png"; sourceTree = "<group>"; };
+		F1000165008 /* AppIcon-Orange@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Orange@2x~ipad.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -394,14 +404,19 @@
 			children = (
 				F1000160000 /* AppIcon-Green@2x.png */,
 				F1000160002 /* AppIcon-Green@3x.png */,
+				F1000165000 /* AppIcon-Green@2x~ipad.png */,
 				F1000161000 /* AppIcon-SkyBlue@2x.png */,
 				F1000161002 /* AppIcon-SkyBlue@3x.png */,
+				F1000165002 /* AppIcon-SkyBlue@2x~ipad.png */,
 				F1000162000 /* AppIcon-Lavender@2x.png */,
 				F1000162002 /* AppIcon-Lavender@3x.png */,
+				F1000165004 /* AppIcon-Lavender@2x~ipad.png */,
 				F1000163000 /* AppIcon-Purple@2x.png */,
 				F1000163002 /* AppIcon-Purple@3x.png */,
+				F1000165006 /* AppIcon-Purple@2x~ipad.png */,
 				F1000164000 /* AppIcon-Orange@2x.png */,
 				F1000164002 /* AppIcon-Orange@3x.png */,
+				F1000165008 /* AppIcon-Orange@2x~ipad.png */,
 			);
 			path = AlternateIcons;
 			sourceTree = "<group>";
@@ -577,6 +592,11 @@
 				F1000163003 /* AppIcon-Purple@3x.png in Resources */,
 				F1000164001 /* AppIcon-Orange@2x.png in Resources */,
 				F1000164003 /* AppIcon-Orange@3x.png in Resources */,
+				F1000165001 /* AppIcon-Green@2x~ipad.png in Resources */,
+				F1000165003 /* AppIcon-SkyBlue@2x~ipad.png in Resources */,
+				F1000165005 /* AppIcon-Lavender@2x~ipad.png in Resources */,
+				F1000165007 /* AppIcon-Purple@2x~ipad.png in Resources */,
+				F1000165009 /* AppIcon-Orange@2x~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
