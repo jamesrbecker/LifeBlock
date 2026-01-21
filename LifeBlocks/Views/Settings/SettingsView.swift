@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import StoreKit
 
 struct SettingsView: View {
     @Environment(\.modelContext) private var modelContext
@@ -37,6 +38,7 @@ struct SettingsView: View {
                 dataSection
                 referralSection
                 familySection
+                feedbackSection
                 aboutSection
             }
             .navigationTitle("Settings")
@@ -405,30 +407,113 @@ struct SettingsView: View {
             }
         }
     }
+
+    private var feedbackSection: some View {
+        Section("Feedback & Support") {
+            Button {
+                sendFeedbackEmail()
+            } label: {
+                Label("Send Feedback", systemImage: "envelope.fill")
+            }
+
+            Button {
+                requestAppStoreReview()
+            } label: {
+                Label("Rate LifeBlocks", systemImage: "star.fill")
+            }
+
+            if let twitterURL = URL(string: "https://twitter.com/LifeBlocksApp") {
+                Link(destination: twitterURL) {
+                    Label("Follow on X", systemImage: "at")
+                }
+            }
+        }
+    }
+
+    private func sendFeedbackEmail() {
+        let email = "support@lifeblocks.app"
+        let subject = "LifeBlocks Feedback - v2.0"
+        let body = """
+
+        ---
+        App Version: 2.0
+        iOS Version: \(UIDevice.current.systemVersion)
+        Device: \(UIDevice.current.model)
+        """
+
+        let encodedSubject = subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+        let encodedBody = body.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+
+        if let url = URL(string: "mailto:\(email)?subject=\(encodedSubject)&body=\(encodedBody)") {
+            UIApplication.shared.open(url)
+        }
+    }
+
+    private func requestAppStoreReview() {
+        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            SKStoreReviewController.requestReview(in: scene)
+        }
+    }
 }
 
 struct ThemePickerView: View {
     @AppStorage("selectedTheme") private var selectedTheme: String = "green"
     @StateObject private var themeManager = ThemeManager.shared
+    @State private var showingIconChangeAlert = false
 
-    let themes: [(name: String, displayName: String, colors: [Color], isPremium: Bool)] = [
-        // Free themes (Green, Sky Blue, Lavender)
-        ("green", "Green", [Color(hex: "#161B22"), Color(hex: "#0D3D1F"), Color(hex: "#1A7A3E"), Color(hex: "#28A745"), Color(hex: "#34C759")], false),
-        ("skyblue", "Sky Blue", [Color(hex: "#161B22"), Color(hex: "#0C3A5A"), Color(hex: "#1877B8"), Color(hex: "#3DA5E0"), Color(hex: "#5AC8FA")], false),
-        ("lavender", "Lavender", [Color(hex: "#161B22"), Color(hex: "#3D2E5C"), Color(hex: "#6B5B95"), Color(hex: "#9B8DC2"), Color(hex: "#BDB5D5")], false),
-        // Premium themes
-        ("blue", "Ocean Blue", [Color(hex: "#161B22"), Color(hex: "#0A3069"), Color(hex: "#0550AE"), Color(hex: "#218BFF"), Color(hex: "#58A6FF")], true),
-        ("purple", "Violet", [Color(hex: "#161B22"), Color(hex: "#3D1F5C"), Color(hex: "#6E40C9"), Color(hex: "#8B5CF6"), Color(hex: "#A78BFA")], true),
-        ("orange", "Fire", [Color(hex: "#161B22"), Color(hex: "#5C2D0E"), Color(hex: "#9A3412"), Color(hex: "#EA580C"), Color(hex: "#FB923C")], true),
-        ("pink", "Rose", [Color(hex: "#161B22"), Color(hex: "#5C1A3D"), Color(hex: "#9D174D"), Color(hex: "#DB2777"), Color(hex: "#F472B6")], true),
-        ("gold", "Gold", [Color(hex: "#161B22"), Color(hex: "#5C4A0E"), Color(hex: "#8C7016"), Color(hex: "#BD961F"), Color(hex: "#EFBC27")], true),
-        ("cyan", "Cyan", [Color(hex: "#161B22"), Color(hex: "#0E4A5C"), Color(hex: "#167A8C"), Color(hex: "#1FAABD"), Color(hex: "#27DAEF")], true),
-        ("monochrome", "Monochrome", [Color(hex: "#161B22"), Color(hex: "#333333"), Color(hex: "#666666"), Color(hex: "#999999"), Color(hex: "#CCCCCC")], true),
-        ("neon", "Neon", [Color(hex: "#0D0D0D"), Color(hex: "#FF00FF").opacity(0.3), Color(hex: "#FF00FF").opacity(0.5), Color(hex: "#FF00FF").opacity(0.7), Color(hex: "#FF00FF")], true),
+    // Theme data: name, displayName, colors, isPremium, hasAlternateIcon
+    let themes: [(name: String, displayName: String, colors: [Color], isPremium: Bool, iconName: String?)] = [
+        // Free themes with matching app icons
+        ("green", "Green", [Color(hex: "#161B22"), Color(hex: "#0D3D1F"), Color(hex: "#1A7A3E"), Color(hex: "#28A745"), Color(hex: "#34C759")], false, "AppIcon-Green"),
+        ("skyblue", "Sky Blue", [Color(hex: "#161B22"), Color(hex: "#0C3A5A"), Color(hex: "#1877B8"), Color(hex: "#3DA5E0"), Color(hex: "#5AC8FA")], false, "AppIcon-SkyBlue"),
+        ("lavender", "Lavender", [Color(hex: "#161B22"), Color(hex: "#3D2E5C"), Color(hex: "#6B5B95"), Color(hex: "#9B8DC2"), Color(hex: "#BDB5D5")], false, "AppIcon-Lavender"),
+        // Premium themes with matching app icons
+        ("blue", "Ocean Blue", [Color(hex: "#161B22"), Color(hex: "#0A3069"), Color(hex: "#0550AE"), Color(hex: "#218BFF"), Color(hex: "#58A6FF")], true, nil),
+        ("purple", "Violet", [Color(hex: "#161B22"), Color(hex: "#3D1F5C"), Color(hex: "#6E40C9"), Color(hex: "#8B5CF6"), Color(hex: "#A78BFA")], true, "AppIcon-Purple"),
+        ("orange", "Fire", [Color(hex: "#161B22"), Color(hex: "#5C2D0E"), Color(hex: "#9A3412"), Color(hex: "#EA580C"), Color(hex: "#FB923C")], true, "AppIcon-Orange"),
+        ("pink", "Rose", [Color(hex: "#161B22"), Color(hex: "#5C1A3D"), Color(hex: "#9D174D"), Color(hex: "#DB2777"), Color(hex: "#F472B6")], true, nil),
+        ("gold", "Gold", [Color(hex: "#161B22"), Color(hex: "#5C4A0E"), Color(hex: "#8C7016"), Color(hex: "#BD961F"), Color(hex: "#EFBC27")], true, nil),
+        ("cyan", "Cyan", [Color(hex: "#161B22"), Color(hex: "#0E4A5C"), Color(hex: "#167A8C"), Color(hex: "#1FAABD"), Color(hex: "#27DAEF")], true, nil),
+        ("monochrome", "Monochrome", [Color(hex: "#161B22"), Color(hex: "#333333"), Color(hex: "#666666"), Color(hex: "#999999"), Color(hex: "#CCCCCC")], true, nil),
+        ("neon", "Neon", [Color(hex: "#0D0D0D"), Color(hex: "#FF00FF").opacity(0.3), Color(hex: "#FF00FF").opacity(0.5), Color(hex: "#FF00FF").opacity(0.7), Color(hex: "#FF00FF")], true, nil),
     ]
 
     var body: some View {
         List {
+            // App Icon Section (Premium only)
+            if PurchaseManager.shared.isPremium {
+                Section {
+                    HStack {
+                        // Current icon preview
+                        if let currentIcon = UIApplication.shared.alternateIconName {
+                            Image(uiImage: UIImage(named: currentIcon) ?? UIImage())
+                                .resizable()
+                                .frame(width: 60, height: 60)
+                                .clipShape(RoundedRectangle(cornerRadius: 13))
+                        } else {
+                            Image(uiImage: UIImage(named: "AppIcon") ?? UIImage())
+                                .resizable()
+                                .frame(width: 60, height: 60)
+                                .clipShape(RoundedRectangle(cornerRadius: 13))
+                        }
+
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("App Icon")
+                                .font(.headline)
+                            Text("Changes with theme selection")
+                                .font(.caption)
+                                .foregroundStyle(Color.secondaryText)
+                        }
+                        .padding(.leading, 8)
+                    }
+                    .padding(.vertical, 4)
+                } header: {
+                    Text("App Icon")
+                } footer: {
+                    Text("Premium feature: Your app icon will match your selected theme color.")
+                }
+            }
+
             Section("Free Themes") {
                 ForEach(themes.filter { !$0.isPremium }, id: \.name) { theme in
                     themeRow(theme)
@@ -446,7 +531,7 @@ struct ThemePickerView: View {
                     Label("About Themes", systemImage: "info.circle")
                         .font(.headline)
 
-                    Text("Themes change the color of your activity grid and accent colors throughout the app. Premium themes are marked with a crown icon.")
+                    Text("Themes change the color of your activity grid and accent colors throughout the app. Premium users can also change the app icon to match their theme.")
                         .font(.subheadline)
                         .foregroundStyle(Color.secondaryText)
                 }
@@ -457,13 +542,17 @@ struct ThemePickerView: View {
     }
 
     @ViewBuilder
-    private func themeRow(_ theme: (name: String, displayName: String, colors: [Color], isPremium: Bool)) -> some View {
+    private func themeRow(_ theme: (name: String, displayName: String, colors: [Color], isPremium: Bool, iconName: String?)) -> some View {
         Button {
             if !theme.isPremium || PurchaseManager.shared.isPremium {
                 selectedTheme = theme.name
                 // Update ThemeManager
                 if let gridTheme = GridColorScheme(rawValue: theme.name) {
                     themeManager.setTheme(gridTheme)
+                }
+                // Change app icon if premium and icon available
+                if PurchaseManager.shared.isPremium, let iconName = theme.iconName {
+                    changeAppIcon(to: iconName)
                 }
             }
         } label: {
@@ -477,8 +566,15 @@ struct ThemePickerView: View {
                     }
                 }
 
-                Text(theme.displayName)
-                    .padding(.leading, 12)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(theme.displayName)
+                    if theme.iconName != nil && PurchaseManager.shared.isPremium {
+                        Text("Includes app icon")
+                            .font(.caption2)
+                            .foregroundStyle(Color.tertiaryText)
+                    }
+                }
+                .padding(.leading, 12)
 
                 if theme.isPremium && !PurchaseManager.shared.isPremium {
                     Image(systemName: "crown.fill")
@@ -497,6 +593,16 @@ struct ThemePickerView: View {
             .opacity(theme.isPremium && !PurchaseManager.shared.isPremium ? 0.6 : 1)
         }
         .buttonStyle(.plain)
+    }
+
+    private func changeAppIcon(to iconName: String) {
+        guard UIApplication.shared.supportsAlternateIcons else { return }
+
+        UIApplication.shared.setAlternateIconName(iconName) { error in
+            if let error = error {
+                print("Failed to change app icon: \(error.localizedDescription)")
+            }
+        }
     }
 }
 
