@@ -197,15 +197,15 @@ extension Color {
     // Use these when you need guaranteed contrast regardless of color scheme
 
     /// High contrast secondary text - guaranteed readable
-    /// Dark mode: #D0D7DE (light gray), Light mode: #57606A (dark gray)
+    /// Dark mode: #E1E6EB (bright), Light mode: #57606A (dark gray)
     static func adaptiveSecondary(_ colorScheme: ColorScheme) -> Color {
-        colorScheme == .dark ? Color(hex: "#D0D7DE") : Color(hex: "#57606A")
+        colorScheme == .dark ? Color(hex: "#E1E6EB") : Color(hex: "#57606A")
     }
 
     /// High contrast tertiary text - guaranteed readable
-    /// Dark mode: #A8B1BB, Light mode: #6E7781
+    /// Dark mode: #C7CFD7 (brighter), Light mode: #6E7781
     static func adaptiveTertiary(_ colorScheme: ColorScheme) -> Color {
-        colorScheme == .dark ? Color(hex: "#A8B1BB") : Color(hex: "#6E7781")
+        colorScheme == .dark ? Color(hex: "#C7CFD7") : Color(hex: "#6E7781")
     }
 
     /// Card background adaptive

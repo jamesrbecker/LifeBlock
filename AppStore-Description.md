@@ -4,18 +4,18 @@
 **LifeBlocks**
 
 ## Subtitle (30 characters max)
-`Build Your Life. Block by Block.`
+`Your Daily Accomplice`
 
 ## Promotional Text (170 characters)
-Stop scrolling. Start building. Choose your life path, track daily habits in 30 seconds, and watch your progress grid turn green. Block by block.
+Your lifelong accomplice for building the life you want. Choose your path, track habits in 30 seconds, watch your grid turn green. Block by block, day by day.
 
 ---
 
 ## Description
 
-**Stop scrolling. Start building.**
+**Your daily accomplice in building the life you want.**
 
-LifeBlocks is the habit tracker for people who want to actually build the life they envision—not just watch time pass.
+LifeBlocks is the habit tracker for people who want to actually build the life they envision—not just watch time pass. A layer in your life that helps you show up every day.
 
 **CHOOSE YOUR PATH**
 Select from 16 life paths—Content Creator, Entrepreneur, Software Engineer, Fitness, Investor, Health & Wellness, Creative, Student, Musician, Actor, Doctor, Athlete, Game Developer, Writer, Parent, or Digital Nomad—and get curated daily habits designed for your goals.
@@ -95,15 +95,23 @@ Build Your Life. Block by Block.
 
 ## Pricing
 
-| Plan | Price |
-|------|-------|
-| Monthly | $4.99/month |
-| Yearly | $49.99/year (save 17%) |
+| Plan | Price | Notes |
+|------|-------|-------|
+| Individual Monthly | $1.99/month | Flexible entry point |
+| Individual Annual | $19.99/year | ~$1.67/mo, save 16% |
+| Individual Lifetime | $49.99 | One-time purchase |
+| Family Monthly | $4.99/month | Up to 5 members |
+| Family Annual | $39.99/year | ~$3.33/mo, save 33% |
+| Family Lifetime | $79.99 | One-time for families |
 
 ## Product IDs
 ```
-com.lifeblock.premium.monthly - $4.99
-com.lifeblock.premium.yearly - $49.99
+com.lifeblock.premium.monthly - $1.99/mo
+com.lifeblock.premium.yearly - $19.99/yr
+com.lifeblock.premium.lifetime - $49.99 one-time
+com.lifeblock.premium.family.monthly - $4.99/mo
+com.lifeblock.premium.family - $39.99/yr
+com.lifeblock.premium.family.lifetime - $79.99 one-time
 ```
 
 ---

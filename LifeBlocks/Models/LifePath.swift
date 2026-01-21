@@ -219,11 +219,13 @@ enum LifePathCategory: String, CaseIterable, Codable {
             ]
         case .writer:
             return [
-                "Write one page today. That's a book in a year.",
-                "Your words have power. Use them.",
-                "Every bestseller started with a blank page.",
-                "Write badly. Edit brilliantly.",
-                "Someone out there needs your story."
+                "Write one page today. That's a screenplay in three months.",
+                "Every great film started as words on a page.",
+                "Your story deserves to be told. Write it.",
+                "Write badly. Rewrite brilliantly.",
+                "Someone out there needs to see your story.",
+                "The blank page is where magic begins.",
+                "Every writer you admire was once where you are now."
             ]
         case .parent:
             return [
@@ -374,12 +376,12 @@ enum LifePathCategory: String, CaseIterable, Codable {
             ]
         case .writer:
             return [
-                HabitTemplate(name: "Write", icon: "pencil.line", color: "#996633", description: "Put words on the page"),
-                HabitTemplate(name: "Read", icon: "book.fill", color: "#FF6B6B", description: "Read in your genre"),
-                HabitTemplate(name: "Edit/Revise", icon: "pencil.and.outline", color: "#4ECDC4", description: "Polish your work"),
-                HabitTemplate(name: "Submit/Pitch", icon: "paperplane.fill", color: "#45B7D1", description: "Send to agents, publishers, markets"),
-                HabitTemplate(name: "Writing Income", icon: "dollarsign.circle.fill", color: "#96CEB4", description: "Royalties, advances, freelance gigs"),
-                HabitTemplate(name: "Build Platform", icon: "chart.line.uptrend.xyaxis", color: "#FFEAA7", description: "Newsletter, social media, audience")
+                HabitTemplate(name: "Write Pages", icon: "pencil.line", color: "#996633", description: "Write screenplay, novel, or blog pages"),
+                HabitTemplate(name: "Read/Watch", icon: "book.fill", color: "#FF6B6B", description: "Study scripts, books, films in your genre"),
+                HabitTemplate(name: "Edit/Revise", icon: "pencil.and.outline", color: "#4ECDC4", description: "Rewrite and polish your drafts"),
+                HabitTemplate(name: "Submit/Pitch", icon: "paperplane.fill", color: "#45B7D1", description: "Query agents, enter contests, pitch producers"),
+                HabitTemplate(name: "Study Craft", icon: "theatermasks.fill", color: "#9B59B6", description: "Learn structure, dialogue, character arcs"),
+                HabitTemplate(name: "Network", icon: "person.3.fill", color: "#FFEAA7", description: "Connect with writers, agents, industry")
             ]
         case .parent:
             return [

@@ -21,7 +21,7 @@
 
 ### Basic Info
 - **Name:** LifeBlocks
-- **Subtitle:** Build Your Life. Block by Block.
+- **Subtitle:** Your Daily Accomplice
 - **Category:** Health & Fitness
 - **Secondary Category:** Lifestyle
 
@@ -47,25 +47,66 @@ Go to **In-App Purchases** → **+** → **Auto-Renewable Subscription**
 ### Create Subscription Group
 - **Group Name:** LifeBlocks Premium
 
-### Monthly Subscription
+### Individual Subscriptions (Group: LifeBlocks Premium)
+
 | Field | Value |
 |-------|-------|
 | Reference Name | Premium Monthly |
 | Product ID | **com.lifeblock.premium.monthly** |
-| Price | $4.99 |
+| Price | $1.99 |
 | Subscription Duration | 1 Month |
-| Display Name | Premium - Monthly |
-| Description | Unlimited habits, all widgets, data export, color themes |
+| Display Name | Premium Monthly |
+| Description | Full access to all premium features |
 
-### Yearly Subscription
 | Field | Value |
 |-------|-------|
-| Reference Name | Premium Yearly |
+| Reference Name | Premium Annual |
 | Product ID | **com.lifeblock.premium.yearly** |
-| Price | $49.99 |
+| Price | $19.99 |
 | Subscription Duration | 1 Year |
-| Display Name | Premium - Yearly (Save 17%) |
-| Description | Unlimited habits, all widgets, data export, color themes. Best value! |
+| Display Name | Premium Annual (Save 16%) |
+| Description | Best value - save 16% |
+
+### Family Subscriptions (Group: LifeBlocks Family)
+
+| Field | Value |
+|-------|-------|
+| Reference Name | Family Monthly |
+| Product ID | **com.lifeblock.premium.family.monthly** |
+| Price | $4.99 |
+| Subscription Duration | 1 Month |
+| Display Name | Family Monthly |
+| Description | Premium for up to 5 family members |
+
+| Field | Value |
+|-------|-------|
+| Reference Name | Family Annual |
+| Product ID | **com.lifeblock.premium.family** |
+| Price | $39.99 |
+| Subscription Duration | 1 Year |
+| Display Name | Family Annual (Save 33%) |
+| Description | Best family value - save 33% |
+
+### Non-Consumable (Lifetime)
+
+| Field | Value |
+|-------|-------|
+| Reference Name | Premium Lifetime |
+| Product ID | **com.lifeblock.premium.lifetime** |
+| Price | $49.99 |
+| Type | Non-Consumable |
+| Display Name | Lifetime Premium |
+| Description | Unlock all premium features forever |
+
+| Field | Value |
+|-------|-------|
+| Reference Name | Family Lifetime |
+| Product ID | **com.lifeblock.premium.family.lifetime** |
+| Price | $79.99 |
+| Type | Non-Consumable |
+| Family Sharing | Yes |
+| Display Name | Family Lifetime |
+| Description | Premium for your whole family, forever |
 
 ---
 
@@ -166,8 +207,12 @@ To test the full experience:
 4. Add the widget to your home screen
 
 In-app purchases:
-- Premium Monthly: $4.99/month
-- Premium Yearly: $49.99/year
+- Premium Monthly: $1.99/month
+- Premium Annual: $19.99/year
+- Premium Lifetime: $49.99 one-time
+- Family Monthly: $4.99/month
+- Family Annual: $39.99/year
+- Family Lifetime: $79.99 one-time
 
 No demo account needed - all data is stored locally.
 ```
