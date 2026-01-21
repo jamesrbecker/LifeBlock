@@ -1,0 +1,229 @@
+{
+  "identifier" : "D4E5F6G7-H8I9-J0K1-L2M3-N4O5P6Q7R8S9",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "49.99",
+      "familyShareable" : false,
+      "internalID" : "lifetime001",
+      "localizations" : [
+        {
+          "description" : "Unlock all premium features forever",
+          "displayName" : "Lifetime Premium",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.lifeblock.premium.lifetime",
+      "referenceName" : "Premium Lifetime",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "79.99",
+      "familyShareable" : true,
+      "internalID" : "familylifetime001",
+      "localizations" : [
+        {
+          "description" : "Premium for your whole family, forever",
+          "displayName" : "Family Lifetime",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.lifeblock.premium.family.lifetime",
+      "referenceName" : "Family Lifetime",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_applicationInternalID" : "1234567890",
+    "_developerTeamID" : "XXXXXXXXXX",
+    "_failTransactionsEnabled" : false,
+    "_lastSynchronizedDate" : 759398400,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : [
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Load Products"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Purchase"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Verification"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Store Sync"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Subscription Status"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Transaction"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Manage Subscriptions Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Refund Request Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Offer Code Redeem Sheet"
+      }
+    ]
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "lifeblocks_premium",
+      "localizations" : [
+
+      ],
+      "name" : "LifeBlocks Premium",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "1.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "monthly001",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Full access to all premium features",
+              "displayName" : "Premium Monthly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.lifeblock.premium.monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Premium Monthly",
+          "subscriptionGroupID" : "lifeblocks_premium",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "19.99",
+          "familyShareable" : false,
+          "groupNumber" : 2,
+          "internalID" : "yearly001",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Best value - save 16%",
+              "displayName" : "Premium Annual",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.lifeblock.premium.yearly",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "Premium Annual",
+          "subscriptionGroupID" : "lifeblocks_premium",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
+        }
+      ]
+    },
+    {
+      "id" : "lifeblocks_family",
+      "localizations" : [
+
+      ],
+      "name" : "LifeBlocks Family",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "4.99",
+          "familyShareable" : true,
+          "groupNumber" : 1,
+          "internalID" : "familymonthly001",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Premium for up to 5 family members",
+              "displayName" : "Family Monthly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.lifeblock.premium.family.monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Family Monthly",
+          "subscriptionGroupID" : "lifeblocks_family",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "39.99",
+          "familyShareable" : true,
+          "groupNumber" : 2,
+          "internalID" : "familyyearly001",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Best family value - save 33%",
+              "displayName" : "Family Annual",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.lifeblock.premium.family",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "Family Annual",
+          "subscriptionGroupID" : "lifeblocks_family",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}

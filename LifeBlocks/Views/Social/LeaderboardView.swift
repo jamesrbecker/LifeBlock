@@ -40,9 +40,9 @@ struct LeaderboardView: View {
                     VStack(spacing: 12) {
                         Image(systemName: "exclamationmark.triangle")
                             .font(.largeTitle)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.secondaryText)
                         Text(error)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.secondaryText)
                             .multilineTextAlignment(.center)
                         Button("Retry") {
                             Task {
@@ -147,7 +147,7 @@ struct LeaderboardRowView: View {
                 } else {
                     Text("\(rank)")
                         .font(.headline)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                         .frame(width: 30)
                 }
             }
@@ -167,13 +167,13 @@ struct LeaderboardRowView: View {
                     if isCurrentUser {
                         Text("(You)")
                             .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.secondaryText)
                     }
                 }
 
                 Text("\(Int(entry.consistencyPercent))% consistency")
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.secondaryText)
             }
 
             Spacer()
@@ -187,7 +187,7 @@ struct LeaderboardRowView: View {
 
                 Text(scoreLabel)
                     .font(.caption2)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.secondaryText)
             }
         }
         .padding(.vertical, 8)
@@ -253,7 +253,7 @@ struct EmptyLeaderboardView: View {
         VStack(spacing: 16) {
             Image(systemName: scope == .global ? "globe" : "person.2")
                 .font(.system(size: 48))
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
 
             Text(scope == .global ? "Join the Global Leaderboard" : "No Friends Yet")
                 .font(.headline)
@@ -262,7 +262,7 @@ struct EmptyLeaderboardView: View {
                  "Opt in to compete with users worldwide and see how your consistency stacks up." :
                  "Add friends to see how you compare and keep each other accountable.")
                 .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 32)
 

@@ -7,6 +7,45 @@ struct LifeBlocksEntry: TimelineEntry {
     let dayScores: [Date: Int]
     let currentStreak: Int
     let todayScore: Int
+    let longestStreak: Int
+    let checkedInToday: Bool
+    let weeklyCheckIns: Int
+
+    // Default initializer for backwards compatibility
+    init(date: Date, dayScores: [Date: Int], currentStreak: Int, todayScore: Int, longestStreak: Int = 0, checkedInToday: Bool = false, weeklyCheckIns: Int = 0) {
+        self.date = date
+        self.dayScores = dayScores
+        self.currentStreak = currentStreak
+        self.todayScore = todayScore
+        self.longestStreak = longestStreak
+        self.checkedInToday = checkedInToday
+        self.weeklyCheckIns = weeklyCheckIns
+    }
+
+    var motivationalMessage: String {
+        if !checkedInToday {
+            return "Ready to check in?"
+        } else if currentStreak >= 30 {
+            return "Legendary streak!"
+        } else if currentStreak >= 14 {
+            return "On fire!"
+        } else if currentStreak >= 7 {
+            return "One week strong!"
+        } else if currentStreak >= 3 {
+            return "Building momentum!"
+        } else {
+            return "Keep it up!"
+        }
+    }
+
+    var streakEmoji: String {
+        if currentStreak >= 100 { return "🏆" }
+        if currentStreak >= 50 { return "⭐" }
+        if currentStreak >= 30 { return "🔥" }
+        if currentStreak >= 14 { return "💪" }
+        if currentStreak >= 7 { return "✨" }
+        return "🌱"
+    }
 }
 
 // MARK: - Timeline Provider
@@ -21,21 +60,29 @@ struct LifeBlocksTimelineProvider: TimelineProvider {
     }
 
     func getSnapshot(in context: Context, completion: @escaping (LifeBlocksEntry) -> Void) {
+        let scores = loadDayScores()
         let entry = LifeBlocksEntry(
             date: Date(),
-            dayScores: loadDayScores(),
+            dayScores: scores,
             currentStreak: AppSettings.shared.currentStreak,
-            todayScore: AppSettings.shared.todayScore
+            todayScore: AppSettings.shared.todayScore,
+            longestStreak: AppSettings.shared.longestStreak,
+            checkedInToday: AppSettings.shared.todayScore > 0,
+            weeklyCheckIns: calculateWeeklyCheckIns(from: scores)
         )
         completion(entry)
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<LifeBlocksEntry>) -> Void) {
+        let scores = loadDayScores()
         let entry = LifeBlocksEntry(
             date: Date(),
-            dayScores: loadDayScores(),
+            dayScores: scores,
             currentStreak: AppSettings.shared.currentStreak,
-            todayScore: AppSettings.shared.todayScore
+            todayScore: AppSettings.shared.todayScore,
+            longestStreak: AppSettings.shared.longestStreak,
+            checkedInToday: AppSettings.shared.todayScore > 0,
+            weeklyCheckIns: calculateWeeklyCheckIns(from: scores)
         )
 
         let nextUpdate = Calendar.current.date(byAdding: .hour, value: 1, to: Date())!
@@ -71,6 +118,18 @@ struct LifeBlocksTimelineProvider: TimelineProvider {
             data[Calendar.current.startOfDay(for: date)] = Int.random(in: 0...4)
         }
         return data
+    }
+
+    private func calculateWeeklyCheckIns(from scores: [Date: Int]) -> Int {
+        var count = 0
+        for i in 0..<7 {
+            let date = Calendar.current.date(byAdding: .day, value: -i, to: Date())!
+            let dayStart = Calendar.current.startOfDay(for: date)
+            if let score = scores[dayStart], score > 0 {
+                count += 1
+            }
+        }
+        return count
     }
 }
 

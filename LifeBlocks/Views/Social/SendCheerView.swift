@@ -19,7 +19,7 @@ struct SendCheerView: View {
                     .font(.headline)
 
                 Text("to \(friend.displayName)")
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.secondaryText)
             }
             .padding(.top)
 

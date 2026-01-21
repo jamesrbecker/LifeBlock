@@ -78,10 +78,14 @@ final class NotificationManager: ObservableObject {
     func scheduleStreakReminder(currentStreak: Int) async {
         guard isAuthorized, currentStreak > 0 else { return }
 
+        // Cancel existing streak reminders first
+        cancelStreakReminder()
+
         let content = UNMutableNotificationContent()
-        content.title = "Don't break your streak!"
-        content.body = "You're on a \(currentStreak)-day streak. Check in to keep it going!"
+        content.title = streakReminderTitle(for: currentStreak)
+        content.body = streakReminderBody(for: currentStreak)
         content.sound = .default
+        content.categoryIdentifier = "DAILY_CHECKIN"
 
         // Schedule for 9 PM if not checked in
         var dateComponents = DateComponents()
@@ -103,8 +107,83 @@ final class NotificationManager: ObservableObject {
         }
     }
 
+    /// Schedule escalating reminders at 8 PM, 9 PM, and 10 PM
+    func scheduleEscalatingStreakReminders(currentStreak: Int) async {
+        guard isAuthorized, currentStreak > 0 else { return }
+
+        // Cancel existing
+        notificationCenter.removePendingNotificationRequests(withIdentifiers: [
+            "streak-reminder-8pm",
+            "streak-reminder-9pm",
+            "streak-reminder-10pm"
+        ])
+
+        let times = [(20, "streak-reminder-8pm"), (21, "streak-reminder-9pm"), (22, "streak-reminder-10pm")]
+        let urgencyLevels = ["friendly", "reminder", "urgent"]
+
+        for (index, (hour, identifier)) in times.enumerated() {
+            let content = UNMutableNotificationContent()
+            content.categoryIdentifier = "DAILY_CHECKIN"
+
+            switch urgencyLevels[index] {
+            case "friendly":
+                content.title = "Evening check-in"
+                content.body = "Haven't checked in yet? Your \(currentStreak)-day streak is waiting!"
+                content.sound = .default
+            case "reminder":
+                content.title = "Streak reminder"
+                content.body = "Your \(currentStreak)-day streak is on the line. Don't let it slip away!"
+                content.sound = .default
+            case "urgent":
+                content.title = "Last chance!"
+                content.body = "Only 2 hours left to keep your \(currentStreak)-day streak alive!"
+                content.sound = UNNotificationSound.defaultCritical
+            default:
+                continue
+            }
+
+            var dateComponents = DateComponents()
+            dateComponents.hour = hour
+            dateComponents.minute = 0
+
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+            let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+
+            try? await notificationCenter.add(request)
+        }
+    }
+
     func cancelStreakReminder() {
-        notificationCenter.removePendingNotificationRequests(withIdentifiers: ["streak-reminder"])
+        notificationCenter.removePendingNotificationRequests(withIdentifiers: [
+            "streak-reminder",
+            "streak-reminder-8pm",
+            "streak-reminder-9pm",
+            "streak-reminder-10pm"
+        ])
+    }
+
+    private func streakReminderTitle(for streak: Int) -> String {
+        if streak >= 100 {
+            return "Protect your legacy!"
+        } else if streak >= 30 {
+            return "Don't break the chain!"
+        } else if streak >= 7 {
+            return "Keep the streak alive!"
+        } else {
+            return "Don't forget to check in!"
+        }
+    }
+
+    private func streakReminderBody(for streak: Int) -> String {
+        if streak >= 100 {
+            return "Your \(streak)-day streak is legendary. Don't let it end today!"
+        } else if streak >= 30 {
+            return "A \(streak)-day streak doesn't build itself. Check in to keep it going!"
+        } else if streak >= 7 {
+            return "You're on a \(streak)-day streak! A few seconds to check in keeps it alive."
+        } else {
+            return "You've got a \(streak)-day streak building. Check in to add another day!"
+        }
     }
 
     // MARK: - Milestone Notifications
@@ -312,6 +391,7 @@ struct NotificationSettingsView: View {
     @AppStorage("reminderMinute") private var reminderMinute = 0
     @AppStorage("morningMotivationEnabled") private var morningMotivationEnabled = false
     @AppStorage("streakReminderEnabled") private var streakReminderEnabled = true
+    @AppStorage("escalatingReminders") private var escalatingReminders = false
 
     @State private var reminderTime = Date()
 
@@ -324,7 +404,7 @@ struct NotificationSettingsView: View {
                             Text("Daily Reminder")
                             Text("Get reminded to check in")
                                 .font(.caption)
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Color.secondaryText)
                         }
                     } icon: {
                         Image(systemName: "bell.fill")
@@ -364,7 +444,7 @@ struct NotificationSettingsView: View {
                             Text("Morning Motivation")
                             Text("Start your day with inspiration")
                                 .font(.caption)
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Color.secondaryText)
                         }
                     } icon: {
                         Image(systemName: "sunrise.fill")
@@ -389,11 +469,27 @@ struct NotificationSettingsView: View {
                             Text("Streak Reminder")
                             Text("Evening reminder if you haven't checked in")
                                 .font(.caption)
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Color.secondaryText)
                         }
                     } icon: {
                         Image(systemName: "flame.fill")
                             .foregroundStyle(.red)
+                    }
+                }
+
+                if streakReminderEnabled {
+                    Toggle(isOn: $escalatingReminders) {
+                        Label {
+                            VStack(alignment: .leading) {
+                                Text("Escalating Reminders")
+                                Text("Get reminders at 8 PM, 9 PM, and 10 PM")
+                                    .font(.caption)
+                                    .foregroundStyle(Color.secondaryText)
+                            }
+                        } icon: {
+                            Image(systemName: "bell.badge.fill")
+                                .foregroundStyle(.orange)
+                        }
                     }
                 }
             }
@@ -406,7 +502,7 @@ struct NotificationSettingsView: View {
 
                         Text("Enable notifications in Settings to receive reminders.")
                             .font(.subheadline)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.secondaryText)
 
                         Button("Open Settings") {
                             if let url = URL(string: UIApplication.openSettingsURLString) {
@@ -425,7 +521,7 @@ struct NotificationSettingsView: View {
 
                     Text("Daily reminders help you stay consistent. Streak reminders notify you at 9 PM if you haven't checked in yet that day.")
                         .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                 }
                 .padding(.vertical, 8)
             }

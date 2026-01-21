@@ -7,18 +7,19 @@ struct SmallWidgetView: View {
     private let colorScheme = GridColorScheme.green
 
     var body: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: 8) {
             HStack {
-                Text("Today")
+                Text(entry.motivationalMessage)
                     .font(.caption)
                     .fontWeight(.medium)
                     .foregroundStyle(.secondary)
+                    .lineLimit(1)
 
                 Spacer()
 
                 if entry.currentStreak > 0 {
                     HStack(spacing: 2) {
-                        Image(systemName: "flame.fill")
+                        Text(entry.streakEmoji)
                             .font(.caption2)
                         Text("\(entry.currentStreak)")
                             .font(.caption2)
@@ -32,17 +33,23 @@ struct SmallWidgetView: View {
                 ZStack {
                     RoundedRectangle(cornerRadius: 16)
                         .fill(colorScheme.color(for: entry.todayScore, isDarkMode: true))
-                        .frame(width: 80, height: 80)
+                        .frame(width: 72, height: 72)
 
-                    VStack(spacing: 4) {
-                        Text("\(entry.todayScore)")
-                            .font(.system(size: 32, weight: .bold, design: .rounded))
+                    VStack(spacing: 2) {
+                        if entry.checkedInToday {
+                            Image(systemName: "checkmark.circle.fill")
+                                .font(.title2)
+                                .foregroundStyle(.white)
+                        } else {
+                            Image(systemName: "plus.circle")
+                                .font(.title2)
+                                .foregroundStyle(.white.opacity(0.8))
+                        }
 
-                        Text("Level")
+                        Text(entry.checkedInToday ? "Done" : "Check in")
                             .font(.caption2)
                             .foregroundStyle(.white.opacity(0.8))
                     }
-                    .foregroundStyle(.white)
                 }
             }
 
@@ -64,8 +71,12 @@ struct SmallWidgetView: View {
                     }
                 }
             }
+
+            Text("\(entry.weeklyCheckIns)/7 this week")
+                .font(.system(size: 9))
+                .foregroundStyle(.secondary)
         }
-        .padding(16)
+        .padding(12)
     }
 }
 

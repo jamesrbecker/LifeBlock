@@ -77,7 +77,7 @@ struct HabitListView: View {
                         if !subscription.isPremium {
                             Text("\(customHabitCount)/\(freeHabitLimit)")
                                 .font(.caption)
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Color.secondaryText)
                         }
                     }
                 } footer: {
@@ -160,7 +160,7 @@ struct HabitRow: View {
             if !habit.isActive {
                 Text("Disabled")
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.secondaryText)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
                     .background(Color.secondary.opacity(0.2))

@@ -76,7 +76,7 @@ struct DayDetailView: View {
 
             Text(DateHelpers.formatDate(date, style: .long))
                 .font(.headline)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
 
             // Score description
             Text(scoreDescription)
@@ -157,7 +157,7 @@ struct StatCard: View {
 
             Text(title)
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 16)
@@ -191,7 +191,7 @@ struct HabitCompletionRow: View {
                 if let completion = habit.completion(for: date), let notes = completion.notes, !notes.isEmpty {
                     Text(notes)
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                 }
             }
 
@@ -232,7 +232,7 @@ struct HabitCompletionRow: View {
                 Text("Skipped")
             }
             .font(.subheadline)
-            .foregroundStyle(.secondary)
+            .foregroundStyle(Color.secondaryText)
         }
     }
 

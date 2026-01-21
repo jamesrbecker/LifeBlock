@@ -19,6 +19,10 @@ final class Habit {
     var lastCompletedDate: Date?
     var totalCompletions: Int
 
+    // Habit Stacking
+    var stackedAfterHabitId: UUID?  // The habit this one should follow
+    var stackOrder: Int  // Order within a stack
+
     @Relationship(deleteRule: .cascade, inverse: \HabitCompletion.habit)
     var completions: [HabitCompletion]?
 
@@ -43,6 +47,8 @@ final class Habit {
         self.longestStreak = 0
         self.lastCompletedDate = nil
         self.totalCompletions = 0
+        self.stackedAfterHabitId = nil
+        self.stackOrder = 0
     }
 
     static let systemHabits: [(name: String, icon: String, healthKitType: String?)] = [

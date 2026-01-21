@@ -68,12 +68,20 @@ struct ContributionGridView: View {
         GeometryReader { geometry in
             let weekWidth = squareSize + spacing
             let labelOffset: CGFloat = 24 // Account for weekday labels
+            let minWeeksBetweenLabels = 4 // Minimum weeks between labels to prevent overlap
+
+            // Filter out labels that would overlap
+            let filteredLabels = monthLabels.enumerated().filter { index, label in
+                if index == 0 { return true }
+                let previousLabel = monthLabels[index - 1]
+                return label.weekIndex - previousLabel.weekIndex >= minWeeksBetweenLabels
+            }.map { $0.element }
 
             ZStack(alignment: .leading) {
-                ForEach(monthLabels, id: \.weekIndex) { label in
+                ForEach(filteredLabels, id: \.weekIndex) { label in
                     Text(label.month)
                         .font(.caption2)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                         .offset(x: labelOffset + CGFloat(label.weekIndex) * weekWidth)
                 }
             }
@@ -86,7 +94,7 @@ struct ContributionGridView: View {
             ForEach(DateHelpers.weekdayLabels(), id: \.self) { label in
                 Text(label)
                     .font(.system(size: 9))
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.secondaryText)
                     .frame(width: 20, height: squareSize, alignment: .trailing)
             }
         }

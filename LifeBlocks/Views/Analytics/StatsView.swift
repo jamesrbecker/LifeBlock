@@ -47,7 +47,7 @@ struct StatsView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 24) {
+                VStack(spacing: 20) {
                     // Timeframe picker
                     Picker("Timeframe", selection: $selectedTimeframe) {
                         ForEach(Timeframe.allCases, id: \.self) { timeframe in
@@ -57,66 +57,38 @@ struct StatsView: View {
                     .pickerStyle(.segmented)
                     .padding(.horizontal)
 
-                    // Streak cards
-                    HStack(spacing: 16) {
-                        StreakCard(
-                            title: "Current Streak",
+                    // Streak cards - simplified
+                    HStack(spacing: 12) {
+                        SimpleStreakCard(
+                            title: "Current",
                             value: currentStreak,
-                            icon: "flame.fill",
                             color: .orange
                         )
 
-                        StreakCard(
-                            title: "Best Streak",
+                        SimpleStreakCard(
+                            title: "Best",
                             value: longestStreak,
-                            icon: "trophy.fill",
                             color: .yellow
                         )
                     }
                     .padding(.horizontal)
 
-                    // Stats grid
-                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 16) {
-                        StatBox(
-                            title: "Check-ins",
+                    // Key stats - simplified to just 2
+                    HStack(spacing: 12) {
+                        SimpleStatCard(
                             value: "\(filteredEntries.count)",
-                            subtitle: "in \(selectedTimeframe.rawValue.lowercased())",
-                            icon: "checkmark.circle.fill",
-                            color: .green
+                            label: "check-ins"
                         )
 
-                        StatBox(
-                            title: "Avg Score",
-                            value: String(format: "%.1f", averageScore),
-                            subtitle: "out of 4",
-                            icon: "chart.bar.fill",
-                            color: .blue
-                        )
-
-                        StatBox(
-                            title: "Completion",
+                        SimpleStatCard(
                             value: String(format: "%.0f%%", completionRate),
-                            subtitle: "days tracked",
-                            icon: "percent",
-                            color: .purple
-                        )
-
-                        StatBox(
-                            title: "Total Days",
-                            value: "\(dayEntries.filter { $0.checkedIn }.count)",
-                            subtitle: "all time",
-                            icon: "calendar",
-                            color: .pink
+                            label: "completion"
                         )
                     }
                     .padding(.horizontal)
 
                     // Score distribution
                     ScoreDistributionView(entries: filteredEntries)
-                        .padding(.horizontal)
-
-                    // Motivational message (positive only!)
-                    motivationalCard
                         .padding(.horizontal)
 
                     Spacer(minLength: 40)
@@ -128,126 +100,48 @@ struct StatsView: View {
         }
     }
 
-    private var motivationalCard: some View {
-        VStack(spacing: 12) {
-            Image(systemName: motivationalIcon)
-                .font(.largeTitle)
-                .foregroundStyle(Color.accentGreen)
-
-            Text(motivationalMessage)
-                .font(.headline)
-                .multilineTextAlignment(.center)
-
-            Text(motivationalSubtext)
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
-        }
-        .padding(24)
-        .frame(maxWidth: .infinity)
-        .background(Color.cardBackground)
-        .clipShape(RoundedRectangle(cornerRadius: 16))
-    }
-
-    private var motivationalIcon: String {
-        if currentStreak >= 30 { return "star.fill" }
-        if currentStreak >= 7 { return "flame.fill" }
-        if filteredEntries.count > 0 { return "hand.thumbsup.fill" }
-        return "sparkles"
-    }
-
-    private var motivationalMessage: String {
-        if currentStreak >= 30 {
-            return "You're building something amazing!"
-        }
-        if currentStreak >= 7 {
-            return "A week of consistency!"
-        }
-        if currentStreak >= 1 {
-            return "Keep the momentum going!"
-        }
-        if !filteredEntries.isEmpty {
-            return "Every check-in counts!"
-        }
-        return "Ready to start your journey?"
-    }
-
-    private var motivationalSubtext: String {
-        if currentStreak >= 30 {
-            return "A month of dedication shows real commitment. You're proving what's possible."
-        }
-        if currentStreak >= 7 {
-            return "You've built a solid foundation. Each day makes the next one easier."
-        }
-        if currentStreak >= 1 {
-            return "You showed up today, and that's what matters. Small steps lead to big changes."
-        }
-        if !filteredEntries.isEmpty {
-            return "You've already made progress. Pick up where you left off - it's never too late."
-        }
-        return "Start tracking today and watch your progress grow over time."
-    }
 }
 
-struct StreakCard: View {
+// MARK: - Simplified Components
+
+struct SimpleStreakCard: View {
     let title: String
     let value: Int
-    let icon: String
     let color: Color
 
     var body: some View {
-        VStack(spacing: 8) {
-            HStack {
-                Image(systemName: icon)
-                    .foregroundStyle(color)
-                Text(title)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-
+        VStack(spacing: 4) {
             Text("\(value)")
-                .font(.system(size: 36, weight: .bold, design: .rounded))
+                .font(.system(size: 32, weight: .bold, design: .rounded))
+                .foregroundStyle(color)
 
-            Text(value == 1 ? "day" : "days")
+            Text(title)
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 20)
+        .padding(.vertical, 16)
         .background(Color.cardBackground)
-        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }
 
-struct StatBox: View {
-    let title: String
+struct SimpleStatCard: View {
     let value: String
-    let subtitle: String
-    let icon: String
-    let color: Color
+    let label: String
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                Image(systemName: icon)
-                    .foregroundStyle(color)
-                Spacer()
-            }
-
+        VStack(spacing: 4) {
             Text(value)
-                .font(.title)
-                .fontWeight(.bold)
+                .font(.title2)
+                .fontWeight(.semibold)
 
-            VStack(alignment: .leading, spacing: 2) {
-                Text(title)
-                    .font(.subheadline)
-                    .fontWeight(.medium)
-                Text(subtitle)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
+            Text(label)
+                .font(.caption)
+                .foregroundStyle(Color.secondaryText)
         }
-        .padding()
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 16)
         .background(Color.cardBackground)
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
@@ -284,11 +178,11 @@ struct ScoreDistributionView: View {
                         // Label
                         Text("\(distribution[level] ?? 0)")
                             .font(.caption2)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.secondaryText)
 
                         Text("L\(level)")
                             .font(.caption2)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.secondaryText)
                     }
                 }
             }

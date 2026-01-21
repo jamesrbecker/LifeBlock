@@ -72,7 +72,7 @@ struct iPadLayoutView: View {
                     Text("Streak")
                     Spacer()
                     Text("\(AppSettings.shared.currentStreak) days")
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                 }
 
                 HStack {
@@ -81,7 +81,7 @@ struct iPadLayoutView: View {
                     Text("Best")
                     Spacer()
                     Text("\(AppSettings.shared.longestStreak) days")
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                 }
 
                 HStack {
@@ -90,7 +90,7 @@ struct iPadLayoutView: View {
                     Text("This Week")
                     Spacer()
                     Text("\(weeklyCheckIns) check-ins")
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                 }
             }
 
@@ -220,7 +220,7 @@ struct LargeContributionGridView: View {
                     ForEach(monthLabels, id: \.weekIndex) { label in
                         Text(label.month)
                             .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.secondaryText)
                             .offset(x: labelOffset + CGFloat(label.weekIndex) * weekWidth)
                     }
                 }
@@ -233,7 +233,7 @@ struct LargeContributionGridView: View {
                     ForEach(["", "Mon", "", "Wed", "", "Fri", ""], id: \.self) { label in
                         Text(label)
                             .font(.caption2)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.secondaryText)
                             .frame(width: 26, height: squareSize, alignment: .trailing)
                     }
                 }
@@ -331,7 +331,7 @@ struct MonthStatCard: View {
         VStack(spacing: 8) {
             Text(monthName)
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
 
             Text("\(checkInsThisMonth)")
                 .font(.title3)
@@ -339,7 +339,7 @@ struct MonthStatCard: View {
 
             Text("check-ins")
                 .font(.caption2)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 12)

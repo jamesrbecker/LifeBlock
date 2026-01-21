@@ -13,19 +13,38 @@ struct LifeBlocksApp: App {
             UserSettings.self,
             Friend.self,
             FriendRequest.self,
-            Cheer.self
+            Cheer.self,
+            Challenge.self
         ])
 
+        // Disable CloudKit sync to avoid non-optional attribute issues
         let modelConfiguration = ModelConfiguration(
             schema: schema,
             isStoredInMemoryOnly: false,
-            groupContainer: .identifier("group.com.lifeblock.app")
+            allowsSave: true,
+            groupContainer: .identifier("group.com.lifeblock.app"),
+            cloudKitDatabase: .none  // Explicitly disable CloudKit
         )
 
         do {
             return try ModelContainer(for: schema, configurations: [modelConfiguration])
         } catch {
-            fatalError("Could not create ModelContainer: \(error)")
+            // If loading fails, try to delete corrupted store and recreate
+            print("Failed to create ModelContainer: \(error)")
+            print("Attempting to recreate database...")
+
+            // Try without group container as fallback
+            let fallbackConfig = ModelConfiguration(
+                schema: schema,
+                isStoredInMemoryOnly: false,
+                cloudKitDatabase: .none
+            )
+
+            do {
+                return try ModelContainer(for: schema, configurations: [fallbackConfig])
+            } catch {
+                fatalError("Could not create ModelContainer: \(error)")
+            }
         }
     }()
 

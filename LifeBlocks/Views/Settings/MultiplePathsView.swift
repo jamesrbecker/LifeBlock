@@ -23,7 +23,7 @@ struct MultiplePathsView: View {
                         .font(.headline)
                     Text("Premium users can track up to 3 paths simultaneously. Get habits from multiple areas combined into your daily check-in.")
                         .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                 }
                 .padding(.vertical, 8)
             }
@@ -159,7 +159,7 @@ struct PathRow: View {
                             .foregroundStyle(.primary)
                         Text(title)
                             .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.secondaryText)
                     }
                 } else {
                     Image(systemName: "plus.circle.fill")
@@ -173,7 +173,7 @@ struct PathRow: View {
                             .foregroundStyle(.primary)
                         Text("Tap to select a path")
                             .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.secondaryText)
                     }
                 }
 
@@ -182,7 +182,7 @@ struct PathRow: View {
                 if path != nil && !isRequired {
                     Button(action: { onRemove?() }) {
                         Image(systemName: "xmark.circle.fill")
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.secondaryText)
                     }
                     .buttonStyle(.plain)
                 }
@@ -226,7 +226,7 @@ struct PathPickerSheet: View {
                                     .foregroundStyle(.primary)
                                 Text(path.tagline)
                                     .font(.caption)
-                                    .foregroundStyle(.secondary)
+                                    .foregroundStyle(Color.secondaryText)
                             }
 
                             Spacer()
@@ -261,10 +261,10 @@ struct BulletPoint: View {
     var body: some View {
         HStack(alignment: .top, spacing: 8) {
             Text("•")
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
             Text(text)
                 .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
         }
     }
 }

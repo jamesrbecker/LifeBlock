@@ -114,7 +114,7 @@ struct WeeklyReviewView: View {
                         dismiss()
                     } label: {
                         Image(systemName: "xmark.circle.fill")
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.secondaryText)
                     }
                 }
             }
@@ -130,7 +130,7 @@ struct WeeklyReviewView: View {
         VStack(spacing: 8) {
             Text("This Week")
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
 
             Text(weekSummary)
                 .font(.title2)
@@ -139,7 +139,7 @@ struct WeeklyReviewView: View {
 
             Text(streakStatus)
                 .font(.subheadline)
-                .foregroundStyle(AppSettings.shared.currentStreak > 0 ? .orange : .secondary)
+                .foregroundStyle(AppSettings.shared.currentStreak > 0 ? .orange : Color.secondaryText)
         }
         .padding(.vertical)
     }
@@ -155,7 +155,7 @@ struct WeeklyReviewView: View {
                 VStack(spacing: 6) {
                     Text(dayAbbreviation(for: date))
                         .font(.caption2)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
 
                     RoundedRectangle(cornerRadius: 8)
                         .fill(GridColorScheme.green.color(for: score, isDarkMode: true))
@@ -223,7 +223,7 @@ struct WeeklyReviewView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text("Best Day")
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.secondaryText)
 
                 Text("\(day) - Score \(score)")
                     .font(.headline)
@@ -242,12 +242,12 @@ struct WeeklyReviewView: View {
         VStack(spacing: 12) {
             Image(systemName: "quote.opening")
                 .font(.title2)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
 
             Text(motivationalQuote)
                 .font(.body)
                 .italic()
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
         }
@@ -309,7 +309,7 @@ struct ReviewStatCard: View {
 
             Text(title)
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 16)

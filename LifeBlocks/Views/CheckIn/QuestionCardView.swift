@@ -145,7 +145,7 @@ struct AnswerButton: View {
 
                     Text(subtitle)
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                 }
 
                 Spacer()

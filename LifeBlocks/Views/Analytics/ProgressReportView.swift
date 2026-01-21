@@ -168,7 +168,7 @@ struct ReportStatBox: View {
 
             Text(label)
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
         }
         .frame(maxWidth: .infinity)
     }
@@ -211,7 +211,7 @@ struct ActivityChartCard: View {
                 Text("Today")
             }
             .font(.caption2)
-            .foregroundStyle(.secondary)
+            .foregroundStyle(Color.secondaryText)
         }
         .padding()
         .background(Color.gray.opacity(0.1))
@@ -268,7 +268,7 @@ struct HabitBreakdownCard: View {
 
                     Text("\(Int(habit.completionRate))%")
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                         .frame(width: 40, alignment: .trailing)
                 }
             }
@@ -298,7 +298,7 @@ struct StreakInfoCard: View {
                     }
                     Text("Current Streak")
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                 }
                 .frame(maxWidth: .infinity)
 
@@ -315,7 +315,7 @@ struct StreakInfoCard: View {
                     }
                     Text("Longest Streak")
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                 }
                 .frame(maxWidth: .infinity)
             }
@@ -348,7 +348,7 @@ struct BestDayCard: View {
                             .font(.subheadline)
                         Text("Score: \(best.totalScore)/4")
                             .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.secondaryText)
                     }
 
                     Spacer()

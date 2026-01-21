@@ -41,7 +41,7 @@ struct StreakView: View {
 
                 Text(streakMessage)
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.secondaryText)
                     .multilineTextAlignment(.center)
             }
 
@@ -52,7 +52,7 @@ struct StreakView: View {
                         .foregroundStyle(.yellow)
                     Text("Best: \(longestStreak) days")
                         .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)
@@ -65,7 +65,7 @@ struct StreakView: View {
                 VStack(spacing: 4) {
                     Text("\(milestone - currentStreak) days to go")
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
 
                     Text("Next milestone: \(milestone) days")
                         .font(.caption)

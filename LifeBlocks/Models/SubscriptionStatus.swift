@@ -47,6 +47,10 @@ final class SubscriptionStatus: ObservableObject {
     // Product IDs - configure these in App Store Connect
     static let monthlyProductID = "com.lifeblock.premium.monthly"
     static let yearlyProductID = "com.lifeblock.premium.yearly"
+    static let lifetimeProductID = "com.lifeblock.premium.lifetime"
+    static let familyMonthlyProductID = "com.lifeblock.premium.family.monthly"
+    static let familyProductID = "com.lifeblock.premium.family"
+    static let familyLifetimeProductID = "com.lifeblock.premium.family.lifetime"
 
     private init() {
         // Check cached status
@@ -76,9 +80,17 @@ final class SubscriptionStatus: ObservableObject {
 
 // Pricing info for display
 struct PricingInfo {
-    static let monthlyPrice = "$4.99"
-    static let yearlyPrice = "$39.99"
-    static let yearlySavings = "Save 33%"
+    // Individual
+    static let monthlyPrice = "$1.99/month"
+    static let yearlyPrice = "$19.99/year"
+    static let lifetimePrice = "$49.99"
+    // Family (up to 5)
+    static let familyMonthlyPrice = "$4.99/month"
+    static let familyYearlyPrice = "$39.99/year"
+    static let familyLifetimePrice = "$79.99"
+    // Savings
+    static let yearlySavings = "Save 16%"
+    static let familyYearlySavings = "Save 33%"
 
     static let features: [(icon: String, title: String, description: String)] = [
         ("infinity", "Unlimited Habits", "Track as many habits as you want"),

@@ -10,9 +10,20 @@ final class PurchaseManager: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String?
 
+    // Pricing tiers (Jan 2026):
+    // Individual Monthly: $1.99/mo - flexible entry point
+    // Individual Annual: $19.99/yr (~$1.67/mo) - best value, save 16%
+    // Individual Lifetime: $49.99 - one-time, ~2 years to break even
+    // Family Monthly: $4.99/mo (up to 5) - ~$1/person/mo
+    // Family Annual: $39.99/yr (up to 5) - ~$3.33/mo, save 33%
+    // Family Lifetime: $79.99 - one-time for families
     private let productIDs = [
-        "com.lifeblock.premium.monthly",
-        "com.lifeblock.premium.yearly"
+        "com.lifeblock.premium.monthly",        // $1.99/mo
+        "com.lifeblock.premium.yearly",         // $19.99/yr (~$1.67/mo)
+        "com.lifeblock.premium.lifetime",       // $49.99 one-time
+        "com.lifeblock.premium.family.monthly", // $4.99/mo (up to 5)
+        "com.lifeblock.premium.family",         // $39.99/yr (up to 5)
+        "com.lifeblock.premium.family.lifetime" // $79.99 one-time (up to 5)
     ]
 
     private var updateListenerTask: Task<Void, Error>?
@@ -39,8 +50,35 @@ final class PurchaseManager: ObservableObject {
         products.first { $0.id == "com.lifeblock.premium.yearly" }
     }
 
+    var lifetimeProduct: Product? {
+        products.first { $0.id == "com.lifeblock.premium.lifetime" }
+    }
+
+    var familyMonthlyProduct: Product? {
+        products.first { $0.id == "com.lifeblock.premium.family.monthly" }
+    }
+
+    var familyProduct: Product? {
+        products.first { $0.id == "com.lifeblock.premium.family" }
+    }
+
+    var familyLifetimeProduct: Product? {
+        products.first { $0.id == "com.lifeblock.premium.family.lifetime" }
+    }
+
     var isPremium: Bool {
         !purchasedProductIDs.isEmpty
+    }
+
+    var hasLifetime: Bool {
+        purchasedProductIDs.contains("com.lifeblock.premium.lifetime") ||
+        purchasedProductIDs.contains("com.lifeblock.premium.family.lifetime")
+    }
+
+    var hasFamilyPlan: Bool {
+        purchasedProductIDs.contains("com.lifeblock.premium.family.monthly") ||
+        purchasedProductIDs.contains("com.lifeblock.premium.family") ||
+        purchasedProductIDs.contains("com.lifeblock.premium.family.lifetime")
     }
 
     func loadProducts() async {

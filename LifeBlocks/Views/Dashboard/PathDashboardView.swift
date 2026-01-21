@@ -42,92 +42,45 @@ struct PathDashboardView: View {
         }
     }
 
-    // MARK: - Path Header
+    // MARK: - Path Header (Simplified)
 
     private var pathHeader: some View {
         HStack(spacing: 12) {
-            // Path icon
-            ZStack {
-                Circle()
-                    .fill(pathCategory.color.opacity(0.2))
-                    .frame(width: 50, height: 50)
+            // Simpler icon - just colored circle with icon
+            Image(systemName: pathCategory.icon)
+                .font(.title3)
+                .foregroundStyle(pathCategory.color)
 
-                Image(systemName: pathCategory.icon)
-                    .font(.title2)
-                    .foregroundStyle(pathCategory.color)
-            }
-
-            VStack(alignment: .leading, spacing: 4) {
-                Text(pathCategory.displayName)
-                    .font(.headline)
-
-                HStack(spacing: 4) {
-                    Text("Level \(pathProgress.level)")
-                        .font(.caption)
-                        .fontWeight(.semibold)
-                        .foregroundStyle(pathCategory.color)
-
-                    Text("•")
-                        .foregroundStyle(.secondary)
-
-                    Text(pathProgress.levelTitle)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-            }
+            Text(pathCategory.displayName)
+                .font(.headline)
 
             Spacer()
 
-            // Days counter
-            VStack(alignment: .trailing, spacing: 2) {
-                Text("\(daysOnPath)")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .foregroundStyle(pathCategory.color)
-
-                Text("days")
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
-            }
+            // Days counter - cleaner
+            Text("\(daysOnPath) days")
+                .font(.subheadline)
+                .foregroundStyle(Color.secondaryText)
         }
         .padding()
         .background(Color.cardBackground)
-        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 
-    // MARK: - Motivation Card
+    // MARK: - Motivation Card (Simplified)
 
     private var motivationCard: some View {
         Button {
             refreshQuote()
-            showingQuoteDetail = true
         } label: {
-            HStack(spacing: 12) {
-                Image(systemName: "quote.opening")
-                    .font(.title3)
-                    .foregroundStyle(pathCategory.color.opacity(0.7))
-
-                Text(currentQuote.isEmpty ? getRandomQuote() : currentQuote)
-                    .font(.subheadline)
-                    .foregroundStyle(.primary)
-                    .multilineTextAlignment(.leading)
-                    .lineLimit(2)
-
-                Spacer()
-
-                Image(systemName: "arrow.clockwise")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-            .padding()
-            .background(
-                LinearGradient(
-                    colors: [pathCategory.color.opacity(0.1), pathCategory.color.opacity(0.05)],
-                    startPoint: .leading,
-                    endPoint: .trailing
-                )
-            )
-            .clipShape(RoundedRectangle(cornerRadius: 12))
+            Text(currentQuote.isEmpty ? getRandomQuote() : currentQuote)
+                .font(.subheadline)
+                .foregroundStyle(Color.secondaryText)
+                .multilineTextAlignment(.leading)
+                .lineLimit(2)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding()
+                .background(Color.cardBackground)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
         }
         .buttonStyle(.plain)
         .onAppear {
@@ -137,7 +90,7 @@ struct PathDashboardView: View {
         }
     }
 
-    // MARK: - Level Progress
+    // MARK: - Level Progress (Simplified)
 
     private var levelProgress: some View {
         VStack(spacing: 8) {
@@ -150,40 +103,21 @@ struct PathDashboardView: View {
 
                 Text("Level \(pathProgress.level + 1)")
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.secondaryText)
             }
 
             GeometryReader { geometry in
                 ZStack(alignment: .leading) {
-                    RoundedRectangle(cornerRadius: 4)
-                        .fill(Color.borderColor)
-                        .frame(height: 8)
+                    RoundedRectangle(cornerRadius: 3)
+                        .fill(Color.cardBackground)
+                        .frame(height: 6)
 
-                    RoundedRectangle(cornerRadius: 4)
-                        .fill(
-                            LinearGradient(
-                                colors: [pathCategory.color, pathCategory.color.opacity(0.7)],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
-                        )
-                        .frame(width: geometry.size.width * pathProgress.progressToNextLevel, height: 8)
+                    RoundedRectangle(cornerRadius: 3)
+                        .fill(pathCategory.color)
+                        .frame(width: geometry.size.width * pathProgress.progressToNextLevel, height: 6)
                 }
             }
-            .frame(height: 8)
-
-            // Next milestone hint
-            if let nextMilestone = getNextMilestone() {
-                HStack {
-                    Image(systemName: "flag.fill")
-                        .font(.caption2)
-                        .foregroundStyle(pathCategory.color)
-
-                    Text(nextMilestone)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-            }
+            .frame(height: 6)
         }
         .padding()
         .background(Color.cardBackground)
@@ -224,7 +158,7 @@ struct PathDashboardView: View {
     }
 }
 
-// MARK: - Quick Action Card for impulse check-in
+// MARK: - Quick Action Card (Simplified)
 
 struct QuickActionCard: View {
     let hasCheckedInToday: Bool
@@ -235,54 +169,26 @@ struct QuickActionCard: View {
             HapticManager.shared.mediumTap()
             action()
         } label: {
-            HStack(spacing: 16) {
-                // Animated icon
-                ZStack {
-                    Circle()
-                        .fill(hasCheckedInToday ? Color.accentGreen.opacity(0.2) : Color.accentGreen)
-                        .frame(width: 56, height: 56)
+            HStack(spacing: 12) {
+                Image(systemName: hasCheckedInToday ? "checkmark.circle.fill" : "plus.circle.fill")
+                    .font(.title2)
+                    .foregroundStyle(Color.accentGreen)
 
-                    Image(systemName: hasCheckedInToday ? "checkmark.circle.fill" : "plus")
-                        .font(.title2)
-                        .foregroundStyle(hasCheckedInToday ? Color.accentGreen : .white)
-                }
-
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(hasCheckedInToday ? "Great job today!" : "Check in now")
-                        .font(.headline)
-                        .foregroundStyle(.primary)
-
-                    Text(hasCheckedInToday ? "Tap to update your check-in" : "30 seconds to a better you")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
+                Text(hasCheckedInToday ? "Done for today" : "Check in")
+                    .font(.headline)
+                    .foregroundStyle(.primary)
 
                 Spacer()
-
-                if !hasCheckedInToday {
-                    Image(systemName: "chevron.right")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
             }
             .padding()
-            .background(
-                RoundedRectangle(cornerRadius: 16)
-                    .fill(Color.cardBackground)
-                    .shadow(color: hasCheckedInToday ? .clear : Color.accentGreen.opacity(0.3), radius: 8, y: 4)
-            )
-            .overlay {
-                if !hasCheckedInToday {
-                    RoundedRectangle(cornerRadius: 16)
-                        .strokeBorder(Color.accentGreen.opacity(0.5), lineWidth: 1)
-                }
-            }
+            .background(Color.cardBackground)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
         }
         .buttonStyle(.plain)
     }
 }
 
-// MARK: - Milestone Celebration View
+// MARK: - Milestone Celebration View (Simplified)
 
 struct MilestoneCelebrationView: View {
     let milestone: Int
@@ -293,51 +199,19 @@ struct MilestoneCelebrationView: View {
         VStack(spacing: 32) {
             Spacer()
 
-            // Celebration icon
-            ZStack {
-                Circle()
-                    .fill(pathCategory.color.opacity(0.2))
-                    .frame(width: 140, height: 140)
+            // Simple celebration
+            Image(systemName: "trophy.fill")
+                .font(.system(size: 60))
+                .foregroundStyle(pathCategory.color)
 
-                Circle()
-                    .fill(pathCategory.color.opacity(0.3))
-                    .frame(width: 100, height: 100)
-
-                Image(systemName: "trophy.fill")
-                    .font(.system(size: 50))
-                    .foregroundStyle(pathCategory.color)
-            }
-
-            VStack(spacing: 16) {
-                Text("Milestone Reached!")
-                    .font(.title)
-                    .fontWeight(.bold)
-
+            VStack(spacing: 12) {
                 Text("\(milestone) Days")
                     .font(.largeTitle)
-                    .fontWeight(.heavy)
-                    .foregroundStyle(pathCategory.color)
+                    .fontWeight(.bold)
 
-                Text("You've been on your \(pathCategory.displayName) journey for \(milestone) days. That's incredible dedication!")
-                    .font(.body)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 32)
-            }
-
-            // Share button
-            Button {
-                // Share action
-            } label: {
-                HStack {
-                    Image(systemName: "square.and.arrow.up")
-                    Text("Share Achievement")
-                }
-                .font(.headline)
-                .foregroundStyle(pathCategory.color)
-                .padding()
-                .background(pathCategory.color.opacity(0.1))
-                .clipShape(Capsule())
+                Text("Milestone reached")
+                    .font(.subheadline)
+                    .foregroundStyle(Color.secondaryText)
             }
 
             Spacer()
@@ -349,9 +223,9 @@ struct MilestoneCelebrationView: View {
                     .font(.headline)
                     .foregroundStyle(.white)
                     .frame(maxWidth: .infinity)
-                    .padding(.vertical, 18)
+                    .padding(.vertical, 16)
                     .background(pathCategory.color)
-                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
             }
             .padding(.horizontal, 24)
             .padding(.bottom, 40)

@@ -181,7 +181,7 @@ struct FocusStatusView: View {
                 if !focusManager.suggestedHabits.isEmpty {
                     Text("Suggested habits:")
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
 
                     FlowLayout(spacing: 8) {
                         ForEach(focusManager.suggestedHabits, id: \.self) { habit in
@@ -320,7 +320,7 @@ struct FocusSettingsView: View {
                         } else {
                             Text("No Focus Active")
                                 .font(.caption)
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Color.secondaryText)
                         }
                     }
                 }
@@ -335,7 +335,7 @@ struct FocusSettingsView: View {
                             ForEach(FocusModeManager.focusModeHabits[mode] ?? [], id: \.self) { habit in
                                 Text(habit)
                                     .font(.subheadline)
-                                    .foregroundStyle(.secondary)
+                                    .foregroundStyle(Color.secondaryText)
                             }
                         } label: {
                             Label(mode, systemImage: focusIcon(for: mode))

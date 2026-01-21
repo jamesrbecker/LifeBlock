@@ -12,29 +12,34 @@ struct MediumWidgetView: View {
 
     var body: some View {
         HStack(spacing: 16) {
-            VStack(spacing: 8) {
-                if entry.currentStreak > 0 {
-                    HStack(spacing: 4) {
-                        Image(systemName: "flame.fill")
-                            .font(.caption)
-                        Text("\(entry.currentStreak) day streak")
-                            .font(.caption)
-                            .fontWeight(.medium)
-                    }
-                    .foregroundStyle(.orange)
+            VStack(spacing: 6) {
+                HStack(spacing: 4) {
+                    Text(entry.streakEmoji)
+                        .font(.caption)
+                    Text("\(entry.currentStreak)")
+                        .font(.caption)
+                        .fontWeight(.bold)
+                    Text("day streak")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
 
                 Link(destination: DeepLink.checkInURL()) {
                     ZStack {
                         RoundedRectangle(cornerRadius: 16)
                             .fill(colorScheme.color(for: entry.todayScore, isDarkMode: true))
-                            .frame(width: 72, height: 72)
+                            .frame(width: 68, height: 68)
 
                         VStack(spacing: 2) {
-                            Text("\(entry.todayScore)")
-                                .font(.system(size: 28, weight: .bold, design: .rounded))
+                            if entry.checkedInToday {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.title3)
+                            } else {
+                                Image(systemName: "plus.circle")
+                                    .font(.title3)
+                            }
 
-                            Text("Today")
+                            Text(entry.checkedInToday ? "Done" : "Check in")
                                 .font(.caption2)
                                 .foregroundStyle(.white.opacity(0.8))
                         }
@@ -42,7 +47,7 @@ struct MediumWidgetView: View {
                     }
                 }
 
-                Text(scoreLabel)
+                Text(entry.motivationalMessage)
                     .font(.caption2)
                     .foregroundStyle(.secondary)
                     .lineLimit(1)

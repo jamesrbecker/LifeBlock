@@ -2,7 +2,9 @@ import SwiftUI
 
 // GitHub-style contribution colors
 enum GridColorScheme: String, CaseIterable {
-    case green = "green"      // Classic GitHub
+    case green = "green"      // iMessage Green
+    case skyblue = "skyblue"  // Sky Blue
+    case lavender = "lavender" // Lavender
     case blue = "blue"        // Ocean
     case purple = "purple"    // Violet
     case orange = "orange"    // Fire
@@ -11,12 +13,31 @@ enum GridColorScheme: String, CaseIterable {
     var colors: [Color] {
         switch self {
         case .green:
+            // iMessage-style green (#34C759)
             return [
                 Color(hex: "#161B22"),  // Level 0 - Empty (dark mode bg)
-                Color(hex: "#0E4429"),  // Level 1 - Light
-                Color(hex: "#006D32"),  // Level 2 - Medium
-                Color(hex: "#26A641"),  // Level 3 - High
-                Color(hex: "#39D353")   // Level 4 - Maximum
+                Color(hex: "#0D3D1F"),  // Level 1 - Light
+                Color(hex: "#1A7A3E"),  // Level 2 - Medium
+                Color(hex: "#28A745"),  // Level 3 - High
+                Color(hex: "#34C759")   // Level 4 - Maximum (iMessage green)
+            ]
+        case .skyblue:
+            // Sky Blue theme
+            return [
+                Color(hex: "#161B22"),
+                Color(hex: "#0C3A5A"),  // Level 1
+                Color(hex: "#1877B8"),  // Level 2
+                Color(hex: "#3DA5E0"),  // Level 3
+                Color(hex: "#5AC8FA")   // Level 4 - iOS Sky Blue
+            ]
+        case .lavender:
+            // Lavender theme
+            return [
+                Color(hex: "#161B22"),
+                Color(hex: "#3D2E5C"),  // Level 1
+                Color(hex: "#6B5B95"),  // Level 2
+                Color(hex: "#9B8DC2"),  // Level 3
+                Color(hex: "#BDB5D5")   // Level 4 - Soft Lavender
             ]
         case .blue:
             return [
@@ -53,15 +74,37 @@ enum GridColorScheme: String, CaseIterable {
         }
     }
 
+    /// The accent color for this theme (used for buttons, highlights, etc.)
+    var accentColor: Color {
+        colors[4]  // Use the brightest color as accent
+    }
+
     var lightModeColors: [Color] {
         switch self {
         case .green:
+            // iMessage green for light mode
             return [
                 Color(hex: "#EBEDF0"),  // Level 0 - Empty
-                Color(hex: "#9BE9A8"),  // Level 1 - Light
-                Color(hex: "#40C463"),  // Level 2 - Medium
-                Color(hex: "#30A14E"),  // Level 3 - High
-                Color(hex: "#216E39")   // Level 4 - Maximum
+                Color(hex: "#A8E6CF"),  // Level 1 - Light
+                Color(hex: "#5DD39E"),  // Level 2 - Medium
+                Color(hex: "#34C759"),  // Level 3 - High
+                Color(hex: "#248A3D")   // Level 4 - Maximum
+            ]
+        case .skyblue:
+            return [
+                Color(hex: "#EBEDF0"),
+                Color(hex: "#B3E0F2"),  // Level 1
+                Color(hex: "#7CC5E3"),  // Level 2
+                Color(hex: "#5AC8FA"),  // Level 3
+                Color(hex: "#0A84FF")   // Level 4
+            ]
+        case .lavender:
+            return [
+                Color(hex: "#EBEDF0"),
+                Color(hex: "#E2D9F3"),  // Level 1
+                Color(hex: "#BDB5D5"),  // Level 2
+                Color(hex: "#9B8DC2"),  // Level 3
+                Color(hex: "#6B5B95")   // Level 4
             ]
         case .blue:
             return [
@@ -132,12 +175,92 @@ extension Color {
     }
 }
 
-// App-wide theme colors
+// App-wide theme colors - WCAG AA compliant contrast in both light and dark modes
+// NOTE: gridBackground, cardBackground, cardBackgroundLight, secondaryText, tertiaryText,
+// placeholderText, and borderColor are auto-generated from the asset catalog.
+// Access them via Color.gridBackground, Color.secondaryText, etc.
+
 extension Color {
-    static let gridBackground = Color(hex: "#0D1117")
-    static let cardBackground = Color(hex: "#161B22")
-    static let primaryText = Color(hex: "#C9D1D9")
-    static let secondaryText = Color(hex: "#8B949E")
-    static let accentGreen = Color(hex: "#39D353")
-    static let borderColor = Color(hex: "#30363D")
+    // Text colors - HIGH CONTRAST for readability in all conditions
+    static let primaryText = Color.primary  // System primary - adapts automatically
+    static let inputText = Color.primary  // Uses system for best contrast
+
+    // Accent colors
+    static let accentGreen = Color(hex: "#34C759")      // iMessage green
+    static let accentSkyBlue = Color(hex: "#5AC8FA")    // iOS Sky Blue
+    static let accentLavender = Color(hex: "#BDB5D5")   // Soft Lavender
+
+    // Border - manually defined since asset may not generate properly
+    static let borderColor = Color("BorderColor", bundle: nil)
+
+    // MARK: - Explicit Light/Dark Mode Colors
+    // Use these when you need guaranteed contrast regardless of color scheme
+
+    /// High contrast secondary text - guaranteed readable
+    /// Dark mode: #D0D7DE (light gray), Light mode: #57606A (dark gray)
+    static func adaptiveSecondary(_ colorScheme: ColorScheme) -> Color {
+        colorScheme == .dark ? Color(hex: "#D0D7DE") : Color(hex: "#57606A")
+    }
+
+    /// High contrast tertiary text - guaranteed readable
+    /// Dark mode: #A8B1BB, Light mode: #6E7781
+    static func adaptiveTertiary(_ colorScheme: ColorScheme) -> Color {
+        colorScheme == .dark ? Color(hex: "#A8B1BB") : Color(hex: "#6E7781")
+    }
+
+    /// Card background adaptive
+    static func adaptiveCardBackground(_ colorScheme: ColorScheme) -> Color {
+        colorScheme == .dark ? Color(hex: "#161B22") : Color(hex: "#FFFFFF")
+    }
+
+    /// Grid background adaptive
+    static func adaptiveGridBackground(_ colorScheme: ColorScheme) -> Color {
+        colorScheme == .dark ? Color(hex: "#0D1117") : Color(hex: "#F6F8FA")
+    }
+}
+
+// MARK: - Theme Manager
+class ThemeManager: ObservableObject {
+    static let shared = ThemeManager()
+
+    @Published var currentTheme: GridColorScheme = .green
+
+    private init() {
+        // Load saved theme
+        if let themeName = UserDefaults.standard.string(forKey: "selectedTheme"),
+           let theme = GridColorScheme(rawValue: themeName) {
+            currentTheme = theme
+        }
+    }
+
+    var accentColor: Color {
+        currentTheme.accentColor
+    }
+
+    func setTheme(_ theme: GridColorScheme) {
+        currentTheme = theme
+        UserDefaults.standard.set(theme.rawValue, forKey: "selectedTheme")
+    }
+}
+
+// MARK: - Text Field Styling
+
+struct BrightTextFieldStyle: TextFieldStyle {
+    func _body(configuration: TextField<Self._Label>) -> some View {
+        configuration
+            .foregroundStyle(Color.inputText)
+            .padding(12)
+            .background(Color.cardBackgroundLight)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.borderColor, lineWidth: 1)
+            )
+    }
+}
+
+extension View {
+    func brightTextFieldStyle() -> some View {
+        self.textFieldStyle(BrightTextFieldStyle())
+    }
 }

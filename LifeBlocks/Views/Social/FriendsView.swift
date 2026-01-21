@@ -123,7 +123,7 @@ struct FriendsView: View {
 
             Text("Connect with friends, share your progress, and stay accountable together. Premium feature.")
                 .multilineTextAlignment(.center)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
                 .padding(.horizontal, 32)
 
             VStack(alignment: .leading, spacing: 12) {
@@ -194,7 +194,7 @@ struct YourProfileCard: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Your Friend Code")
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
 
                     Text(settings.friendCode)
                         .font(.title3)
@@ -264,7 +264,7 @@ struct FriendCard: View {
                 if let lastActive = friend.lastActivityDate {
                     Text("Active \(lastActive, style: .relative) ago")
                         .font(.caption2)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                 }
             }
 
@@ -328,7 +328,7 @@ struct FriendRequestCard: View {
                 } else {
                     Text("Wants to connect")
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                 }
             }
 
@@ -393,7 +393,7 @@ struct EmptyFriendsView: View {
         VStack(spacing: 20) {
             Image(systemName: "person.2.slash")
                 .font(.system(size: 50))
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
 
             Text("No Friends Yet")
                 .font(.title3)
@@ -401,7 +401,7 @@ struct EmptyFriendsView: View {
 
             Text("Add friends to share your progress and stay motivated together.")
                 .multilineTextAlignment(.center)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
                 .padding(.horizontal, 32)
 
             Button {

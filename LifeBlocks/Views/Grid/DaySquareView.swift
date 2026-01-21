@@ -89,7 +89,7 @@ struct DaySquareLargeView: View {
             if showDate {
                 Text(dayNumber)
                     .font(.caption2)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.secondaryText)
             }
         }
     }

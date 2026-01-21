@@ -12,6 +12,10 @@ struct ContentView: View {
     @State private var showingDayDetail = false
     @State private var showingWeeklyReview = false
     @State private var showingLeaderboard = false
+    @State private var showingShareGrid = false
+    @State private var showingChallenges = false
+    @State private var showingMilestoneCelebration = false
+    @State private var milestoneToShow: Int = 0
 
     private var todayEntry: DayEntry? {
         dayEntries.first { $0.date.isSameDay(as: Date()) }
@@ -59,7 +63,7 @@ struct ContentView: View {
                             showingWeeklyReview = true
                         } label: {
                             Image(systemName: "calendar.badge.clock")
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Color.secondaryText)
                         }
 
                         Button {
@@ -67,7 +71,23 @@ struct ContentView: View {
                             showingLeaderboard = true
                         } label: {
                             Image(systemName: "trophy")
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Color.secondaryText)
+                        }
+
+                        Button {
+                            HapticManager.shared.lightTap()
+                            showingShareGrid = true
+                        } label: {
+                            Image(systemName: "square.and.arrow.up")
+                                .foregroundStyle(Color.secondaryText)
+                        }
+
+                        Button {
+                            HapticManager.shared.lightTap()
+                            showingChallenges = true
+                        } label: {
+                            Image(systemName: "flag.checkered")
+                                .foregroundStyle(Color.secondaryText)
                         }
                     }
                 }
@@ -77,7 +97,7 @@ struct ContentView: View {
                         SettingsView()
                     } label: {
                         Image(systemName: "gearshape.fill")
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.secondaryText)
                     }
                 }
             }
@@ -87,7 +107,16 @@ struct ContentView: View {
                         // Sync widget data after check-in
                         DataManager.shared.configure(with: modelContext)
                         DataManager.shared.syncWidgetData()
+
+                        // Check for milestone celebration
+                        checkForMilestone()
                     }
+            }
+            .fullScreenCover(isPresented: $showingMilestoneCelebration) {
+                StreakMilestoneCelebrationView(milestone: milestoneToShow) {
+                    showingMilestoneCelebration = false
+                    AppSettings.shared.celebrateMilestone(milestoneToShow)
+                }
             }
             .sheet(isPresented: $showingDayDetail) {
                 if let date = selectedDate {
@@ -99,6 +128,16 @@ struct ContentView: View {
             }
             .sheet(isPresented: $showingLeaderboard) {
                 LeaderboardView()
+            }
+            .sheet(isPresented: $showingShareGrid) {
+                ShareGridView(
+                    dayEntries: dayEntries,
+                    currentStreak: AppSettings.shared.currentStreak,
+                    longestStreak: AppSettings.shared.longestStreak
+                )
+            }
+            .sheet(isPresented: $showingChallenges) {
+                ChallengesView()
             }
             .onOpenURL { url in
                 handleDeepLink(url)
@@ -112,7 +151,7 @@ struct ContentView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(DateHelpers.formatDate(Date(), style: .medium))
                         .font(.headline)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
 
                     Text(hasCheckedInToday ? "Checked in!" : "Ready to check in?")
                         .font(.title2)
@@ -169,7 +208,7 @@ struct ContentView: View {
                     Spacer()
                     Text("\(habits.count) habits tracked")
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                 }
             }
         }
@@ -258,6 +297,22 @@ struct ContentView: View {
             break
         }
     }
+
+    private func checkForMilestone() {
+        let currentStreak = AppSettings.shared.currentStreak
+        let milestones = [7, 14, 21, 30, 50, 100, 150, 200, 365, 500, 1000]
+
+        // Find the highest milestone the user has reached but not yet celebrated
+        for milestone in milestones.reversed() {
+            if currentStreak >= milestone && AppSettings.shared.lastCelebratedMilestone < milestone {
+                milestoneToShow = milestone
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    showingMilestoneCelebration = true
+                }
+                break
+            }
+        }
+    }
 }
 
 // Interactive grid that allows tapping on dates
@@ -290,7 +345,7 @@ struct InteractiveContributionGridView: View {
                     ForEach(monthLabels, id: \.weekIndex) { label in
                         Text(label.month)
                             .font(.caption2)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.secondaryText)
                             .offset(x: labelOffset + CGFloat(label.weekIndex) * weekWidth)
                     }
                 }
@@ -303,7 +358,7 @@ struct InteractiveContributionGridView: View {
                     ForEach(DateHelpers.weekdayLabels(), id: \.self) { label in
                         Text(label)
                             .font(.system(size: 9))
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.secondaryText)
                             .frame(width: 20, height: squareSize, alignment: .trailing)
                     }
                 }
@@ -367,7 +422,7 @@ struct QuickStatCard: View {
 
             Text(title)
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 16)

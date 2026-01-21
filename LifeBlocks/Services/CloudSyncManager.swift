@@ -108,7 +108,7 @@ struct CloudSyncSettingsView: View {
                             Text("iCloud Sync")
                             Text("Sync data across your devices")
                                 .font(.caption)
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Color.secondaryText)
                         }
                     } icon: {
                         Image(systemName: "icloud")
@@ -134,10 +134,10 @@ struct CloudSyncSettingsView: View {
                 if let lastSync = syncManager.lastSyncDate {
                     HStack {
                         Text("Last synced")
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.secondaryText)
                         Spacer()
                         Text(lastSync, style: .relative)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.secondaryText)
                     }
                 }
 
@@ -156,7 +156,7 @@ struct CloudSyncSettingsView: View {
 
                     Text("When enabled, your habits, check-ins, and progress are automatically synced to iCloud and available on all your devices signed into the same Apple ID.")
                         .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                 }
                 .padding(.vertical, 8)
             }
@@ -169,7 +169,7 @@ struct CloudSyncSettingsView: View {
 
                         Text("Make sure you're signed into iCloud in Settings and have iCloud Drive enabled.")
                             .font(.subheadline)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.secondaryText)
 
                         Button("Open Settings") {
                             if let url = URL(string: UIApplication.openSettingsURLString) {

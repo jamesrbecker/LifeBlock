@@ -26,7 +26,7 @@ struct DailyNoteView: View {
 
                     Text("Quick reflection (optional)")
                         .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                 }
                 .padding(.top)
 
@@ -63,27 +63,28 @@ struct DailyNoteView: View {
                     ZStack(alignment: .topLeading) {
                         if note.isEmpty {
                             Text("What happened today? What are you grateful for?")
-                                .foregroundStyle(.tertiary)
+                                .foregroundStyle(Color.placeholderText)
                                 .padding(.horizontal, 8)
                                 .padding(.vertical, 12)
                         }
 
                         TextEditor(text: $note)
                             .focused($isNoteFocused)
+                            .foregroundStyle(Color.inputText)
                             .frame(minHeight: 120)
                             .scrollContentBackground(.hidden)
                             .padding(4)
                     }
-                    .background(Color.cardBackground)
+                    .background(Color.cardBackgroundLight)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
-                            .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                            .stroke(Color.borderColor, lineWidth: 1)
                     )
 
                     Text("\(note.count)/280")
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                         .frame(maxWidth: .infinity, alignment: .trailing)
                 }
                 .padding(.horizontal)
@@ -111,7 +112,7 @@ struct DailyNoteView: View {
                 }) {
                     Text("Skip")
                         .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                 }
                 .padding(.bottom)
             }
@@ -145,7 +146,7 @@ struct MoodButton: View {
 
                 Text(label)
                     .font(.caption2)
-                    .foregroundStyle(isSelected ? .primary : .secondary)
+                    .foregroundStyle(isSelected ? .primary : Color.secondaryText)
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 12)
@@ -189,7 +190,7 @@ struct NotePreviewCard: View {
             HStack {
                 Text(date, style: .date)
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.secondaryText)
 
                 Spacer()
 

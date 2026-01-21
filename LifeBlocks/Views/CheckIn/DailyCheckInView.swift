@@ -61,14 +61,14 @@ struct DailyCheckInView: View {
                 } label: {
                     Image(systemName: "xmark")
                         .font(.title3)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                 }
 
                 Spacer()
 
                 Text(DateHelpers.formatDate(date, style: .relative))
                     .font(.headline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.secondaryText)
 
                 Spacer()
 
@@ -95,7 +95,7 @@ struct DailyCheckInView: View {
 
             Text("\(currentIndex)/\(habits.count) completed")
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
         }
     }
 
@@ -129,7 +129,7 @@ struct DailyCheckInView: View {
             VStack(spacing: 16) {
                 Text("Today's Score")
                     .font(.title2)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.secondaryText)
 
                 ZStack {
                     Circle()
@@ -141,7 +141,7 @@ struct DailyCheckInView: View {
                             .font(.system(size: 48, weight: .bold, design: .rounded))
                         Text("/ 4")
                             .font(.title3)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.secondaryText)
                     }
                 }
 
@@ -196,7 +196,7 @@ struct DailyCheckInView: View {
         VStack(spacing: 20) {
             Image(systemName: "checkmark.circle")
                 .font(.system(size: 60))
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
 
             Text("No habits to track")
                 .font(.title2)
@@ -204,7 +204,7 @@ struct DailyCheckInView: View {
 
             Text("Add some habits in Settings to start tracking your progress.")
                 .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)
 
@@ -230,7 +230,7 @@ struct DailyCheckInView: View {
             default:
                 Label("Skipped", systemImage: "xmark.circle.fill")
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.secondaryText)
             }
         }
     }

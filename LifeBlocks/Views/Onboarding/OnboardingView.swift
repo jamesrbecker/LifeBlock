@@ -9,20 +9,39 @@ struct OnboardingView: View {
     @State private var userName: String = ""
     @State private var selectedPath: LifePathCategory?
     @State private var selectedHabits: Set<UUID> = []
+    @State private var showCustomPathSheet = false
+    @State private var selectedPathsForHybrid: Set<LifePathCategory> = []
     @StateObject private var healthKit = HealthKitManager.shared
     @StateObject private var notifications = NotificationManager.shared
+
+    // Student-specific state
+    @State private var selectedStudentType: StudentType?
+    @State private var selectedMajor: StudentMajor?
+    @State private var selectedCollege: CollegeInfo?
+    @State private var currentGPA: Double = 3.5
+    @State private var showCollegeSelector = false
+
+    // Career-specific state
+    @State private var selectedCareerPath: CareerPath?
+    @State private var currentCareerLevel: CareerLevel?
+    @State private var targetCareerLevel: CareerLevel?
 
     enum OnboardingStep: Int, CaseIterable {
         case welcome
         case nameInput
         case pathSelection
+        case studentDetails   // New: for student path customization
+        case careerDetails    // New: for professional path customization
         case habitSelection
+        case sprintSetup      // New: set up first sprint/goal
         case permissions
         case motivation
         case ready
 
         var progress: Double {
-            Double(rawValue) / Double(Self.allCases.count - 1)
+            // Adjust progress calculation for dynamic steps
+            let totalSteps = 8.0 // Approximate visible steps
+            return min(1.0, Double(rawValue) / totalSteps)
         }
     }
 
@@ -50,8 +69,14 @@ struct OnboardingView: View {
                         nameStep
                     case .pathSelection:
                         pathSelectionStep
+                    case .studentDetails:
+                        studentDetailsStep
+                    case .careerDetails:
+                        careerDetailsStep
                     case .habitSelection:
                         habitSelectionStep
+                    case .sprintSetup:
+                        sprintSetupStep
                     case .permissions:
                         permissionsStep
                     case .motivation:
@@ -140,10 +165,11 @@ struct OnboardingView: View {
                 Text("Welcome to LifeBlocks")
                     .font(.largeTitle)
                     .fontWeight(.bold)
+                    .foregroundStyle(Color.primaryText)
 
                 Text("Build the life you want,\none day at a time.")
                     .font(.title3)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.secondaryText)
                     .multilineTextAlignment(.center)
             }
 
@@ -156,13 +182,22 @@ struct OnboardingView: View {
                 }
                 Text("Join thousands building better habits")
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.secondaryText)
             }
 
             Spacer()
 
+            // Value propositions
+            VStack(spacing: 12) {
+                ValuePropRow(icon: "chart.line.uptrend.xyaxis", text: "Visual progress tracking")
+                ValuePropRow(icon: "bell.badge.fill", text: "Smart reminders")
+                ValuePropRow(icon: "person.2.fill", text: "Community challenges")
+            }
+            .padding(.horizontal, 40)
+
             // CTA Button
             Button {
+                HapticManager.shared.mediumTap()
                 withAnimation { currentStep = .nameInput }
             } label: {
                 HStack {
@@ -178,9 +213,9 @@ struct OnboardingView: View {
             }
             .padding(.horizontal, 24)
 
-            Text("Takes only 60 seconds")
+            Text("Identify your path,build your future.")
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
                 .padding(.bottom, 40)
         }
     }
@@ -199,23 +234,32 @@ struct OnboardingView: View {
                 Text("What should we call you?")
                     .font(.title)
                     .fontWeight(.bold)
+                    .foregroundStyle(Color.primaryText)
 
                 Text("Let's make this personal.")
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.secondaryText)
             }
 
-            TextField("Your first name", text: $userName)
-                .font(.title2)
-                .multilineTextAlignment(.center)
-                .padding()
-                .background(Color.cardBackground)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 12)
-                        .strokeBorder(Color.borderColor, lineWidth: 1)
-                )
-                .padding(.horizontal, 40)
+            ZStack {
+                if userName.isEmpty {
+                    Text("Your first name")
+                        .font(.title2)
+                        .foregroundStyle(Color.placeholderText)
+                }
+                TextField("", text: $userName)
+                    .font(.title2)
+                    .foregroundStyle(Color.inputText)
+                    .multilineTextAlignment(.center)
+            }
+            .padding()
+            .background(Color.cardBackgroundLight)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .strokeBorder(Color.borderColor, lineWidth: 1)
+            )
+            .padding(.horizontal, 40)
 
             Spacer()
 
@@ -235,24 +279,212 @@ struct OnboardingView: View {
                 Text("What's your vision, \(userName)?")
                     .font(.title2)
                     .fontWeight(.bold)
+                    .foregroundStyle(Color.primaryText)
 
                 Text("Choose your path to greatness")
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.secondaryText)
             }
             .padding(.top, 24)
 
             ScrollView(showsIndicators: false) {
-                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 14) {
-                    ForEach(LifePathCategory.allCases.filter { $0 != .custom }, id: \.self) { path in
-                        PathCard(
-                            path: path,
-                            isSelected: selectedPath == path
-                        ) {
-                            withAnimation(.spring(response: 0.3)) {
-                                selectedPath = path
-                                // Pre-select all habits by default
-                                selectedHabits = Set(path.suggestedHabits.map { $0.id })
+                VStack(spacing: 14) {
+                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 14) {
+                        ForEach(LifePathCategory.allCases.filter { $0 != .custom }, id: \.self) { path in
+                            PathCard(
+                                path: path,
+                                isSelected: selectedPath == path
+                            ) {
+                                HapticManager.shared.lightTap()
+                                withAnimation(.spring(response: 0.3)) {
+                                    selectedPath = path
+                                    // Pre-select all habits by default
+                                    selectedHabits = Set(path.suggestedHabits.map { $0.id })
+                                }
+                            }
+                        }
+                    }
+
+                    // Custom/Hybrid Path Option
+                    CustomPathCard(
+                        isPremium: AppSettings.shared.isPremium,
+                        onTap: {
+                            if AppSettings.shared.isPremium {
+                                showCustomPathSheet = true
+                            }
+                        }
+                    )
+                    .padding(.top, 4)
+                }
+                .padding(.horizontal)
+            }
+
+            navigationButtons(
+                backStep: .nameInput,
+                nextStep: nextStepAfterPathSelection,
+                canContinue: selectedPath != nil
+            )
+        }
+        .sheet(isPresented: $showCustomPathSheet) {
+            CustomPathBuilderSheet(
+                selectedPaths: $selectedPathsForHybrid,
+                onSave: { paths in
+                    // Combine habits from selected paths
+                    var combinedHabits: [HabitTemplate] = []
+                    for path in paths {
+                        combinedHabits.append(contentsOf: path.suggestedHabits)
+                    }
+                    // Remove duplicates and limit
+                    let uniqueHabits = Array(Set(combinedHabits.map { $0.id }))
+                    selectedHabits = Set(uniqueHabits.prefix(10))
+                    selectedPath = .custom
+                    showCustomPathSheet = false
+                }
+            )
+        }
+    }
+
+    // Helper to determine next step based on path selection
+    private var nextStepAfterPathSelection: OnboardingStep {
+        guard let path = selectedPath else { return .habitSelection }
+        switch path {
+        case .student:
+            return .studentDetails
+        case .entrepreneur, .softwareEngineer, .investor:
+            return .careerDetails
+        default:
+            return .habitSelection
+        }
+    }
+
+    // MARK: - Student Details Step
+
+    private var studentDetailsStep: some View {
+        VStack(spacing: 20) {
+            VStack(spacing: 8) {
+                Text("Tell us about your studies")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .foregroundStyle(Color.primaryText)
+
+                Text("We'll customize your path for academic success")
+                    .font(.subheadline)
+                    .foregroundStyle(Color.secondaryText)
+            }
+            .padding(.top, 24)
+
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 24) {
+                    // Student Type
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("I am a...")
+                            .font(.headline)
+                            .foregroundStyle(Color.primaryText)
+
+                        LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
+                            ForEach(StudentType.allCases, id: \.self) { type in
+                                StudentTypeCard(
+                                    type: type,
+                                    isSelected: selectedStudentType == type
+                                ) {
+                                    HapticManager.shared.lightTap()
+                                    withAnimation(.spring(response: 0.3)) {
+                                        selectedStudentType = type
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // Major/Focus (for high school show intended major)
+                    if selectedStudentType != nil {
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text(selectedStudentType == .highSchool ? "Intended Major" : "Major/Focus")
+                                .font(.headline)
+                                .foregroundStyle(Color.primaryText)
+
+                            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+                                ForEach(StudentMajor.allCases.prefix(12), id: \.self) { major in
+                                    MajorCard(
+                                        major: major,
+                                        isSelected: selectedMajor == major
+                                    ) {
+                                        HapticManager.shared.lightTap()
+                                        withAnimation(.spring(response: 0.3)) {
+                                            selectedMajor = major
+                                            // Add major-specific habits
+                                            for habit in major.suggestedHabits {
+                                                selectedHabits.insert(habit.id)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // College Target (for high school students)
+                    if selectedStudentType == .highSchool {
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("Dream School (Optional)")
+                                .font(.headline)
+                                .foregroundStyle(Color.primaryText)
+
+                            Button {
+                                showCollegeSelector = true
+                            } label: {
+                                HStack {
+                                    if let college = selectedCollege {
+                                        VStack(alignment: .leading, spacing: 2) {
+                                            Text(college.shortName)
+                                                .font(.headline)
+                                                .foregroundStyle(Color.primaryText)
+
+                                            Text("\(college.gpaDescription) • \(Int(college.acceptanceRate))% acceptance")
+                                                .font(.caption)
+                                                .foregroundStyle(Color.secondaryText)
+                                        }
+                                    } else {
+                                        HStack {
+                                            Image(systemName: "graduationcap")
+                                                .foregroundStyle(Color.secondaryText)
+                                            Text("Select a target college...")
+                                                .foregroundStyle(Color.secondaryText)
+                                        }
+                                    }
+
+                                    Spacer()
+
+                                    Image(systemName: "chevron.right")
+                                        .foregroundStyle(Color.tertiaryText)
+                                }
+                                .padding()
+                                .background(Color.cardBackground)
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                            }
+                            .buttonStyle(.plain)
+
+                            // GPA Input if college selected
+                            if selectedCollege != nil {
+                                VStack(alignment: .leading, spacing: 8) {
+                                    HStack {
+                                        Text("Current GPA")
+                                            .font(.subheadline)
+                                            .foregroundStyle(Color.primaryText)
+
+                                        Spacer()
+
+                                        Text(String(format: "%.2f", currentGPA))
+                                            .font(.headline)
+                                            .foregroundStyle(Color.accentGreen)
+                                    }
+
+                                    Slider(value: $currentGPA, in: 1.0...4.3, step: 0.01)
+                                        .tint(Color.accentGreen)
+                                }
+                                .padding()
+                                .background(Color.cardBackground)
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
                             }
                         }
                     }
@@ -261,9 +493,200 @@ struct OnboardingView: View {
             }
 
             navigationButtons(
-                backStep: .nameInput,
+                backStep: .pathSelection,
                 nextStep: .habitSelection,
-                canContinue: selectedPath != nil
+                canContinue: selectedStudentType != nil
+            )
+        }
+        .sheet(isPresented: $showCollegeSelector) {
+            CollegeSearchView(selectedCollege: $selectedCollege)
+        }
+    }
+
+    // MARK: - Career Details Step
+
+    private var careerDetailsStep: some View {
+        VStack(spacing: 20) {
+            VStack(spacing: 8) {
+                Text("Where are you headed?")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .foregroundStyle(Color.primaryText)
+
+                Text("Set your career trajectory")
+                    .font(.subheadline)
+                    .foregroundStyle(Color.secondaryText)
+            }
+            .padding(.top, 24)
+
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 24) {
+                    // Career Path Selection
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Career Track")
+                            .font(.headline)
+                            .foregroundStyle(Color.primaryText)
+
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 12) {
+                                ForEach(CareerDatabase.paths) { path in
+                                    CareerPathCard(
+                                        path: path,
+                                        isSelected: selectedCareerPath?.id == path.id
+                                    ) {
+                                        HapticManager.shared.lightTap()
+                                        withAnimation(.spring(response: 0.3)) {
+                                            selectedCareerPath = path
+                                            currentCareerLevel = nil
+                                            targetCareerLevel = nil
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // Current Level
+                    if let path = selectedCareerPath {
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("Current Level")
+                                .font(.headline)
+                                .foregroundStyle(Color.primaryText)
+
+                            ForEach(path.levels) { level in
+                                CareerLevelRow(
+                                    level: level,
+                                    isSelected: currentCareerLevel?.id == level.id,
+                                    color: path.color
+                                ) {
+                                    HapticManager.shared.lightTap()
+                                    withAnimation(.spring(response: 0.3)) {
+                                        currentCareerLevel = level
+                                        // Auto-select next level as target
+                                        if let index = path.levels.firstIndex(where: { $0.id == level.id }),
+                                           index + 1 < path.levels.count {
+                                            targetCareerLevel = path.levels[index + 1]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // Target Level
+                    if let path = selectedCareerPath, let current = currentCareerLevel {
+                        let availableLevels = path.levels.filter { $0.level > current.level }
+                        if !availableLevels.isEmpty {
+                            VStack(alignment: .leading, spacing: 12) {
+                                Text("Target Level")
+                                    .font(.headline)
+                                    .foregroundStyle(Color.primaryText)
+
+                                ForEach(availableLevels) { level in
+                                    CareerLevelRow(
+                                        level: level,
+                                        isSelected: targetCareerLevel?.id == level.id,
+                                        color: path.color
+                                    ) {
+                                        HapticManager.shared.lightTap()
+                                        withAnimation(.spring(response: 0.3)) {
+                                            targetCareerLevel = level
+                                            // Add level-specific habits
+                                            for habit in level.habits {
+                                                selectedHabits.insert(habit.id)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // Salary Jump Preview
+                    if let path = selectedCareerPath, let current = currentCareerLevel, let target = targetCareerLevel {
+                        SalaryJumpView(currentLevel: current, targetLevel: target, color: path.color)
+                    }
+                }
+                .padding(.horizontal)
+            }
+
+            navigationButtons(
+                backStep: .pathSelection,
+                nextStep: .habitSelection,
+                canContinue: selectedCareerPath != nil && currentCareerLevel != nil
+            )
+        }
+    }
+
+    // MARK: - Sprint Setup Step
+
+    private var sprintSetupStep: some View {
+        VStack(spacing: 20) {
+            VStack(spacing: 8) {
+                Image(systemName: "bolt.circle.fill")
+                    .font(.system(size: 50))
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: [.purple, .blue],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+
+                Text("Set Your First Sprint")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .foregroundStyle(Color.primaryText)
+
+                Text("Sprints are focused short-term goals that accelerate your progress")
+                    .font(.subheadline)
+                    .foregroundStyle(Color.secondaryText)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
+            }
+            .padding(.top, 24)
+
+            // Show relevant sprint suggestion based on path
+            VStack(spacing: 16) {
+                if selectedPath == .student, let college = selectedCollege {
+                    // College admission sprint suggestion
+                    SprintSuggestionCard(
+                        title: "Get into \(college.shortName)",
+                        description: "Track GPA, test scores, and activities to maximize your admission chances",
+                        icon: "graduationcap.fill",
+                        color: .blue
+                    )
+                } else if let target = targetCareerLevel {
+                    // Career advancement sprint suggestion
+                    SprintSuggestionCard(
+                        title: "Reach \(target.title)",
+                        description: "Build skills and visibility to accelerate your promotion",
+                        icon: "arrow.up.circle.fill",
+                        color: .purple
+                    )
+                } else {
+                    // Generic sprint suggestion
+                    SprintSuggestionCard(
+                        title: "30-Day Kickstart",
+                        description: "Build momentum with a focused 30-day sprint on your path",
+                        icon: "flame.fill",
+                        color: .orange
+                    )
+                }
+
+                Text("You can set up sprints anytime from the main screen")
+                    .font(.caption)
+                    .foregroundStyle(Color.secondaryText)
+            }
+            .padding(.horizontal)
+
+            Spacer()
+
+            navigationButtons(
+                backStep: .habitSelection,
+                nextStep: .permissions,
+                canContinue: true,
+                nextButtonText: "Continue"
             )
         }
     }
@@ -276,26 +699,79 @@ struct OnboardingView: View {
                 Text("Your Daily Actions")
                     .font(.title2)
                     .fontWeight(.bold)
+                    .foregroundStyle(Color.primaryText)
 
                 Text("These habits will move you toward your goals")
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.secondaryText)
             }
             .padding(.top, 24)
 
             if let path = selectedPath {
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 12) {
+                        // Path-specific habits
                         ForEach(path.suggestedHabits) { habit in
                             HabitTemplateRow(
                                 template: habit,
                                 isSelected: selectedHabits.contains(habit.id)
                             ) {
+                                HapticManager.shared.lightTap()
                                 withAnimation(.spring(response: 0.2)) {
                                     if selectedHabits.contains(habit.id) {
                                         selectedHabits.remove(habit.id)
                                     } else {
                                         selectedHabits.insert(habit.id)
+                                    }
+                                }
+                            }
+                        }
+
+                        // Major-specific habits (for students)
+                        if let major = selectedMajor, !major.suggestedHabits.isEmpty {
+                            Text("\(major.displayName) Focus")
+                                .font(.headline)
+                                .foregroundStyle(Color.primaryText)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.top, 8)
+
+                            ForEach(major.suggestedHabits) { habit in
+                                HabitTemplateRow(
+                                    template: habit,
+                                    isSelected: selectedHabits.contains(habit.id)
+                                ) {
+                                    HapticManager.shared.lightTap()
+                                    withAnimation(.spring(response: 0.2)) {
+                                        if selectedHabits.contains(habit.id) {
+                                            selectedHabits.remove(habit.id)
+                                        } else {
+                                            selectedHabits.insert(habit.id)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        // Career level habits
+                        if let targetLevel = targetCareerLevel, !targetLevel.habits.isEmpty {
+                            Text("\(targetLevel.title) Skills")
+                                .font(.headline)
+                                .foregroundStyle(Color.primaryText)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.top, 8)
+
+                            ForEach(targetLevel.habits) { habit in
+                                HabitTemplateRow(
+                                    template: habit,
+                                    isSelected: selectedHabits.contains(habit.id)
+                                ) {
+                                    HapticManager.shared.lightTap()
+                                    withAnimation(.spring(response: 0.2)) {
+                                        if selectedHabits.contains(habit.id) {
+                                            selectedHabits.remove(habit.id)
+                                        } else {
+                                            selectedHabits.insert(habit.id)
+                                        }
                                     }
                                 }
                             }
@@ -316,8 +792,8 @@ struct OnboardingView: View {
             }
 
             navigationButtons(
-                backStep: .pathSelection,
-                nextStep: .permissions,
+                backStep: previousStepForHabitSelection,
+                nextStep: .sprintSetup,
                 canContinue: !selectedHabits.isEmpty
             )
         }
@@ -337,10 +813,11 @@ struct OnboardingView: View {
                 Text("Stay on Track")
                     .font(.title)
                     .fontWeight(.bold)
+                    .foregroundStyle(Color.primaryText)
 
                 Text("Enable notifications to get daily reminders and stay motivated on your journey.")
                     .font(.body)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.secondaryText)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 32)
             }
@@ -376,11 +853,24 @@ struct OnboardingView: View {
             Spacer()
 
             navigationButtons(
-                backStep: .habitSelection,
+                backStep: .sprintSetup,
                 nextStep: .motivation,
                 canContinue: true,
                 nextButtonText: "Continue"
             )
+        }
+    }
+
+    // Helper to determine previous step for habit selection
+    private var previousStepForHabitSelection: OnboardingStep {
+        guard let path = selectedPath else { return .pathSelection }
+        switch path {
+        case .student:
+            return .studentDetails
+        case .entrepreneur, .softwareEngineer, .investor:
+            return .careerDetails
+        default:
+            return .pathSelection
         }
     }
 
@@ -411,10 +901,11 @@ struct OnboardingView: View {
                     Text("Your \(path.displayName) Journey")
                         .font(.title)
                         .fontWeight(.bold)
+                        .foregroundStyle(Color.primaryText)
 
                     Text(path.tagline)
                         .font(.title3)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 32)
 
@@ -427,7 +918,7 @@ struct OnboardingView: View {
                             Text(quote)
                                 .font(.body)
                                 .italic()
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Color.secondaryText)
                                 .multilineTextAlignment(.center)
                                 .padding(.horizontal, 40)
                         }
@@ -467,6 +958,7 @@ struct OnboardingView: View {
                 Text("You're Ready, \(userName)!")
                     .font(.title)
                     .fontWeight(.bold)
+                    .foregroundStyle(Color.primaryText)
 
                 VStack(spacing: 12) {
                     summaryRow(icon: selectedPath?.icon ?? "star.fill", text: selectedPath?.displayName ?? "Custom Path", color: selectedPath?.color ?? .gray)
@@ -480,13 +972,14 @@ struct OnboardingView: View {
 
                 Text("Every journey begins with a single step.\nYours starts today.")
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.secondaryText)
                     .multilineTextAlignment(.center)
             }
 
             Spacer()
 
             Button {
+                HapticManager.shared.success()
                 completeOnboarding()
             } label: {
                 HStack {
@@ -518,6 +1011,7 @@ struct OnboardingView: View {
                 .frame(width: 24)
             Text(text)
                 .font(.subheadline)
+                .foregroundStyle(Color.primaryText)
             Spacer()
         }
     }
@@ -537,7 +1031,7 @@ struct OnboardingView: View {
                 } label: {
                     Image(systemName: "arrow.left")
                         .font(.headline)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                         .frame(width: 56, height: 56)
                         .background(Color.cardBackground)
                         .clipShape(Circle())
@@ -630,7 +1124,7 @@ struct PathCard: View {
                     .font(.caption)
                     .fontWeight(.medium)
                     .multilineTextAlignment(.center)
-                    .foregroundStyle(isSelected ? .white : .primary)
+                    .foregroundStyle(isSelected ? .white : Color.primaryText)
                     .lineLimit(2)
                     .minimumScaleFactor(0.8)
             }
@@ -675,11 +1169,11 @@ struct HabitTemplateRow: View {
                     Text(template.name)
                         .font(.subheadline)
                         .fontWeight(.semibold)
-                        .foregroundStyle(.primary)
+                        .foregroundStyle(Color.primaryText)
 
                     Text(template.description)
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                         .lineLimit(1)
                 }
 
@@ -687,7 +1181,7 @@ struct HabitTemplateRow: View {
 
                 Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
                     .font(.title2)
-                    .foregroundStyle(isSelected ? Color.accentGreen : .secondary.opacity(0.5))
+                    .foregroundStyle(isSelected ? Color.accentGreen : Color.tertiaryText)
             }
             .padding(.horizontal, 14)
             .padding(.vertical, 12)
@@ -718,17 +1212,17 @@ struct PermissionRow: View {
             HStack(spacing: 16) {
                 Image(systemName: icon)
                     .font(.title2)
-                    .foregroundStyle(isEnabled ? .green : .secondary)
+                    .foregroundStyle(isEnabled ? .green : Color.secondaryText)
                     .frame(width: 32)
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(title)
                         .font(.headline)
-                        .foregroundStyle(.primary)
+                        .foregroundStyle(Color.primaryText)
 
                     Text(description)
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                 }
 
                 Spacer()
@@ -753,6 +1247,483 @@ struct PermissionRow: View {
         }
         .buttonStyle(.plain)
         .disabled(isEnabled)
+    }
+}
+
+// MARK: - Value Proposition Row
+
+struct ValuePropRow: View {
+    let icon: String
+    let text: String
+
+    var body: some View {
+        HStack(spacing: 12) {
+            Image(systemName: icon)
+                .font(.body)
+                .foregroundStyle(Color.accentGreen)
+                .frame(width: 24)
+
+            Text(text)
+                .font(.subheadline)
+                .foregroundStyle(Color.primaryText)
+
+            Spacer()
+
+            Image(systemName: "checkmark")
+                .font(.caption)
+                .foregroundStyle(Color.accentGreen)
+        }
+    }
+}
+
+// MARK: - Custom Path Card
+
+struct CustomPathCard: View {
+    let isPremium: Bool
+    let onTap: () -> Void
+
+    var body: some View {
+        Button(action: onTap) {
+            VStack(spacing: 12) {
+                HStack(spacing: 16) {
+                    // Icon stack showing multiple paths
+                    ZStack {
+                        Circle()
+                            .fill(
+                                LinearGradient(
+                                    colors: [.purple, .blue, .green],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                            .frame(width: 50, height: 50)
+
+                        Image(systemName: "sparkles")
+                            .font(.title2)
+                            .foregroundStyle(.white)
+                    }
+
+                    VStack(alignment: .leading, spacing: 4) {
+                        HStack(spacing: 6) {
+                            Text("Create Your Own Path")
+                                .font(.headline)
+                                .foregroundStyle(Color.primaryText)
+
+                            if !isPremium {
+                                Text("PRO")
+                                    .font(.caption2)
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(.white)
+                                    .padding(.horizontal, 6)
+                                    .padding(.vertical, 2)
+                                    .background(
+                                        LinearGradient(
+                                            colors: [.purple, .blue],
+                                            startPoint: .leading,
+                                            endPoint: .trailing
+                                        )
+                                    )
+                                    .clipShape(Capsule())
+                            }
+                        }
+
+                        Text(isPremium ? "Combine multiple paths into one" : "Mix habits from multiple paths")
+                            .font(.caption)
+                            .foregroundStyle(Color.secondaryText)
+                    }
+
+                    Spacer()
+
+                    Image(systemName: "chevron.right")
+                        .font(.body)
+                        .foregroundStyle(Color.tertiaryText)
+                }
+
+                if !isPremium {
+                    // Teaser for free users
+                    HStack(spacing: 6) {
+                        Image(systemName: "info.circle.fill")
+                            .font(.caption)
+                            .foregroundStyle(.blue)
+
+                        Text("New paths added weekly! Upgrade to create custom combinations.")
+                            .font(.caption2)
+                            .foregroundStyle(Color.secondaryText)
+
+                        Spacer()
+                    }
+                    .padding(10)
+                    .background(Color.blue.opacity(0.1))
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                }
+            }
+            .padding()
+            .background(Color.cardBackground)
+            .clipShape(RoundedRectangle(cornerRadius: 14))
+            .overlay(
+                RoundedRectangle(cornerRadius: 14)
+                    .strokeBorder(
+                        LinearGradient(
+                            colors: isPremium ? [.purple, .blue, .green] : [Color.borderColor],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        lineWidth: isPremium ? 2 : 1
+                    )
+            )
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+// MARK: - Custom Path Builder Sheet
+
+struct CustomPathBuilderSheet: View {
+    @Binding var selectedPaths: Set<LifePathCategory>
+    let onSave: (Set<LifePathCategory>) -> Void
+    @Environment(\.dismiss) private var dismiss
+
+    private let availablePaths = LifePathCategory.allCases.filter { $0 != .custom }
+
+    var body: some View {
+        NavigationView {
+            VStack(spacing: 20) {
+                // Header
+                VStack(spacing: 8) {
+                    Image(systemName: "sparkles")
+                        .font(.system(size: 40))
+                        .foregroundStyle(
+                            LinearGradient(
+                                colors: [.purple, .blue, .green],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+
+                    Text("Build Your Hybrid Path")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundStyle(Color.primaryText)
+
+                    Text("Select 2-3 paths to combine their habits")
+                        .font(.subheadline)
+                        .foregroundStyle(Color.secondaryText)
+                }
+                .padding(.top)
+
+                // Selection count
+                HStack {
+                    Text("\(selectedPaths.count) of 3 selected")
+                        .font(.caption)
+                        .foregroundStyle(Color.secondaryText)
+
+                    Spacer()
+
+                    if selectedPaths.count > 0 {
+                        Button("Clear All") {
+                            selectedPaths.removeAll()
+                        }
+                        .font(.caption)
+                        .foregroundStyle(.blue)
+                    }
+                }
+                .padding(.horizontal)
+
+                // Path grid
+                ScrollView {
+                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
+                        ForEach(availablePaths, id: \.self) { path in
+                            HybridPathOption(
+                                path: path,
+                                isSelected: selectedPaths.contains(path),
+                                isDisabled: selectedPaths.count >= 3 && !selectedPaths.contains(path)
+                            ) {
+                                if selectedPaths.contains(path) {
+                                    selectedPaths.remove(path)
+                                } else if selectedPaths.count < 3 {
+                                    selectedPaths.insert(path)
+                                }
+                            }
+                        }
+                    }
+                    .padding(.horizontal)
+                }
+
+                // Save button
+                Button {
+                    onSave(selectedPaths)
+                } label: {
+                    Text("Create Hybrid Path")
+                        .font(.headline)
+                        .foregroundStyle(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(
+                            selectedPaths.count >= 2
+                                ? LinearGradient(colors: [.purple, .blue], startPoint: .leading, endPoint: .trailing)
+                                : LinearGradient(colors: [Color.gray], startPoint: .leading, endPoint: .trailing)
+                        )
+                        .clipShape(RoundedRectangle(cornerRadius: 14))
+                }
+                .disabled(selectedPaths.count < 2)
+                .padding(.horizontal)
+                .padding(.bottom)
+            }
+            .background(Color.gridBackground)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
+                    .foregroundStyle(Color.secondaryText)
+                }
+            }
+        }
+    }
+}
+
+// MARK: - Hybrid Path Option
+
+struct HybridPathOption: View {
+    let path: LifePathCategory
+    let isSelected: Bool
+    let isDisabled: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 8) {
+                ZStack {
+                    Circle()
+                        .fill(isSelected ? path.color : path.color.opacity(0.2))
+                        .frame(width: 44, height: 44)
+
+                    Image(systemName: path.icon)
+                        .font(.title3)
+                        .foregroundStyle(isSelected ? .white : path.color)
+                }
+
+                Text(path.displayName)
+                    .font(.caption)
+                    .fontWeight(.medium)
+                    .foregroundStyle(isDisabled ? Color.tertiaryText : Color.primaryText)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(2)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 16)
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(isSelected ? path.color.opacity(0.15) : Color.cardBackground)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .strokeBorder(isSelected ? path.color : Color.borderColor, lineWidth: isSelected ? 2 : 1)
+            )
+            .opacity(isDisabled ? 0.5 : 1)
+        }
+        .buttonStyle(.plain)
+        .disabled(isDisabled)
+    }
+}
+
+// MARK: - Student Type Card
+
+struct StudentTypeCard: View {
+    let type: StudentType
+    let isSelected: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 8) {
+                Image(systemName: type.icon)
+                    .font(.title2)
+                    .foregroundStyle(isSelected ? .white : .cyan)
+
+                Text(type.displayName)
+                    .font(.caption)
+                    .fontWeight(.medium)
+                    .foregroundStyle(isSelected ? .white : Color.primaryText)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 16)
+            .background(isSelected ? Color.cyan : Color.cardBackground)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .strokeBorder(isSelected ? Color.cyan : Color.borderColor, lineWidth: isSelected ? 2 : 1)
+            )
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+// MARK: - Major Card
+
+struct MajorCard: View {
+    let major: StudentMajor
+    let isSelected: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 8) {
+                Image(systemName: major.icon)
+                    .font(.caption)
+                    .foregroundStyle(isSelected ? .white : .blue)
+
+                Text(major.displayName)
+                    .font(.caption2)
+                    .fontWeight(.medium)
+                    .foregroundStyle(isSelected ? .white : Color.primaryText)
+                    .lineLimit(1)
+            }
+            .padding(.horizontal, 10)
+            .padding(.vertical, 8)
+            .background(isSelected ? Color.blue : Color.cardBackground)
+            .clipShape(RoundedRectangle(cornerRadius: 8))
+            .overlay(
+                RoundedRectangle(cornerRadius: 8)
+                    .strokeBorder(isSelected ? Color.blue : Color.borderColor, lineWidth: 1)
+            )
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+// MARK: - Career Path Card
+
+struct CareerPathCard: View {
+    let path: CareerPath
+    let isSelected: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 8) {
+                Image(systemName: path.icon)
+                    .font(.title2)
+                    .foregroundStyle(isSelected ? .white : path.color)
+
+                Text(path.name)
+                    .font(.caption)
+                    .fontWeight(.medium)
+                    .foregroundStyle(isSelected ? .white : Color.primaryText)
+                    .lineLimit(2)
+                    .multilineTextAlignment(.center)
+            }
+            .frame(width: 100)
+            .padding(.vertical, 16)
+            .background(isSelected ? path.color : Color.cardBackground)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .strokeBorder(isSelected ? path.color : Color.borderColor, lineWidth: isSelected ? 2 : 1)
+            )
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+// MARK: - Career Level Row
+
+struct CareerLevelRow: View {
+    let level: CareerLevel
+    let isSelected: Bool
+    let color: Color
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 14) {
+                // Level indicator
+                ZStack {
+                    Circle()
+                        .fill(isSelected ? color : color.opacity(0.2))
+                        .frame(width: 40, height: 40)
+
+                    Text("\(level.level)")
+                        .font(.headline)
+                        .fontWeight(.bold)
+                        .foregroundStyle(isSelected ? .white : color)
+                }
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(level.title)
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(Color.primaryText)
+
+                    Text("$\(level.salaryRange.lowerBound/1000)k - $\(level.salaryRange.upperBound/1000)k")
+                        .font(.caption)
+                        .foregroundStyle(Color.secondaryText)
+                }
+
+                Spacer()
+
+                Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+                    .font(.title3)
+                    .foregroundStyle(isSelected ? color : Color.tertiaryText)
+            }
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(isSelected ? color.opacity(0.1) : Color.cardBackground)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .strokeBorder(isSelected ? color : Color.borderColor, lineWidth: isSelected ? 2 : 1)
+            )
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+// MARK: - Sprint Suggestion Card
+
+struct SprintSuggestionCard: View {
+    let title: String
+    let description: String
+    let icon: String
+    let color: Color
+
+    var body: some View {
+        HStack(spacing: 16) {
+            ZStack {
+                Circle()
+                    .fill(color.opacity(0.2))
+                    .frame(width: 50, height: 50)
+
+                Image(systemName: icon)
+                    .font(.title2)
+                    .foregroundStyle(color)
+            }
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text(title)
+                    .font(.headline)
+                    .foregroundStyle(Color.primaryText)
+
+                Text(description)
+                    .font(.caption)
+                    .foregroundStyle(Color.secondaryText)
+                    .lineLimit(2)
+            }
+
+            Spacer()
+
+            Image(systemName: "chevron.right")
+                .foregroundStyle(Color.tertiaryText)
+        }
+        .padding()
+        .background(Color.cardBackground)
+        .clipShape(RoundedRectangle(cornerRadius: 14))
+        .overlay(
+            RoundedRectangle(cornerRadius: 14)
+                .strokeBorder(color.opacity(0.3), lineWidth: 1)
+        )
     }
 }
 

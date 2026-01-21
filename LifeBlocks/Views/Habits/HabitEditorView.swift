@@ -23,12 +23,16 @@ enum HabitEditorMode {
 struct HabitEditorView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    @Query(filter: #Predicate<Habit> { $0.isActive }, sort: \Habit.sortOrder)
+    private var allHabits: [Habit]
 
     let mode: HabitEditorMode
 
     @State private var name: String = ""
     @State private var selectedIcon: String = "checkmark.circle.fill"
     @State private var selectedColor: String = "#30A14E"
+    @State private var stackedAfterHabitId: UUID? = nil
+    @State private var showingStackPicker = false
 
     private let iconOptions = [
         "checkmark.circle.fill",
@@ -82,7 +86,23 @@ struct HabitEditorView: View {
             _name = State(initialValue: habit.name)
             _selectedIcon = State(initialValue: habit.icon)
             _selectedColor = State(initialValue: habit.colorHex)
+            _stackedAfterHabitId = State(initialValue: habit.stackedAfterHabitId)
         }
+    }
+
+    private var availableHabitsForStacking: [Habit] {
+        // Filter out the current habit being edited
+        allHabits.filter { habit in
+            if case .edit(let editingHabit) = mode {
+                return habit.id != editingHabit.id
+            }
+            return true
+        }
+    }
+
+    private var stackedAfterHabit: Habit? {
+        guard let id = stackedAfterHabitId else { return nil }
+        return allHabits.first { $0.id == id }
     }
 
     private var isValid: Bool {
@@ -103,7 +123,7 @@ struct HabitEditorView: View {
 
                             Text(name.isEmpty ? "Habit Name" : name)
                                 .font(.headline)
-                                .foregroundStyle(name.isEmpty ? .secondary : .primary)
+                                .foregroundStyle(name.isEmpty ? Color.secondaryText : .primary)
                         }
                         .padding(.vertical, 20)
                         Spacer()
@@ -113,6 +133,7 @@ struct HabitEditorView: View {
                 // Name input
                 Section("Name") {
                     TextField("Enter habit name", text: $name)
+                        .foregroundStyle(Color.inputText)
                         .textInputAutocapitalization(.words)
                 }
 
@@ -125,7 +146,7 @@ struct HabitEditorView: View {
                             } label: {
                                 Image(systemName: icon)
                                     .font(.title2)
-                                    .foregroundStyle(selectedIcon == icon ? Color(hex: selectedColor) : .secondary)
+                                    .foregroundStyle(selectedIcon == icon ? Color(hex: selectedColor) : Color.secondaryText)
                                     .frame(width: 44, height: 44)
                                     .background(
                                         RoundedRectangle(cornerRadius: 10)
@@ -166,6 +187,50 @@ struct HabitEditorView: View {
                     }
                     .padding(.vertical, 8)
                 }
+
+                // Habit Stacking
+                Section {
+                    Button {
+                        showingStackPicker = true
+                    } label: {
+                        HStack {
+                            Image(systemName: "link")
+                                .foregroundStyle(.blue)
+
+                            Text("Stack After")
+
+                            Spacer()
+
+                            if let habit = stackedAfterHabit {
+                                HStack(spacing: 6) {
+                                    Image(systemName: habit.icon)
+                                        .font(.caption)
+                                        .foregroundStyle(Color(hex: habit.colorHex))
+                                    Text(habit.name)
+                                        .foregroundStyle(Color.secondaryText)
+                                }
+                            } else {
+                                Text("None")
+                                    .foregroundStyle(Color.secondaryText)
+                            }
+
+                            Image(systemName: "chevron.right")
+                                .font(.caption)
+                                .foregroundStyle(Color.secondaryText)
+                        }
+                    }
+                    .buttonStyle(.plain)
+                } header: {
+                    Text("Habit Stacking")
+                } footer: {
+                    Text("Link habits together. When you complete one habit, you'll be prompted to do the next one in your stack.")
+                }
+            }
+            .sheet(isPresented: $showingStackPicker) {
+                HabitStackPicker(
+                    selectedHabitId: $stackedAfterHabitId,
+                    availableHabits: availableHabitsForStacking
+                )
             }
             .navigationTitle(mode.title)
             .navigationBarTitleDisplayMode(.inline)
@@ -197,16 +262,134 @@ struct HabitEditorView: View {
                 colorHex: selectedColor,
                 isSystemHabit: false
             )
+            habit.stackedAfterHabitId = stackedAfterHabitId
             modelContext.insert(habit)
 
         case .edit(let habit):
             habit.name = trimmedName
             habit.icon = selectedIcon
             habit.colorHex = selectedColor
+            habit.stackedAfterHabitId = stackedAfterHabitId
         }
 
         try? modelContext.save()
         dismiss()
+    }
+}
+
+// MARK: - Habit Stack Picker
+struct HabitStackPicker: View {
+    @Environment(\.dismiss) private var dismiss
+    @Binding var selectedHabitId: UUID?
+    let availableHabits: [Habit]
+
+    var body: some View {
+        NavigationStack {
+            List {
+                // None option
+                Button {
+                    selectedHabitId = nil
+                    dismiss()
+                } label: {
+                    HStack {
+                        Image(systemName: "xmark.circle")
+                            .foregroundStyle(Color.secondaryText)
+
+                        Text("No Stack (Independent)")
+
+                        Spacer()
+
+                        if selectedHabitId == nil {
+                            Image(systemName: "checkmark")
+                                .foregroundStyle(.blue)
+                        }
+                    }
+                }
+                .buttonStyle(.plain)
+
+                Section("Stack After") {
+                    ForEach(availableHabits) { habit in
+                        Button {
+                            selectedHabitId = habit.id
+                            dismiss()
+                        } label: {
+                            HStack {
+                                Image(systemName: habit.icon)
+                                    .foregroundStyle(Color(hex: habit.colorHex))
+                                    .frame(width: 32)
+
+                                Text(habit.name)
+
+                                Spacer()
+
+                                if selectedHabitId == habit.id {
+                                    Image(systemName: "checkmark")
+                                        .foregroundStyle(.blue)
+                                }
+                            }
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+
+                Section {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Label("How Habit Stacking Works", systemImage: "info.circle")
+                            .font(.headline)
+
+                        Text("When you complete a habit, you'll be reminded to do the next habit in your stack. This helps build routine chains.")
+                            .font(.subheadline)
+                            .foregroundStyle(Color.secondaryText)
+
+                        HStack(spacing: 8) {
+                            Text("Example:")
+                                .font(.caption)
+                                .foregroundStyle(Color.secondaryText)
+
+                            HStack(spacing: 4) {
+                                Image(systemName: "cup.and.saucer.fill")
+                                    .font(.caption)
+                                Text("Coffee")
+                                    .font(.caption)
+                            }
+
+                            Image(systemName: "arrow.right")
+                                .font(.caption2)
+                                .foregroundStyle(Color.secondaryText)
+
+                            HStack(spacing: 4) {
+                                Image(systemName: "book.fill")
+                                    .font(.caption)
+                                Text("Read")
+                                    .font(.caption)
+                            }
+
+                            Image(systemName: "arrow.right")
+                                .font(.caption2)
+                                .foregroundStyle(Color.secondaryText)
+
+                            HStack(spacing: 4) {
+                                Image(systemName: "figure.yoga")
+                                    .font(.caption)
+                                Text("Stretch")
+                                    .font(.caption)
+                            }
+                        }
+                        .padding(.top, 4)
+                    }
+                    .padding(.vertical, 8)
+                }
+            }
+            .navigationTitle("Stack After")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Done") {
+                        dismiss()
+                    }
+                }
+            }
+        }
     }
 }
 

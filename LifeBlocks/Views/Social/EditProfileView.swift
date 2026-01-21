@@ -29,7 +29,7 @@ struct EditProfileView: View {
 
                     Text("Tap an emoji below to change")
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical)
@@ -61,6 +61,7 @@ struct EditProfileView: View {
 
             Section("Display Name") {
                 TextField("Your Name", text: $displayName)
+                    .foregroundStyle(Color.inputText)
                     .textInputAutocapitalization(.words)
             }
 
@@ -76,7 +77,7 @@ struct EditProfileView: View {
 
                     Text("Share this code with friends so they can add you")
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                 }
             }
 
@@ -88,11 +89,11 @@ struct EditProfileView: View {
 
                     Text("Life is about stacking skills, learning, and building blocks toward your goals. Each day you check in, you stack another block. Each habit you complete adds to your foundation.")
                         .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
 
                     Text("Your avatar represents you on this journey. Choose one that inspires you to keep building.")
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                 }
                 .padding(.vertical, 8)
             }

@@ -40,7 +40,7 @@ struct PremiumView: View {
                         dismiss()
                     } label: {
                         Image(systemName: "xmark.circle.fill")
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.secondaryText)
                     }
                 }
             }
@@ -75,7 +75,7 @@ struct PremiumView: View {
 
             Text("Get unlimited habits, all widget sizes, and premium features to maximize your growth.")
                 .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
                 .multilineTextAlignment(.center)
         }
         .padding(.top)
@@ -96,7 +96,7 @@ struct PremiumView: View {
 
                         Text(feature.description)
                             .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.secondaryText)
                     }
                 }
             }
@@ -108,17 +108,10 @@ struct PremiumView: View {
 
     private var pricingSection: some View {
         VStack(spacing: 12) {
-            // Yearly option (recommended)
-            if let yearly = purchases.yearlyProduct {
-                PricingOptionView(
-                    product: yearly,
-                    isSelected: selectedProduct?.id == yearly.id,
-                    badge: "Best Value",
-                    savings: "Save 33%"
-                ) {
-                    selectedProduct = yearly
-                }
-            }
+            Text("Individual Plans")
+                .font(.caption)
+                .foregroundStyle(Color.secondaryText)
+                .frame(maxWidth: .infinity, alignment: .leading)
 
             // Monthly option
             if let monthly = purchases.monthlyProduct {
@@ -129,6 +122,72 @@ struct PremiumView: View {
                     savings: nil
                 ) {
                     selectedProduct = monthly
+                }
+            }
+
+            // Yearly option (recommended)
+            if let yearly = purchases.yearlyProduct {
+                PricingOptionView(
+                    product: yearly,
+                    isSelected: selectedProduct?.id == yearly.id,
+                    badge: "Best Value",
+                    savings: "Save 16%"
+                ) {
+                    selectedProduct = yearly
+                }
+            }
+
+            // Lifetime option
+            if let lifetime = purchases.lifetimeProduct {
+                PricingOptionView(
+                    product: lifetime,
+                    isSelected: selectedProduct?.id == lifetime.id,
+                    badge: "One-Time",
+                    savings: nil
+                ) {
+                    selectedProduct = lifetime
+                }
+            }
+
+            Text("Family Plans (up to 5)")
+                .font(.caption)
+                .foregroundStyle(Color.secondaryText)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.top, 8)
+
+            // Family monthly option
+            if let familyMonthly = purchases.familyMonthlyProduct {
+                PricingOptionView(
+                    product: familyMonthly,
+                    isSelected: selectedProduct?.id == familyMonthly.id,
+                    badge: nil,
+                    savings: "~$1/person"
+                ) {
+                    selectedProduct = familyMonthly
+                }
+            }
+
+            // Family yearly option
+            if let family = purchases.familyProduct {
+                PricingOptionView(
+                    product: family,
+                    isSelected: selectedProduct?.id == family.id,
+                    badge: "Best Value",
+                    savings: "Save 33%"
+                ) {
+                    selectedProduct = family
+                }
+            }
+
+            // Family lifetime option
+            if let familyLifetime = purchases.familyLifetimeProduct {
+                PricingOptionView(
+                    product: familyLifetime,
+                    isSelected: selectedProduct?.id == familyLifetime.id,
+                    badge: "Family Forever",
+                    savings: nil
+                ) {
+                    selectedProduct = familyLifetime
                 }
             }
 
@@ -179,12 +238,12 @@ struct PremiumView: View {
             } label: {
                 Text("Restore Purchases")
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.secondaryText)
             }
 
-            Text("Subscription automatically renews unless cancelled at least 24 hours before the end of the current period. Manage subscriptions in Settings.")
+            Text("Annual plans automatically renew unless cancelled at least 24 hours before the end of the current period. Lifetime plans are one-time purchases. Manage subscriptions in Settings.")
                 .font(.caption2)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
                 .multilineTextAlignment(.center)
         }
         .padding(.top)
@@ -238,7 +297,7 @@ struct PricingOptionView: View {
 
                     Text(product.description)
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                 }
 
                 Spacer()
@@ -289,7 +348,7 @@ struct FuturePreviewCard: View {
 
             Text(preview.message)
                 .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
                 .lineSpacing(4)
         }
         .padding()

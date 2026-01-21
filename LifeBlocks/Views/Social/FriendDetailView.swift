@@ -36,7 +36,7 @@ struct FriendDetailView: View {
 
                         Text("Friends since \(friend.connectionDate, style: .date)")
                             .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.secondaryText)
                     }
                     .padding(.top)
 
@@ -172,7 +172,7 @@ struct FriendStatCard: View {
 
             Text(title)
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
         }
         .frame(maxWidth: .infinity)
         .padding()
@@ -199,7 +199,7 @@ struct ComparisonCard: View {
                         .font(.title)
                     Text("You")
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                 }
 
                 VStack(spacing: 12) {
@@ -228,7 +228,7 @@ struct ComparisonCard: View {
                         .font(.title)
                     Text(friend.displayName.prefix(6) + (friend.displayName.count > 6 ? "..." : ""))
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                 }
             }
         }
@@ -267,7 +267,7 @@ struct ComparisonRow: View {
 
             Text(label)
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
                 .frame(maxWidth: .infinity)
 
             if winning == 1 {

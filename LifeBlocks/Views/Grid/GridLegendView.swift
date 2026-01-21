@@ -13,7 +13,7 @@ struct GridLegendView: View {
         HStack(spacing: 4) {
             Text("Less")
                 .font(.caption2)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
 
             ForEach(0..<5) { level in
                 RoundedRectangle(cornerRadius: 2)
@@ -23,7 +23,7 @@ struct GridLegendView: View {
 
             Text("More")
                 .font(.caption2)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.secondaryText)
         }
     }
 }
@@ -57,7 +57,7 @@ struct GridLegendExtendedView: View {
 
                         Text(level.description)
                             .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.secondaryText)
                     }
 
                     Spacer()

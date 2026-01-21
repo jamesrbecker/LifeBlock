@@ -29,7 +29,7 @@ struct AddFriendView: View {
 
                     Text("Enter their friend code to connect and start building together.")
                         .multilineTextAlignment(.center)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                         .padding(.horizontal)
                 }
                 .padding(.top)
@@ -40,9 +40,10 @@ struct AddFriendView: View {
                         .textInputAutocapitalization(.characters)
                         .font(.title3)
                         .fontDesign(.monospaced)
+                        .foregroundStyle(Color.inputText)
                         .multilineTextAlignment(.center)
                         .padding()
-                        .background(Color.gray.opacity(0.1))
+                        .background(Color.cardBackgroundLight)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                         .onChange(of: friendCode) { _, newValue in
                             friendCode = String(newValue.uppercased().prefix(6))
@@ -57,7 +58,7 @@ struct AddFriendView: View {
 
                             Text("Get notified if either of you miss a day")
                                 .font(.caption)
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Color.secondaryText)
                         }
                     }
                     .tint(.green)
@@ -136,7 +137,7 @@ struct AddFriendView: View {
 
                     Text("Life is about stacking blocks - each habit, each day, each goal builds on the last. Friends help you stack higher.")
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.secondaryText)
                         .multilineTextAlignment(.center)
                 }
                 .padding()
@@ -232,7 +233,7 @@ struct FoundUserCard: View {
                             .fontWeight(.bold)
                         Text("Day Streak")
                             .font(.caption2)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.secondaryText)
                     }
 
                     VStack(alignment: .leading) {
@@ -241,7 +242,7 @@ struct FoundUserCard: View {
                             .fontWeight(.bold)
                         Text("Check-ins")
                             .font(.caption2)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.secondaryText)
                     }
                 }
 
