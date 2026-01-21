@@ -48,7 +48,7 @@ struct SmallWidgetView: View {
 
                 // Minimal footer
                 HStack {
-                    Text("LifeBlocks")
+                    Text("Blocks")
                         .font(.system(size: 10, weight: .medium))
                         .foregroundStyle(.secondary)
 
