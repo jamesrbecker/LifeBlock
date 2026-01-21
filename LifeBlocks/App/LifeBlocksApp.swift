@@ -4,7 +4,7 @@ import SwiftData
 @main
 struct LifeBlocksApp: App {
     @State private var hasCompletedOnboarding = AppSettings.shared.hasCompletedOnboarding
-    @ObservedObject private var appSettings = AppSettings.shared
+    @AppStorage("colorSchemeOverride", store: UserDefaults(suiteName: "group.com.lifeblock.app")) private var colorSchemeOverride: String?
 
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
@@ -68,7 +68,7 @@ struct LifeBlocksApp: App {
     }
 
     private var colorSchemePreference: ColorScheme? {
-        switch appSettings.colorSchemeOverride {
+        switch colorSchemeOverride {
         case "light": return .light
         case "dark": return .dark
         default: return nil
