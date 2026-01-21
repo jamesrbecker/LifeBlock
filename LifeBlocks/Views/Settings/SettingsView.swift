@@ -539,7 +539,7 @@ struct SettingsView: View {
 }
 
 struct ThemePickerView: View {
-    @AppStorage("selectedTheme") private var selectedTheme: String = "green"
+    @AppStorage("selectedTheme", store: UserDefaults(suiteName: "group.com.lifeblock.app")) private var selectedTheme: String = "green"
     @StateObject private var themeManager = ThemeManager.shared
     @State private var showingIconChangeAlert = false
 

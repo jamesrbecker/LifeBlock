@@ -260,11 +260,18 @@ class ThemeManager: ObservableObject {
 
     @Published var currentTheme: GridColorScheme = .green
 
+    private let sharedDefaults = UserDefaults(suiteName: "group.com.lifeblock.app")
+
     private init() {
-        // Load saved theme
-        if let themeName = UserDefaults.standard.string(forKey: "selectedTheme"),
+        // Load saved theme from shared defaults (for widget sync)
+        if let themeName = sharedDefaults?.string(forKey: "selectedTheme"),
            let theme = GridColorScheme(rawValue: themeName) {
             currentTheme = theme
+        } else if let themeName = UserDefaults.standard.string(forKey: "selectedTheme"),
+                  let theme = GridColorScheme(rawValue: themeName) {
+            // Fallback to standard defaults and migrate
+            currentTheme = theme
+            sharedDefaults?.set(theme.rawValue, forKey: "selectedTheme")
         }
     }
 
@@ -274,7 +281,9 @@ class ThemeManager: ObservableObject {
 
     func setTheme(_ theme: GridColorScheme) {
         currentTheme = theme
+        // Save to both standard and shared defaults for widget access
         UserDefaults.standard.set(theme.rawValue, forKey: "selectedTheme")
+        sharedDefaults?.set(theme.rawValue, forKey: "selectedTheme")
     }
 }
 
