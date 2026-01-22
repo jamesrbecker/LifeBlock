@@ -3,8 +3,10 @@ import SwiftData
 
 @main
 struct LifeBlocksApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @State private var hasCompletedOnboarding = AppSettings.shared.hasCompletedOnboarding
     @AppStorage("colorSchemeOverride", store: UserDefaults(suiteName: "group.com.lifeblock.app")) private var colorSchemeOverride: String?
+    @Environment(\.scenePhase) private var scenePhase
 
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
@@ -65,6 +67,18 @@ struct LifeBlocksApp: App {
             .preferredColorScheme(colorSchemePreference)
         }
         .modelContainer(sharedModelContainer)
+        .onChange(of: scenePhase) { oldPhase, newPhase in
+            if newPhase == .active {
+                // Clear notification badge when app becomes active
+                clearNotificationBadge()
+            }
+        }
+    }
+
+    private func clearNotificationBadge() {
+        UNUserNotificationCenter.current().setBadgeCount(0)
+        // Also remove delivered notifications from notification center
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
     }
 
     private var colorSchemePreference: ColorScheme? {

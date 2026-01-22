@@ -103,7 +103,7 @@ struct iPadLayoutView: View {
                 }
             }
         }
-        .navigationTitle("LifeBlocks")
+        .navigationTitle("Blocks")
     }
 
     // MARK: - Content View (Middle Column)

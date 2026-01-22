@@ -54,7 +54,7 @@ struct ContentView: View {
                 .padding(.vertical)
             }
             .background(Color.gridBackground)
-            .navigationTitle("LifeBlocks")
+            .navigationTitle("Blocks")
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     HStack(spacing: 16) {

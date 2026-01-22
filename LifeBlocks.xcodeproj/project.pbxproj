@@ -76,6 +76,7 @@
 		F1000147001 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000147000 /* AnalyticsService.swift */; };
 		F1000148001 /* InsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000148000 /* InsightsView.swift */; };
 		F1000149001 /* PhoneConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000149000 /* PhoneConnectivityManager.swift */; };
+		F1000150001 /* AppNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000150000 /* AppNotification.swift */; };
 		F1000160001 /* AppIcon-Green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F1000160000 /* AppIcon-Green@2x.png */; };
 		F1000160003 /* AppIcon-Green@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F1000160002 /* AppIcon-Green@3x.png */; };
 		F1000161001 /* AppIcon-SkyBlue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F1000161000 /* AppIcon-SkyBlue@2x.png */; };
@@ -91,6 +92,8 @@
 		F1000165005 /* AppIcon-Lavender@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F1000165004 /* AppIcon-Lavender@2x~ipad.png */; };
 		F1000165007 /* AppIcon-Purple@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F1000165006 /* AppIcon-Purple@2x~ipad.png */; };
 		F1000165009 /* AppIcon-Orange@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F1000165008 /* AppIcon-Orange@2x~ipad.png */; };
+		F1000150001 /* InAppNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000150000 /* InAppNotificationService.swift */; };
+		F1000151001 /* NotificationCenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000151000 /* NotificationCenterView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -192,6 +195,7 @@
 		F1000147000 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
 		F1000148000 /* InsightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsView.swift; sourceTree = "<group>"; };
 		F1000149000 /* PhoneConnectivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneConnectivityManager.swift; sourceTree = "<group>"; };
+		F1000150000 /* AppNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNotification.swift; sourceTree = "<group>"; };
 		F1000160000 /* AppIcon-Green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Green@2x.png"; sourceTree = "<group>"; };
 		F1000160002 /* AppIcon-Green@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Green@3x.png"; sourceTree = "<group>"; };
 		F1000161000 /* AppIcon-SkyBlue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-SkyBlue@2x.png"; sourceTree = "<group>"; };
@@ -207,6 +211,8 @@
 		F1000165004 /* AppIcon-Lavender@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Lavender@2x~ipad.png"; sourceTree = "<group>"; };
 		F1000165006 /* AppIcon-Purple@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Purple@2x~ipad.png"; sourceTree = "<group>"; };
 		F1000165008 /* AppIcon-Orange@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Orange@2x~ipad.png"; sourceTree = "<group>"; };
+		F1000150000 /* InAppNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppNotificationService.swift; sourceTree = "<group>"; };
+		F1000151000 /* NotificationCenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -298,6 +304,7 @@
 				F1000015000 /* PathGoals.swift */,
 				F1000120000 /* Friend.swift */,
 				F1000144000 /* Challenge.swift */,
+				F1000150000 /* AppNotification.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -313,6 +320,7 @@
 		F1000500012 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				F1000510000 /* Notifications */,
 				F1000500016 /* Grid */,
 				F1000500017 /* CheckIn */,
 				F1000500018 /* Habits */,
@@ -372,6 +380,7 @@
 		F1000500013 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				F1000150000 /* InAppNotificationService.swift */,
 				F1000080000 /* DataManager.swift */,
 				F1000081000 /* HealthKitManager.swift */,
 				F1000082000 /* NotificationManager.swift */,
@@ -504,6 +513,14 @@
 				F1000104000 /* LargeWidgetView.swift */,
 			);
 			path = WidgetViews;
+			sourceTree = "<group>";
+		};
+		F1000510000 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				F1000151000 /* NotificationCenterView.swift */,
+			);
+			path = Notifications;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -677,6 +694,7 @@
 				F1000147001 /* AnalyticsService.swift in Sources */,
 				F1000148001 /* InsightsView.swift in Sources */,
 				F1000149001 /* PhoneConnectivityManager.swift in Sources */,
+				F1000150001 /* AppNotification.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

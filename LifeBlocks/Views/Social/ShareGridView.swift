@@ -95,7 +95,7 @@ struct ShareGridView: View {
                 if let image = shareImage {
                     ShareSheet(items: [
                         image,
-                        "Check out my habit tracking progress! \(currentStreak) day streak 🔥 #LifeBlocks"
+                        "Check out my habit tracking progress! \(currentStreak) day streak 🔥 #Blocks"
                     ])
                 }
             }
@@ -169,7 +169,7 @@ struct YearGridShareCard: View {
                     Image(systemName: "square.grid.3x3.fill")
                         .font(.title2)
                         .foregroundStyle(.green)
-                    Text("LifeBlocks")
+                    Text("Blocks")
                         .font(.caption)
                         .foregroundStyle(.white.opacity(0.6))
                 }
@@ -314,7 +314,7 @@ struct StreakOnlyShareCard: View {
             HStack {
                 Image(systemName: "square.grid.3x3.fill")
                     .foregroundStyle(.green)
-                Text("LifeBlocks")
+                Text("Blocks")
                     .fontWeight(.medium)
                     .foregroundStyle(.white.opacity(0.6))
             }
@@ -364,7 +364,7 @@ struct StatsShareCard: View {
                         .font(.title2)
                         .fontWeight(.bold)
                         .foregroundStyle(.white)
-                    Text("LifeBlocks")
+                    Text("Blocks")
                         .font(.caption)
                         .foregroundStyle(.white.opacity(0.6))
                 }

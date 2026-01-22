@@ -162,7 +162,7 @@ struct OnboardingView: View {
             }
 
             VStack(spacing: 16) {
-                Text("Welcome to LifeBlocks")
+                Text("Welcome to Blocks")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .foregroundStyle(Color.primaryText)

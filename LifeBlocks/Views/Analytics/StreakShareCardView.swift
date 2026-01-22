@@ -69,7 +69,7 @@ struct StreakShareCardView: View {
                     Image(systemName: "square.grid.3x3.fill")
                         .font(.title2)
                         .foregroundColor(.white.opacity(0.8))
-                    Text("LifeBlocks")
+                    Text("Blocks")
                         .font(.headline)
                         .foregroundColor(.white.opacity(0.8))
                     Spacer()
@@ -242,7 +242,7 @@ struct MilestoneShareButton: View {
         }
         .sheet(isPresented: $showingShareSheet) {
             if let image = shareImage {
-                ShareSheet(items: [image, "I just hit \(streakDays) days on my \(pathCategory.displayName) journey! 🔥 #LifeBlocks"])
+                ShareSheet(items: [image, "I just hit \(streakDays) days on my \(pathCategory.displayName) journey! 🔥 #Blocks"])
             }
         }
     }
