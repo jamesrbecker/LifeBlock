@@ -16,6 +16,7 @@ struct ContentView: View {
     @State private var showingChallenges = false
     @State private var showingMilestoneCelebration = false
     @State private var milestoneToShow: Int = 0
+    @State private var showingNotifications = false
 
     private var todayEntry: DayEntry? {
         dayEntries.first { $0.date.isSameDay(as: Date()) }
@@ -93,11 +94,15 @@ struct ContentView: View {
                 }
 
                 ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink {
-                        SettingsView()
-                    } label: {
-                        Image(systemName: "gearshape.fill")
-                            .foregroundStyle(Color.secondaryText)
+                    HStack(spacing: 16) {
+                        NotificationBellButton(showingNotifications: $showingNotifications)
+
+                        NavigationLink {
+                            SettingsView()
+                        } label: {
+                            Image(systemName: "gearshape.fill")
+                                .foregroundStyle(Color.secondaryText)
+                        }
                     }
                 }
             }
@@ -138,6 +143,9 @@ struct ContentView: View {
             }
             .sheet(isPresented: $showingChallenges) {
                 ChallengesView()
+            }
+            .sheet(isPresented: $showingNotifications) {
+                NotificationCenterView()
             }
             .onOpenURL { url in
                 handleDeepLink(url)
