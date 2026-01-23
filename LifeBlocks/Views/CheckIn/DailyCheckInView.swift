@@ -133,7 +133,7 @@ struct DailyCheckInView: View {
 
                 ZStack {
                     Circle()
-                        .fill(GridColorScheme.green.color(for: totalScore, isDarkMode: true))
+                        .fill(ThemeManager.shared.currentTheme.color(for: totalScore, isDarkMode: true))
                         .frame(width: 120, height: 120)
 
                     VStack {

@@ -15,7 +15,7 @@ struct DaySquareView: View {
     init(
         date: Date,
         level: Int,
-        colorScheme: GridColorScheme = .green,
+        colorScheme: GridColorScheme = ThemeManager.shared.currentTheme,
         size: CGFloat = 12,
         cornerRadius: CGFloat = 2,
         isSelected: Bool = false,
@@ -73,7 +73,7 @@ struct DaySquareLargeView: View {
     init(
         date: Date,
         level: Int,
-        colorScheme: GridColorScheme = .green,
+        colorScheme: GridColorScheme = ThemeManager.shared.currentTheme,
         showDate: Bool = false
     ) {
         self.date = date

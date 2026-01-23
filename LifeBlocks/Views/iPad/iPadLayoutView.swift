@@ -196,7 +196,7 @@ struct GridContentView: View {
 struct LargeContributionGridView: View {
     let dayEntries: [DayEntry]
     let onDateSelected: (Date) -> Void
-    let colorScheme: GridColorScheme = .green
+    var colorScheme: GridColorScheme { ThemeManager.shared.currentTheme }
     let weeks: Int = 13  // 91 days (approximately 90 squares)
     let squareSize: CGFloat = 16
     let spacing: CGFloat = 4

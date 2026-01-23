@@ -60,7 +60,7 @@ struct DayDetailView: View {
             // Large score square
             ZStack {
                 RoundedRectangle(cornerRadius: 20)
-                    .fill(GridColorScheme.green.color(for: dayScore, isDarkMode: true))
+                    .fill(ThemeManager.shared.currentTheme.color(for: dayScore, isDarkMode: true))
                     .frame(width: 100, height: 100)
 
                 VStack(spacing: 4) {

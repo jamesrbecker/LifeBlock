@@ -124,6 +124,10 @@ struct LifeBlocksApp: App {
 
         UITabBar.appearance().standardAppearance = tabAppearance
         UITabBar.appearance().scrollEdgeAppearance = tabAppearance
+
+        // Set global tint color for text cursor (sky blue)
+        UITextField.appearance().tintColor = UIColor(red: 0.35, green: 0.78, blue: 0.98, alpha: 1.0)  // #5AC8FA
+        UITextView.appearance().tintColor = UIColor(red: 0.35, green: 0.78, blue: 0.98, alpha: 1.0)  // #5AC8FA
     }
 
     private func configureManagers() {
@@ -170,7 +174,7 @@ struct MainTabView: View {
                 }
                 .tag(4)
         }
-        .tint(.accentGreen)
+        .tint(.accentSkyBlue)
     }
 }
 

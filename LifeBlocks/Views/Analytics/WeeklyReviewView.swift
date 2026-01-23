@@ -158,7 +158,7 @@ struct WeeklyReviewView: View {
                         .foregroundStyle(Color.secondaryText)
 
                     RoundedRectangle(cornerRadius: 8)
-                        .fill(GridColorScheme.green.color(for: score, isDarkMode: true))
+                        .fill(ThemeManager.shared.currentTheme.color(for: score, isDarkMode: true))
                         .frame(width: 36, height: 36)
                         .overlay {
                             if score > 0 {

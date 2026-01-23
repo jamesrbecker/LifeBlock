@@ -15,7 +15,7 @@ struct ContributionGridView: View {
     let spacing: CGFloat
 
     init(
-        colorScheme: GridColorScheme = .green,
+        colorScheme: GridColorScheme = ThemeManager.shared.currentTheme,
         pastDays: Int = 80,  // 80 days of history
         futureDays: Int = 10, // 10 days into the future
         squareSize: CGFloat = 14,  // Larger squares for better visibility
@@ -163,7 +163,7 @@ struct CompactGridView: View {
 
     init(
         entries: [Date: Int],
-        colorScheme: GridColorScheme = .green,
+        colorScheme: GridColorScheme = ThemeManager.shared.currentTheme,
         days: Int = 7,
         squareSize: CGFloat = 14,
         spacing: CGFloat = 3

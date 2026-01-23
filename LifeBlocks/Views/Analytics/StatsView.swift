@@ -172,7 +172,7 @@ struct ScoreDistributionView: View {
                     VStack(spacing: 6) {
                         // Bar
                         RoundedRectangle(cornerRadius: 4)
-                            .fill(GridColorScheme.green.color(for: level, isDarkMode: true))
+                            .fill(ThemeManager.shared.currentTheme.color(for: level, isDarkMode: true))
                             .frame(width: 40, height: barHeight(for: level))
 
                         // Label

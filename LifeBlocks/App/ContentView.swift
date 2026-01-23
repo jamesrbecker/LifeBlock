@@ -178,7 +178,7 @@ struct ContentView: View {
                 // Today's score square
                 ZStack {
                     RoundedRectangle(cornerRadius: 12)
-                        .fill(GridColorScheme.green.color(for: todayEntry?.totalScore ?? 0, isDarkMode: true))
+                        .fill(ThemeManager.shared.currentTheme.color(for: todayEntry?.totalScore ?? 0, isDarkMode: true))
                         .frame(width: 60, height: 60)
 
                     if let score = todayEntry?.totalScore {
@@ -205,13 +205,13 @@ struct ContentView: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 14)
-                .background(hasCheckedInToday ? Color.cardBackground : Color.accentGreen)
+                .background(hasCheckedInToday ? Color.cardBackground : Color.accentSkyBlue)
                 .foregroundColor(hasCheckedInToday ? .primary : .white)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .overlay {
                     if hasCheckedInToday {
                         RoundedRectangle(cornerRadius: 12)
-                            .strokeBorder(Color.accentGreen, lineWidth: 2)
+                            .strokeBorder(Color.accentSkyBlue, lineWidth: 2)
                     }
                 }
             }
@@ -246,7 +246,7 @@ struct ContentView: View {
                 } label: {
                     Text("See Stats")
                         .font(.caption)
-                        .foregroundColor(Color.accentGreen)
+                        .foregroundColor(Color.accentSkyBlue)
                 }
             }
             .padding(.horizontal)
@@ -338,7 +338,7 @@ struct InteractiveContributionGridView: View {
     @Query private var dayEntries: [DayEntry]
 
     let onDateSelected: (Date) -> Void
-    let colorScheme: GridColorScheme = .green
+    var colorScheme: GridColorScheme { ThemeManager.shared.currentTheme }
     let pastDays: Int = 122  // ~122 days of history (+6 weeks to fill screen)
     let futureDays: Int = 10  // 10 days into the future
     let squareSize: CGFloat = 18  // Larger squares - zoomed in

@@ -539,17 +539,17 @@ struct SettingsView: View {
 }
 
 struct ThemePickerView: View {
-    @AppStorage("selectedTheme", store: UserDefaults(suiteName: "group.com.lifeblock.app")) private var selectedTheme: String = "green"
+    @AppStorage("selectedTheme", store: UserDefaults(suiteName: "group.com.lifeblock.app")) private var selectedTheme: String = "skyblue"
     @StateObject private var themeManager = ThemeManager.shared
     @State private var showingIconChangeAlert = false
 
     // Theme data: name, displayName, colors, isPremium, hasAlternateIcon
     let themes: [(name: String, displayName: String, colors: [Color], isPremium: Bool, iconName: String?)] = [
-        // Free themes with matching app icons
-        ("green", "Green", [Color(hex: "#161B22"), Color(hex: "#0D3D1F"), Color(hex: "#1A7A3E"), Color(hex: "#28A745"), Color(hex: "#34C759")], false, "AppIcon-Green"),
+        // Free theme - Sky Blue only
         ("skyblue", "Sky Blue", [Color(hex: "#161B22"), Color(hex: "#0C3A5A"), Color(hex: "#1877B8"), Color(hex: "#3DA5E0"), Color(hex: "#5AC8FA")], false, "AppIcon-SkyBlue"),
-        ("lavender", "Lavender", [Color(hex: "#161B22"), Color(hex: "#3D2E5C"), Color(hex: "#6B5B95"), Color(hex: "#9B8DC2"), Color(hex: "#BDB5D5")], false, "AppIcon-Lavender"),
         // Premium themes with matching app icons
+        ("green", "Green", [Color(hex: "#161B22"), Color(hex: "#0D3D1F"), Color(hex: "#1A7A3E"), Color(hex: "#28A745"), Color(hex: "#34C759")], true, "AppIcon-Green"),
+        ("lavender", "Lavender", [Color(hex: "#161B22"), Color(hex: "#3D2E5C"), Color(hex: "#6B5B95"), Color(hex: "#9B8DC2"), Color(hex: "#BDB5D5")], true, "AppIcon-Lavender"),
         ("blue", "Ocean Blue", [Color(hex: "#161B22"), Color(hex: "#0A3069"), Color(hex: "#0550AE"), Color(hex: "#218BFF"), Color(hex: "#58A6FF")], true, nil),
         ("purple", "Violet", [Color(hex: "#161B22"), Color(hex: "#3D1F5C"), Color(hex: "#6E40C9"), Color(hex: "#8B5CF6"), Color(hex: "#A78BFA")], true, "AppIcon-Purple"),
         ("orange", "Fire", [Color(hex: "#161B22"), Color(hex: "#5C2D0E"), Color(hex: "#9A3412"), Color(hex: "#EA580C"), Color(hex: "#FB923C")], true, "AppIcon-Orange"),
@@ -596,13 +596,13 @@ struct ThemePickerView: View {
                 }
             }
 
-            Section("Free Themes") {
+            Section("Free Theme") {
                 ForEach(themes.filter { !$0.isPremium }, id: \.name) { theme in
                     themeRow(theme)
                 }
             }
 
-            Section("Premium Themes") {
+            Section("Premium Themes ✨") {
                 ForEach(themes.filter { $0.isPremium }, id: \.name) { theme in
                     themeRow(theme)
                 }
