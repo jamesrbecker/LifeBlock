@@ -103,7 +103,7 @@ struct iPadLayoutView: View {
                 }
             }
         }
-        .navigationTitle("Blocks")
+        .navigationTitle("")
     }
 
     // MARK: - Content View (Middle Column)
@@ -197,7 +197,7 @@ struct LargeContributionGridView: View {
     let dayEntries: [DayEntry]
     let onDateSelected: (Date) -> Void
     let colorScheme: GridColorScheme = .green
-    let weeks: Int = 52
+    let weeks: Int = 13  // 91 days (approximately 90 squares)
     let squareSize: CGFloat = 16
     let spacing: CGFloat = 4
 

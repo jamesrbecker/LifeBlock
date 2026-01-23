@@ -16,8 +16,7 @@ struct ContentView: View {
     @State private var showingChallenges = false
     @State private var showingMilestoneCelebration = false
     @State private var milestoneToShow: Int = 0
-    @State private var showingNotifications = false
-
+    @State private var showingPathDiscovery = false
     private var todayEntry: DayEntry? {
         dayEntries.first { $0.date.isSameDay(as: Date()) }
     }
@@ -55,7 +54,7 @@ struct ContentView: View {
                 .padding(.vertical)
             }
             .background(Color.gridBackground)
-            .navigationTitle("Blocks")
+            .navigationTitle("")
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     HStack(spacing: 16) {
@@ -95,7 +94,7 @@ struct ContentView: View {
 
                 ToolbarItem(placement: .topBarTrailing) {
                     HStack(spacing: 16) {
-                        NotificationBellButton(showingNotifications: $showingNotifications)
+                        NotificationBellButton()
 
                         NavigationLink {
                             SettingsView()
@@ -144,11 +143,19 @@ struct ContentView: View {
             .sheet(isPresented: $showingChallenges) {
                 ChallengesView()
             }
-            .sheet(isPresented: $showingNotifications) {
-                NotificationCenterView()
+            .sheet(isPresented: $showingPathDiscovery) {
+                PathDiscoveryPromptView()
             }
             .onOpenURL { url in
                 handleDeepLink(url)
+            }
+            .onAppear {
+                // Check if we should show path discovery prompt
+                if AppSettings.shared.shouldShowPathDiscoveryPrompt {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                        showingPathDiscovery = true
+                    }
+                }
             }
         }
     }
@@ -227,7 +234,7 @@ struct ContentView: View {
     }
 
     private var gridSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .center, spacing: 12) {
             HStack {
                 Text("Your Year")
                     .font(.headline)
@@ -244,6 +251,7 @@ struct ContentView: View {
             }
             .padding(.horizontal)
 
+            // Centered grid with horizontal scroll for larger squares
             ScrollView(.horizontal, showsIndicators: false) {
                 InteractiveContributionGridView(
                     onDateSelected: { date in
@@ -251,6 +259,7 @@ struct ContentView: View {
                         showingDayDetail = true
                     }
                 )
+                .frame(maxWidth: .infinity)
                 .padding(.horizontal)
             }
         }
@@ -323,42 +332,40 @@ struct ContentView: View {
     }
 }
 
-// Interactive grid that allows tapping on dates
+// Interactive grid that allows tapping on dates - GitHub style
 struct InteractiveContributionGridView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var dayEntries: [DayEntry]
 
     let onDateSelected: (Date) -> Void
     let colorScheme: GridColorScheme = .green
-    let weeks: Int = 52
-    let squareSize: CGFloat = 11
-    let spacing: CGFloat = 3
+    let pastDays: Int = 122  // ~122 days of history (+6 weeks to fill screen)
+    let futureDays: Int = 10  // 10 days into the future
+    let squareSize: CGFloat = 18  // Larger squares - zoomed in
+    let spacing: CGFloat = 4
 
     private var gridDates: [[Date]] {
-        DateHelpers.gridDates(weeks: weeks)
+        DateHelpers.githubStyleGridDates(pastDays: pastDays, futureDays: futureDays)
     }
 
     private var monthLabels: [(month: String, weekIndex: Int)] {
         DateHelpers.monthLabels(for: gridDates)
     }
 
-    var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            // Month labels
-            GeometryReader { geometry in
-                let weekWidth = squareSize + spacing
-                let labelOffset: CGFloat = 24
+    // Filter month labels to prevent overlap
+    private var filteredMonthLabels: [(month: String, weekIndex: Int)] {
+        let minWeeksBetweenLabels = 4
+        return monthLabels.enumerated().filter { index, label in
+            if index == 0 { return true }
+            let previousLabel = monthLabels[index - 1]
+            return label.weekIndex - previousLabel.weekIndex >= minWeeksBetweenLabels
+        }.map { $0.element }
+    }
 
-                ZStack(alignment: .leading) {
-                    ForEach(monthLabels, id: \.weekIndex) { label in
-                        Text(label.month)
-                            .font(.caption2)
-                            .foregroundStyle(Color.secondaryText)
-                            .offset(x: labelOffset + CGFloat(label.weekIndex) * weekWidth)
-                    }
-                }
-            }
-            .frame(height: 16)
+    var body: some View {
+        VStack(alignment: .center, spacing: 8) {
+            // Month labels - centered
+            monthLabelsView
 
             HStack(alignment: .top, spacing: spacing) {
                 // Weekday labels
@@ -376,18 +383,23 @@ struct InteractiveContributionGridView: View {
                     ForEach(Array(gridDates.enumerated()), id: \.offset) { weekIndex, week in
                         VStack(spacing: spacing) {
                             ForEach(week, id: \.self) { date in
+                                let isFutureDate = DateHelpers.isFuture(date)
                                 Button {
+                                    guard !isFutureDate else { return }
                                     HapticManager.shared.lightTap()
                                     onDateSelected(date)
                                 } label: {
                                     DaySquareView(
                                         date: date,
-                                        level: levelForDate(date),
+                                        level: isFutureDate ? 0 : levelForDate(date),
                                         colorScheme: colorScheme,
-                                        size: squareSize
+                                        size: squareSize,
+                                        isFuture: isFutureDate,
+                                        isCurrentWeek: DateHelpers.isCurrentWeek(date)
                                     )
                                 }
                                 .buttonStyle(.plain)
+                                .disabled(isFutureDate)
                             }
 
                             if week.count < 7 {
@@ -404,6 +416,24 @@ struct InteractiveContributionGridView: View {
             GridLegendView(colorScheme: colorScheme)
                 .padding(.top, 8)
         }
+        .frame(maxWidth: .infinity)
+    }
+
+    private var monthLabelsView: some View {
+        GeometryReader { _ in
+            let weekWidth = squareSize + spacing
+            let labelOffset: CGFloat = 24
+
+            ZStack(alignment: .leading) {
+                ForEach(filteredMonthLabels, id: \.weekIndex) { label in
+                    Text(label.month)
+                        .font(.caption2)
+                        .foregroundStyle(Color.secondaryText)
+                        .offset(x: labelOffset + CGFloat(label.weekIndex) * weekWidth)
+                }
+            }
+        }
+        .frame(height: 16)
     }
 
     private func levelForDate(_ date: Date) -> Int {

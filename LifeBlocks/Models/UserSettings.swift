@@ -96,6 +96,53 @@ final class AppSettings: ObservableObject {
         set { defaults.set(newValue, forKey: "todayScore") }
     }
 
+    // MARK: - Path Discovery
+
+    /// Date the user first launched the app
+    var firstLaunchDate: Date {
+        get {
+            if let date = defaults.object(forKey: "firstLaunchDate") as? Date {
+                return date
+            }
+            // If not set, set it now
+            let now = Date()
+            defaults.set(now, forKey: "firstLaunchDate")
+            return now
+        }
+        set { defaults.set(newValue, forKey: "firstLaunchDate") }
+    }
+
+    /// Whether user has dismissed the path suggestion prompt
+    var hasDeclinedPathSuggestion: Bool {
+        get { defaults.bool(forKey: "hasDeclinedPathSuggestion") }
+        set { defaults.set(newValue, forKey: "hasDeclinedPathSuggestion") }
+    }
+
+    /// Days since user started using the app
+    var daysUsingApp: Int {
+        Calendar.current.dateComponents([.day], from: firstLaunchDate, to: Date()).day ?? 0
+    }
+
+    /// Should we show the path discovery prompt?
+    var shouldShowPathDiscoveryPrompt: Bool {
+        // Only show if:
+        // 1. User has no path set
+        // 2. User hasn't declined the suggestion
+        // 3. User has been using app for 7+ days
+        // 4. User has checked in at least 5 times (showing engagement)
+        guard userLifePath == nil else { return false }
+        guard !hasDeclinedPathSuggestion else { return false }
+        guard daysUsingApp >= 7 else { return false }
+        guard currentStreak >= 3 || longestStreak >= 5 else { return false }
+        return true
+    }
+
+    /// User chose to explore without a specific path
+    var isExplorationMode: Bool {
+        get { defaults.bool(forKey: "isExplorationMode") }
+        set { defaults.set(newValue, forKey: "isExplorationMode") }
+    }
+
     // MARK: - Multiple Paths (Premium Feature)
 
     /// Secondary path for users tracking multiple life areas

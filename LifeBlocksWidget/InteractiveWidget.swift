@@ -103,7 +103,7 @@ struct InteractiveCheckInWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: LifeBlocksTimelineProvider()) { entry in
             InteractiveWidgetView(entry: entry)
-                .containerBackground(.fill.tertiary, for: .widget)
+                .containerBackground(Color(hex: "#0D1117"), for: .widget)
         }
         .configurationDisplayName("Quick Check-In")
         .description("Check in and track your progress right from your Home Screen.")

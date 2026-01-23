@@ -16,6 +16,15 @@ struct WidgetDateHelpers {
         calendar.isDateInToday(date)
     }
 
+    static func isFuture(_ date: Date) -> Bool {
+        let today = calendar.startOfDay(for: Date())
+        return date > today
+    }
+
+    static func isCurrentWeek(_ date: Date) -> Bool {
+        calendar.isDate(date, equalTo: Date(), toGranularity: .weekOfYear)
+    }
+
     static func gridDates(weeks: Int = 52) -> [[Date]] {
         let today = calendar.startOfDay(for: Date())
 
@@ -32,6 +41,51 @@ struct WidgetDateHelpers {
             var week: [Date] = []
             for _ in 0..<7 {
                 if currentDate <= today {
+                    week.append(currentDate)
+                }
+                currentDate = calendar.date(byAdding: .day, value: 1, to: currentDate)!
+            }
+            if !week.isEmpty {
+                weeklyDates.append(week)
+            }
+        }
+
+        return weeklyDates
+    }
+
+    /// GitHub-style grid: past days + current week with future days
+    /// Current week is on the far right with today highlighted
+    static func githubStyleGridDates(pastDays: Int = 80, futureDays: Int = 10) -> [[Date]] {
+        let today = calendar.startOfDay(for: Date())
+
+        // Find what day of the week today is (1 = Sunday, 2 = Monday, etc.)
+        let weekday = calendar.component(.weekday, from: today)
+        // For Monday start: Monday = 2
+        let mondayWeekday = 2
+        let adjustedWeekday = weekday == 1 ? 8 : weekday // Sunday wraps to 8
+        let daysFromMonday = adjustedWeekday - mondayWeekday
+        let daysUntilSunday = 6 - daysFromMonday
+
+        // Calculate end date (end of current week + remaining future days)
+        let endOfCurrentWeek = calendar.date(byAdding: .day, value: daysUntilSunday, to: today)!
+        let remainingFutureDays = max(0, futureDays - daysUntilSunday - 1)
+        let endDate = calendar.date(byAdding: .day, value: remainingFutureDays, to: endOfCurrentWeek)!
+
+        // Start date - align to Monday
+        let startDate = calendar.date(byAdding: .day, value: -(pastDays - 1), to: today)!
+        // Adjust to previous Monday
+        let startWeekday = calendar.component(.weekday, from: startDate)
+        let adjustedStartWeekday = startWeekday == 1 ? 8 : startWeekday
+        let daysToSubtract = adjustedStartWeekday - mondayWeekday
+        let alignedStartDate = calendar.date(byAdding: .day, value: -daysToSubtract, to: startDate)!
+
+        var weeklyDates: [[Date]] = []
+        var currentDate = alignedStartDate
+
+        while currentDate <= endDate {
+            var week: [Date] = []
+            for _ in 0..<7 {
+                if currentDate <= endDate {
                     week.append(currentDate)
                 }
                 currentDate = calendar.date(byAdding: .day, value: 1, to: currentDate)!
@@ -94,73 +148,148 @@ enum GridColorScheme: String, CaseIterable {
         return .green
     }
 
-    /// Empty cell color - white with slight transparency for widget background
-    private static let emptyColor = Color(hex: "#E8E8E8")
+    /// Empty cell color for dark mode widget - GitHub style dark gray
+    private static let darkEmptyColor = Color(hex: "#161B22")
+    /// Empty cell color for light mode widget - light gray
+    private static let lightEmptyColor = Color(hex: "#EBEDF0")
 
-    var colors: [Color] {
+    /// Dark mode colors (for dark widget background)
+    var darkColors: [Color] {
         switch self {
         case .green:
             return [
-                Self.emptyColor,  // Level 0 - Empty (white/light gray)
-                Color(hex: "#A8E6CF"),  // Level 1 - Light green
-                Color(hex: "#5DD39E"),  // Level 2 - Medium green
-                Color(hex: "#34C759"),  // Level 3 - High green
-                Color(hex: "#248A3D")   // Level 4 - Maximum green
+                Self.darkEmptyColor,
+                Color(hex: "#0E4429"),
+                Color(hex: "#006D32"),
+                Color(hex: "#26A641"),
+                Color(hex: "#39D353")
             ]
         case .skyblue:
             return [
-                Self.emptyColor,
-                Color(hex: "#B3E0F2"),  // Level 1
-                Color(hex: "#7CC5E3"),  // Level 2
-                Color(hex: "#5AC8FA"),  // Level 3
-                Color(hex: "#0A84FF")   // Level 4
+                Self.darkEmptyColor,
+                Color(hex: "#0C3A5A"),
+                Color(hex: "#1877B8"),
+                Color(hex: "#3DA5E0"),
+                Color(hex: "#5AC8FA")
             ]
         case .lavender:
             return [
-                Self.emptyColor,
-                Color(hex: "#E2D9F3"),  // Level 1
-                Color(hex: "#BDB5D5"),  // Level 2
-                Color(hex: "#9B8DC2"),  // Level 3
-                Color(hex: "#6B5B95")   // Level 4
+                Self.darkEmptyColor,
+                Color(hex: "#3D2E5C"),
+                Color(hex: "#6B5B95"),
+                Color(hex: "#9B8DC2"),
+                Color(hex: "#BDB5D5")
             ]
         case .blue:
             return [
-                Self.emptyColor,
-                Color(hex: "#B6D4FF"),
-                Color(hex: "#58A6FF"),
+                Self.darkEmptyColor,
+                Color(hex: "#0A3069"),
+                Color(hex: "#0550AE"),
                 Color(hex: "#218BFF"),
-                Color(hex: "#0550AE")
+                Color(hex: "#58A6FF")
             ]
         case .purple:
             return [
-                Self.emptyColor,
-                Color(hex: "#DDD6FE"),
-                Color(hex: "#A78BFA"),
+                Self.darkEmptyColor,
+                Color(hex: "#3D1F5C"),
+                Color(hex: "#6E40C9"),
                 Color(hex: "#8B5CF6"),
-                Color(hex: "#6E40C9")
+                Color(hex: "#A78BFA")
             ]
         case .orange:
             return [
-                Self.emptyColor,
-                Color(hex: "#FED7AA"),
-                Color(hex: "#FB923C"),
+                Self.darkEmptyColor,
+                Color(hex: "#5C2D0E"),
+                Color(hex: "#9A3412"),
                 Color(hex: "#EA580C"),
-                Color(hex: "#9A3412")
+                Color(hex: "#FB923C")
             ]
         case .pink:
             return [
-                Self.emptyColor,
-                Color(hex: "#FBCFE8"),
-                Color(hex: "#F472B6"),
+                Self.darkEmptyColor,
+                Color(hex: "#5C1F4A"),
+                Color(hex: "#9D174D"),
                 Color(hex: "#DB2777"),
-                Color(hex: "#9D174D")
+                Color(hex: "#F472B6")
             ]
         }
     }
 
-    func color(for level: Int, isDarkMode: Bool = true) -> Color {
+    /// Light mode colors (for white/light widget background)
+    var lightColors: [Color] {
+        switch self {
+        case .green:
+            return [
+                Self.lightEmptyColor,
+                Color(hex: "#9BE9A8"),  // Light green
+                Color(hex: "#40C463"),  // Medium green
+                Color(hex: "#30A14E"),  // Darker green
+                Color(hex: "#216E39")   // Darkest green
+            ]
+        case .skyblue:
+            return [
+                Self.lightEmptyColor,
+                Color(hex: "#B3E5FC"),  // Lightest sky blue
+                Color(hex: "#4FC3F7"),  // Light sky blue
+                Color(hex: "#03A9F4"),  // Medium sky blue
+                Color(hex: "#0288D1")   // Dark sky blue
+            ]
+        case .lavender:
+            return [
+                Self.lightEmptyColor,
+                Color(hex: "#E1D5F0"),  // Lightest lavender
+                Color(hex: "#C5B3E6"),  // Light lavender
+                Color(hex: "#9B8DC2"),  // Medium lavender
+                Color(hex: "#6B5B95")   // Dark lavender
+            ]
+        case .blue:
+            return [
+                Self.lightEmptyColor,
+                Color(hex: "#B6D7FF"),
+                Color(hex: "#79B8FF"),
+                Color(hex: "#2188FF"),
+                Color(hex: "#0366D6")
+            ]
+        case .purple:
+            return [
+                Self.lightEmptyColor,
+                Color(hex: "#D4C5F9"),
+                Color(hex: "#B392F0"),
+                Color(hex: "#8B5CF6"),
+                Color(hex: "#6F42C1")
+            ]
+        case .orange:
+            return [
+                Self.lightEmptyColor,
+                Color(hex: "#FFCBA4"),  // Lightest orange
+                Color(hex: "#FDBA74"),  // Light orange
+                Color(hex: "#FB923C"),  // Medium orange
+                Color(hex: "#EA580C")   // Dark orange
+            ]
+        case .pink:
+            return [
+                Self.lightEmptyColor,
+                Color(hex: "#FBCFE8"),  // Lightest pink
+                Color(hex: "#F9A8D4"),  // Light pink
+                Color(hex: "#F472B6"),  // Medium pink
+                Color(hex: "#DB2777")   // Dark pink
+            ]
+        }
+    }
+
+    func color(for level: Int, isDarkMode: Bool) -> Color {
         let clampedLevel = min(max(level, 0), 4)
-        return colors[clampedLevel]
+        return isDarkMode ? darkColors[clampedLevel] : lightColors[clampedLevel]
+    }
+
+    /// Color for future dates
+    static func futureColor(isDarkMode: Bool) -> Color {
+        isDarkMode ? Color(hex: "#21262D") : Color(hex: "#F6F8FA")
+    }
+
+    /// Background color for widget
+    static func widgetBackground(isDarkMode: Bool) -> Color {
+        isDarkMode ? Color(hex: "#0D1117") : Color.white
     }
 }
 

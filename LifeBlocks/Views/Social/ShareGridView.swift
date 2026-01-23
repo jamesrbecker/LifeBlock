@@ -6,6 +6,7 @@ import SwiftUI
 struct ShareGridView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
+    @ObservedObject private var subscription = SubscriptionStatus.shared
 
     let dayEntries: [DayEntry]
     let currentStreak: Int
@@ -15,6 +16,7 @@ struct ShareGridView: View {
     @State private var showingShareSheet = false
     @State private var shareImage: UIImage?
     @State private var isGenerating = false
+    @State private var showingPremium = false
 
     enum ShareStyle: String, CaseIterable {
         case grid = "Year Grid"
@@ -32,52 +34,125 @@ struct ShareGridView: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 20) {
-                // Style picker
-                Picker("Style", selection: $selectedStyle) {
-                    ForEach(ShareStyle.allCases, id: \.self) { style in
-                        Label(style.rawValue, systemImage: style.icon)
-                            .tag(style)
-                    }
-                }
-                .pickerStyle(.segmented)
-                .padding(.horizontal)
+            if subscription.canAccessShareCards {
+                shareContent
+            } else {
+                premiumRequired
+            }
+        }
+    }
 
-                // Preview
-                ScrollView {
-                    Group {
-                        switch selectedStyle {
-                        case .grid:
-                            YearGridShareCard(dayEntries: dayEntries, currentStreak: currentStreak)
-                        case .streak:
-                            StreakOnlyShareCard(currentStreak: currentStreak, longestStreak: longestStreak)
-                        case .stats:
-                            StatsShareCard(dayEntries: dayEntries, currentStreak: currentStreak, longestStreak: longestStreak)
-                        }
-                    }
-                    .padding()
-                }
+    // MARK: - Premium Required
 
-                // Share button
-                Button {
-                    generateAndShare()
-                } label: {
-                    HStack {
-                        if isGenerating {
-                            ProgressView()
-                                .tint(.white)
-                        } else {
-                            Image(systemName: "square.and.arrow.up")
-                        }
-                        Text(isGenerating ? "Generating..." : "Share to Social")
-                    }
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.accentGreen)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
+    private var premiumRequired: some View {
+        VStack(spacing: 24) {
+            Spacer()
+
+            Image(systemName: "square.and.arrow.up.circle.fill")
+                .font(.system(size: 80))
+                .foregroundStyle(.blue)
+
+            VStack(spacing: 8) {
+                Text("Share Cards")
+                    .font(.title2)
+                    .fontWeight(.bold)
+
+                Text("Create beautiful share cards to show off your progress on social media.")
+                    .font(.body)
+                    .foregroundStyle(Color.secondaryText)
+                    .multilineTextAlignment(.center)
+            }
+
+            VStack(spacing: 12) {
+                FeatureRow(icon: "square.grid.3x3.fill", text: "Year grid visualization", color: .green)
+                FeatureRow(icon: "flame.fill", text: "Streak celebration cards", color: .orange)
+                FeatureRow(icon: "chart.bar.fill", text: "Stats summary cards", color: .blue)
+            }
+            .padding()
+            .background(Color.cardBackground)
+            .clipShape(RoundedRectangle(cornerRadius: 16))
+
+            Button {
+                showingPremium = true
+            } label: {
+                HStack {
+                    Image(systemName: "star.fill")
+                    Text("Unlock with Premium")
+                        .fontWeight(.semibold)
                 }
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(Color.purple)
+                .foregroundColor(.white)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+            }
+
+            Spacer()
+        }
+        .padding()
+        .navigationTitle("Share Your Progress")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button("Done") {
+                    dismiss()
+                }
+            }
+        }
+        .sheet(isPresented: $showingPremium) {
+            PremiumView()
+        }
+    }
+
+    // MARK: - Share Content
+
+    private var shareContent: some View {
+        VStack(spacing: 20) {
+            // Style picker
+            Picker("Style", selection: $selectedStyle) {
+                ForEach(ShareStyle.allCases, id: \.self) { style in
+                    Label(style.rawValue, systemImage: style.icon)
+                        .tag(style)
+                }
+            }
+            .pickerStyle(.segmented)
+            .padding(.horizontal)
+
+            // Preview
+            ScrollView {
+                Group {
+                    switch selectedStyle {
+                    case .grid:
+                        YearGridShareCard(dayEntries: dayEntries, currentStreak: currentStreak)
+                    case .streak:
+                        StreakOnlyShareCard(currentStreak: currentStreak, longestStreak: longestStreak)
+                    case .stats:
+                        StatsShareCard(dayEntries: dayEntries, currentStreak: currentStreak, longestStreak: longestStreak)
+                    }
+                }
+                .padding()
+            }
+
+            // Share button
+            Button {
+                generateAndShare()
+            } label: {
+                HStack {
+                    if isGenerating {
+                        ProgressView()
+                            .tint(.white)
+                    } else {
+                        Image(systemName: "square.and.arrow.up")
+                    }
+                    Text(isGenerating ? "Generating..." : "Share to Social")
+                }
+                .font(.headline)
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(Color.accentGreen)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+            }
                 .disabled(isGenerating)
                 .padding(.horizontal)
                 .padding(.bottom)
@@ -99,7 +174,6 @@ struct ShareGridView: View {
                     ])
                 }
             }
-        }
     }
 
     private func generateAndShare() {
@@ -149,17 +223,17 @@ struct YearGridShareCard: View {
     let currentStreak: Int
 
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 12) {
             // Header
             HStack {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("My Year in Habits")
-                        .font(.title2)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("My Year")
+                        .font(.headline)
                         .fontWeight(.bold)
                         .foregroundStyle(.white)
 
                     Text("\(currentStreak) day streak 🔥")
-                        .font(.subheadline)
+                        .font(.caption)
                         .foregroundStyle(.white.opacity(0.8))
                 }
 
@@ -167,19 +241,19 @@ struct YearGridShareCard: View {
 
                 VStack(alignment: .trailing) {
                     Image(systemName: "square.grid.3x3.fill")
-                        .font(.title2)
+                        .font(.title3)
                         .foregroundStyle(.green)
                     Text("Blocks")
-                        .font(.caption)
+                        .font(.caption2)
                         .foregroundStyle(.white.opacity(0.6))
                 }
             }
 
-            // Mini year grid
+            // Mini year grid - responsive
             MiniYearGrid(dayEntries: dayEntries)
 
             // Legend
-            HStack(spacing: 4) {
+            HStack(spacing: 3) {
                 Text("Less")
                     .font(.caption2)
                     .foregroundStyle(.white.opacity(0.6))
@@ -187,7 +261,7 @@ struct YearGridShareCard: View {
                 ForEach(0..<5) { level in
                     RoundedRectangle(cornerRadius: 2)
                         .fill(colorForLevel(level))
-                        .frame(width: 12, height: 12)
+                        .frame(width: 10, height: 10)
                 }
 
                 Text("More")
@@ -195,7 +269,8 @@ struct YearGridShareCard: View {
                     .foregroundStyle(.white.opacity(0.6))
             }
         }
-        .padding(24)
+        .padding(16)
+        .frame(maxWidth: .infinity)
         .background(
             LinearGradient(
                 colors: [Color(hex: "1a1a2e"), Color(hex: "16213e")],
@@ -224,22 +299,30 @@ struct MiniYearGrid: View {
     let dayEntries: [DayEntry]
 
     private let weeks = 52
-    private let squareSize: CGFloat = 6
-    private let spacing: CGFloat = 2
+    private let squareSize: CGFloat = 5
+    private let spacing: CGFloat = 1.5
 
     var body: some View {
-        HStack(alignment: .top, spacing: spacing) {
-            ForEach(0..<weeks, id: \.self) { weekIndex in
-                VStack(spacing: spacing) {
-                    ForEach(0..<7, id: \.self) { dayIndex in
-                        let date = dateFor(week: weekIndex, day: dayIndex)
-                        RoundedRectangle(cornerRadius: 1)
-                            .fill(colorForDate(date))
-                            .frame(width: squareSize, height: squareSize)
+        GeometryReader { geometry in
+            let availableWidth = geometry.size.width
+            let calculatedSquareSize = max(3, min(squareSize, (availableWidth - CGFloat(weeks - 1) * spacing) / CGFloat(weeks)))
+            let calculatedSpacing = max(1, min(spacing, calculatedSquareSize * 0.3))
+
+            HStack(alignment: .top, spacing: calculatedSpacing) {
+                ForEach(0..<weeks, id: \.self) { weekIndex in
+                    VStack(spacing: calculatedSpacing) {
+                        ForEach(0..<7, id: \.self) { dayIndex in
+                            let date = dateFor(week: weekIndex, day: dayIndex)
+                            RoundedRectangle(cornerRadius: 1)
+                                .fill(colorForDate(date))
+                                .frame(width: calculatedSquareSize, height: calculatedSquareSize)
+                        }
                     }
                 }
             }
+            .frame(maxWidth: .infinity)
         }
+        .frame(height: 7 * squareSize + 6 * spacing + 10)
     }
 
     private func dateFor(week: Int, day: Int) -> Date {

@@ -727,13 +727,247 @@ enum StudentMajor: String, Codable, CaseIterable {
     }
 }
 
-// MARK: - Sprint Storage Extension
+// MARK: - Life Goals (Long-term Vision)
+
+enum GoalTimeframe: String, Codable, CaseIterable {
+    case shortTerm = "short_term"      // 1-3 months
+    case mediumTerm = "medium_term"    // 3-12 months
+    case longTerm = "long_term"        // 1-5 years
+    case lifelong = "lifelong"         // 5+ years / lifetime
+
+    var displayName: String {
+        switch self {
+        case .shortTerm: return "Short Term"
+        case .mediumTerm: return "This Year"
+        case .longTerm: return "Long Term"
+        case .lifelong: return "Lifetime"
+        }
+    }
+
+    var subtitle: String {
+        switch self {
+        case .shortTerm: return "1-3 months"
+        case .mediumTerm: return "3-12 months"
+        case .longTerm: return "1-5 years"
+        case .lifelong: return "5+ years"
+        }
+    }
+
+    var icon: String {
+        switch self {
+        case .shortTerm: return "hare.fill"
+        case .mediumTerm: return "calendar"
+        case .longTerm: return "mountain.2.fill"
+        case .lifelong: return "star.fill"
+        }
+    }
+
+    var color: Color {
+        switch self {
+        case .shortTerm: return .blue
+        case .mediumTerm: return .green
+        case .longTerm: return .purple
+        case .lifelong: return .orange
+        }
+    }
+}
+
+enum GoalCategory: String, Codable, CaseIterable {
+    case career = "career"
+    case health = "health"
+    case financial = "financial"
+    case relationships = "relationships"
+    case personal = "personal"
+    case education = "education"
+    case creative = "creative"
+    case adventure = "adventure"
+
+    var displayName: String {
+        switch self {
+        case .career: return "Career"
+        case .health: return "Health & Fitness"
+        case .financial: return "Financial"
+        case .relationships: return "Relationships"
+        case .personal: return "Personal Growth"
+        case .education: return "Education"
+        case .creative: return "Creative"
+        case .adventure: return "Adventure"
+        }
+    }
+
+    var icon: String {
+        switch self {
+        case .career: return "briefcase.fill"
+        case .health: return "heart.fill"
+        case .financial: return "dollarsign.circle.fill"
+        case .relationships: return "person.2.fill"
+        case .personal: return "brain.head.profile"
+        case .education: return "graduationcap.fill"
+        case .creative: return "paintbrush.fill"
+        case .adventure: return "airplane"
+        }
+    }
+
+    var color: Color {
+        switch self {
+        case .career: return .purple
+        case .health: return .red
+        case .financial: return .green
+        case .relationships: return .pink
+        case .personal: return .cyan
+        case .education: return .blue
+        case .creative: return .orange
+        case .adventure: return .teal
+        }
+    }
+}
+
+struct LifeGoal: Identifiable, Codable {
+    var id = UUID()
+    var title: String
+    var description: String
+    var timeframe: GoalTimeframe
+    var category: GoalCategory
+    var targetDate: Date?
+    var createdAt: Date = Date()
+    var isCompleted: Bool = false
+    var completedDate: Date?
+    var milestones: [GoalMilestone] = []
+    var linkedHabitIds: [UUID] = []
+    var notes: String = ""
+
+    var progress: Double {
+        guard !milestones.isEmpty else { return isCompleted ? 1.0 : 0.0 }
+        let completed = milestones.filter { $0.isCompleted }.count
+        return Double(completed) / Double(milestones.count)
+    }
+
+    var progressPercentage: Int {
+        Int(progress * 100)
+    }
+
+    var daysRemaining: Int? {
+        guard let targetDate = targetDate else { return nil }
+        return Calendar.current.dateComponents([.day], from: Date(), to: targetDate).day
+    }
+
+    var isOverdue: Bool {
+        guard let days = daysRemaining else { return false }
+        return days < 0 && !isCompleted
+    }
+}
+
+struct GoalMilestone: Identifiable, Codable {
+    var id = UUID()
+    var title: String
+    var isCompleted: Bool = false
+    var completedDate: Date?
+    var targetDate: Date?
+}
+
+// MARK: - Life Goal Templates
+
+struct LifeGoalTemplates {
+    static let templates: [GoalCategory: [LifeGoal]] = [
+        .career: [
+            LifeGoal(title: "Get promoted", description: "Advance to the next level in my career", timeframe: .mediumTerm, category: .career),
+            LifeGoal(title: "Start a business", description: "Launch my own company or side project", timeframe: .longTerm, category: .career),
+            LifeGoal(title: "Switch careers", description: "Transition into a new field", timeframe: .longTerm, category: .career),
+            LifeGoal(title: "Become an expert", description: "Master my craft and become a recognized expert", timeframe: .lifelong, category: .career),
+        ],
+        .health: [
+            LifeGoal(title: "Run a marathon", description: "Complete a full 26.2 mile marathon", timeframe: .longTerm, category: .health),
+            LifeGoal(title: "Reach ideal weight", description: "Achieve and maintain my target weight", timeframe: .mediumTerm, category: .health),
+            LifeGoal(title: "Build consistent workout routine", description: "Exercise regularly for 6+ months", timeframe: .mediumTerm, category: .health),
+            LifeGoal(title: "Live to 100", description: "Maintain health for a long, fulfilling life", timeframe: .lifelong, category: .health),
+        ],
+        .financial: [
+            LifeGoal(title: "Build emergency fund", description: "Save 6 months of expenses", timeframe: .mediumTerm, category: .financial),
+            LifeGoal(title: "Become debt-free", description: "Pay off all debts", timeframe: .longTerm, category: .financial),
+            LifeGoal(title: "Buy a home", description: "Purchase my first home", timeframe: .longTerm, category: .financial),
+            LifeGoal(title: "Achieve financial independence", description: "Have enough to live on without working", timeframe: .lifelong, category: .financial),
+        ],
+        .relationships: [
+            LifeGoal(title: "Strengthen family bonds", description: "Build closer relationships with family", timeframe: .mediumTerm, category: .relationships),
+            LifeGoal(title: "Find a life partner", description: "Build a meaningful romantic relationship", timeframe: .longTerm, category: .relationships),
+            LifeGoal(title: "Build a supportive network", description: "Develop deep, lasting friendships", timeframe: .longTerm, category: .relationships),
+            LifeGoal(title: "Be a great parent/mentor", description: "Guide and support the next generation", timeframe: .lifelong, category: .relationships),
+        ],
+        .personal: [
+            LifeGoal(title: "Develop mindfulness practice", description: "Build a consistent meditation habit", timeframe: .mediumTerm, category: .personal),
+            LifeGoal(title: "Overcome a fear", description: "Face and conquer a limiting fear", timeframe: .mediumTerm, category: .personal),
+            LifeGoal(title: "Find my purpose", description: "Discover what truly drives me", timeframe: .longTerm, category: .personal),
+            LifeGoal(title: "Live with no regrets", description: "Make choices aligned with my values", timeframe: .lifelong, category: .personal),
+        ],
+        .education: [
+            LifeGoal(title: "Get into dream school", description: "Gain admission to my target college", timeframe: .mediumTerm, category: .education),
+            LifeGoal(title: "Earn a degree", description: "Complete my educational program", timeframe: .longTerm, category: .education),
+            LifeGoal(title: "Learn a new language", description: "Become fluent in another language", timeframe: .longTerm, category: .education),
+            LifeGoal(title: "Never stop learning", description: "Continuously grow and develop", timeframe: .lifelong, category: .education),
+        ],
+        .creative: [
+            LifeGoal(title: "Write a book", description: "Author and publish a book", timeframe: .longTerm, category: .creative),
+            LifeGoal(title: "Learn an instrument", description: "Master playing a musical instrument", timeframe: .longTerm, category: .creative),
+            LifeGoal(title: "Create an app/product", description: "Build something people use", timeframe: .longTerm, category: .creative),
+            LifeGoal(title: "Leave a creative legacy", description: "Create work that outlasts me", timeframe: .lifelong, category: .creative),
+        ],
+        .adventure: [
+            LifeGoal(title: "Visit 10 countries", description: "Explore different cultures", timeframe: .longTerm, category: .adventure),
+            LifeGoal(title: "Learn to surf/ski", description: "Master an adventure sport", timeframe: .mediumTerm, category: .adventure),
+            LifeGoal(title: "See the Northern Lights", description: "Experience this natural wonder", timeframe: .longTerm, category: .adventure),
+            LifeGoal(title: "Live abroad", description: "Experience life in another country", timeframe: .longTerm, category: .adventure),
+        ],
+    ]
+}
+
+// MARK: - Sprint & Goals Storage Extension
 
 extension AppSettings {
     private static let sprintsKey = "userSprints"
+    private static let lifeGoalsKey = "userLifeGoals"
     private static let studentTypeKey = "studentType"
     private static let studentMajorKey = "studentMajor"
     private static let targetCollegeKey = "targetCollege"
+
+    var lifeGoals: [LifeGoal] {
+        get {
+            guard let data = UserDefaults.standard.data(forKey: Self.lifeGoalsKey) else { return [] }
+            return (try? JSONDecoder().decode([LifeGoal].self, from: data)) ?? []
+        }
+        set {
+            if let data = try? JSONEncoder().encode(newValue) {
+                UserDefaults.standard.set(data, forKey: Self.lifeGoalsKey)
+            }
+        }
+    }
+
+    func addLifeGoal(_ goal: LifeGoal) {
+        var goals = lifeGoals
+        goals.append(goal)
+        lifeGoals = goals
+    }
+
+    func updateLifeGoal(_ goal: LifeGoal) {
+        var goals = lifeGoals
+        if let index = goals.firstIndex(where: { $0.id == goal.id }) {
+            goals[index] = goal
+            lifeGoals = goals
+        }
+    }
+
+    func deleteLifeGoal(_ goal: LifeGoal) {
+        var goals = lifeGoals
+        goals.removeAll { $0.id == goal.id }
+        lifeGoals = goals
+    }
+
+    var goalsByTimeframe: [GoalTimeframe: [LifeGoal]] {
+        Dictionary(grouping: lifeGoals.filter { !$0.isCompleted }, by: { $0.timeframe })
+    }
+
+    var completedGoals: [LifeGoal] {
+        lifeGoals.filter { $0.isCompleted }
+    }
 
     var activeSprints: [Sprint] {
         get {

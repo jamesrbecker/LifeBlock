@@ -7,8 +7,10 @@ struct ChallengesView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Challenge.endDate) private var challenges: [Challenge]
+    @ObservedObject private var subscription = SubscriptionStatus.shared
 
     @State private var showingAvailableChallenges = false
+    @State private var showingPremium = false
 
     private var activeChallenges: [Challenge] {
         challenges.filter { $0.isActive && !$0.isExpired && !$0.isCompleted }
@@ -22,25 +24,30 @@ struct ChallengesView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 24) {
-                    // Header stats
-                    headerStats
+                    if subscription.canAccessChallenges {
+                        // Header stats
+                        headerStats
 
-                    // Active challenges
-                    if !activeChallenges.isEmpty {
-                        challengeSection(title: "Active Challenges", challenges: activeChallenges, showProgress: true)
-                    }
+                        // Active challenges
+                        if !activeChallenges.isEmpty {
+                            challengeSection(title: "Active Challenges", challenges: activeChallenges, showProgress: true)
+                        }
 
-                    // Join new challenge button
-                    joinChallengeButton
+                        // Join new challenge button
+                        joinChallengeButton
 
-                    // Completed challenges
-                    if !completedChallenges.isEmpty {
-                        challengeSection(title: "Completed", challenges: completedChallenges, showProgress: false)
-                    }
+                        // Completed challenges
+                        if !completedChallenges.isEmpty {
+                            challengeSection(title: "Completed", challenges: completedChallenges, showProgress: false)
+                        }
 
-                    // Empty state
-                    if challenges.isEmpty {
-                        emptyState
+                        // Empty state
+                        if challenges.isEmpty {
+                            emptyState
+                        }
+                    } else {
+                        // Premium required
+                        premiumRequired
                     }
                 }
                 .padding()
@@ -60,7 +67,60 @@ struct ChallengesView: View {
                     joinChallenge(challenge)
                 }
             }
+            .sheet(isPresented: $showingPremium) {
+                PremiumView()
+            }
         }
+    }
+
+    // MARK: - Premium Required
+
+    private var premiumRequired: some View {
+        VStack(spacing: 24) {
+            Spacer()
+
+            Image(systemName: "flag.checkered.circle.fill")
+                .font(.system(size: 80))
+                .foregroundStyle(.purple)
+
+            VStack(spacing: 8) {
+                Text("Challenges")
+                    .font(.title2)
+                    .fontWeight(.bold)
+
+                Text("Compete with others, join challenges, and stay motivated on your journey.")
+                    .font(.body)
+                    .foregroundStyle(Color.secondaryText)
+                    .multilineTextAlignment(.center)
+            }
+
+            VStack(spacing: 12) {
+                FeatureRow(icon: "flame.fill", text: "Join community challenges", color: .orange)
+                FeatureRow(icon: "trophy.fill", text: "Earn points and badges", color: .yellow)
+                FeatureRow(icon: "person.3.fill", text: "Compete with friends", color: .blue)
+            }
+            .padding()
+            .background(Color.cardBackground)
+            .clipShape(RoundedRectangle(cornerRadius: 16))
+
+            Button {
+                showingPremium = true
+            } label: {
+                HStack {
+                    Image(systemName: "star.fill")
+                    Text("Unlock with Premium")
+                        .fontWeight(.semibold)
+                }
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(Color.purple)
+                .foregroundColor(.white)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+            }
+
+            Spacer()
+        }
+        .padding()
     }
 
     // MARK: - Header Stats
@@ -76,7 +136,7 @@ struct ChallengesView: View {
 
             ChallengeStatBox(
                 value: "\(completedChallenges.count)",
-                label: "Completed",
+                label: "Done",
                 icon: "trophy.fill",
                 color: .yellow
             )

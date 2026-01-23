@@ -5,6 +5,7 @@ struct PathDashboardView: View {
     @Query private var dayEntries: [DayEntry]
     @State private var showingQuoteDetail = false
     @State private var currentQuote: String = ""
+    @State private var showingLifeGoals = false
 
     private var lifePath: UserLifePath? {
         AppSettings.shared.userLifePath
@@ -37,9 +38,59 @@ struct PathDashboardView: View {
             // Daily motivation card
             motivationCard
 
+            // Life Goals quick access
+            lifeGoalsButton
+
             // Level progress
             levelProgress
         }
+        .sheet(isPresented: $showingLifeGoals) {
+            LifeGoalsView()
+        }
+    }
+
+    // MARK: - Life Goals Button
+
+    private var lifeGoalsButton: some View {
+        Button {
+            HapticManager.shared.lightTap()
+            showingLifeGoals = true
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: "star.fill")
+                    .foregroundStyle(.orange)
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Life Goals")
+                        .font(.subheadline)
+                        .fontWeight(.medium)
+                    Text("Short & long term vision")
+                        .font(.caption)
+                        .foregroundStyle(Color.secondaryText)
+                }
+
+                Spacer()
+
+                let goalCount = AppSettings.shared.lifeGoals.filter { !$0.isCompleted }.count
+                if goalCount > 0 {
+                    Text("\(goalCount)")
+                        .font(.caption)
+                        .fontWeight(.semibold)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(Color.orange.opacity(0.2))
+                        .clipShape(Capsule())
+                }
+
+                Image(systemName: "chevron.right")
+                    .font(.caption)
+                    .foregroundStyle(Color.secondaryText)
+            }
+            .padding()
+            .background(Color.cardBackground)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+        }
+        .buttonStyle(.plain)
     }
 
     // MARK: - Path Header (Simplified)

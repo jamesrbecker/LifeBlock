@@ -3,32 +3,45 @@ import WidgetKit
 
 struct SmallWidgetView: View {
     let entry: LifeBlocksEntry
+    @Environment(\.colorScheme) private var systemColorScheme
+
+    private var isDarkMode: Bool {
+        systemColorScheme == .dark
+    }
 
     private var colorScheme: GridColorScheme {
         GridColorScheme.userSelected
     }
 
-    // 7x7 grid for small widget (last 7 weeks)
+    // GitHub-style: 80 days past + 10 future, but smaller for widget
     private var gridDates: [[Date]] {
-        WidgetDateHelpers.gridDates(weeks: 7)
+        WidgetDateHelpers.githubStyleGridDates(pastDays: 63, futureDays: 7)  // ~10 weeks for small widget
+    }
+
+    private let squareSize: CGFloat = 9
+    private let spacing: CGFloat = 2
+
+    private var todayBorderColor: Color {
+        isDarkMode ? .white : Color(hex: "#1B1F23")
     }
 
     var body: some View {
         Link(destination: DeepLink.checkInURL()) {
             VStack(spacing: 0) {
-                // GitHub-style contribution grid
-                HStack(alignment: .top, spacing: 2) {
+                // GitHub-style contribution grid - centered
+                HStack(alignment: .top, spacing: spacing) {
                     ForEach(Array(gridDates.enumerated()), id: \.offset) { _, week in
-                        VStack(spacing: 2) {
+                        VStack(spacing: spacing) {
                             ForEach(week, id: \.self) { date in
-                                let score = entry.dayScores[date.widgetStartOfDay] ?? 0
+                                let isFuture = WidgetDateHelpers.isFuture(date)
+                                let score = isFuture ? 0 : (entry.dayScores[date.widgetStartOfDay] ?? 0)
                                 RoundedRectangle(cornerRadius: 2)
-                                    .fill(colorScheme.color(for: score, isDarkMode: true))
-                                    .frame(width: 16, height: 16)
+                                    .fill(isFuture ? GridColorScheme.futureColor(isDarkMode: isDarkMode) : colorScheme.color(for: score, isDarkMode: isDarkMode))
+                                    .frame(width: squareSize, height: squareSize)
                                     .overlay {
                                         if date.widgetIsToday {
                                             RoundedRectangle(cornerRadius: 2)
-                                                .strokeBorder(Color.white.opacity(0.6), lineWidth: 1)
+                                                .strokeBorder(todayBorderColor, lineWidth: 1)
                                         }
                                     }
                             }
@@ -37,19 +50,20 @@ struct SmallWidgetView: View {
                             if week.count < 7 {
                                 ForEach(0..<(7 - week.count), id: \.self) { _ in
                                     Color.clear
-                                        .frame(width: 16, height: 16)
+                                        .frame(width: squareSize, height: squareSize)
                                 }
                             }
                         }
                     }
                 }
+                .frame(maxWidth: .infinity)
 
                 Spacer(minLength: 4)
 
                 // Minimal footer
                 HStack {
-                    Text("Blocks")
-                        .font(.system(size: 10, weight: .medium))
+                    Text("LifeBlocks")
+                        .font(.system(size: 9, weight: .medium))
                         .foregroundStyle(.secondary)
 
                     Spacer()
@@ -65,9 +79,9 @@ struct SmallWidgetView: View {
                     }
                 }
             }
-            .padding(12)
+            .padding(10)
         }
-        .containerBackground(Color(hex: "#0D1117"), for: .widget)
+        .containerBackground(GridColorScheme.widgetBackground(isDarkMode: isDarkMode), for: .widget)
     }
 }
 

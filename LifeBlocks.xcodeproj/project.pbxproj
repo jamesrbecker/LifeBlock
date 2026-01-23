@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B6A19D78A8FEEC60B485821 /* LifeGoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729F04E896DE765ABD7ECB92 /* LifeGoalsView.swift */; };
 		F1000001001 /* LifeBlocksApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000001000 /* LifeBlocksApp.swift */; };
 		F1000002001 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000002000 /* ContentView.swift */; };
 		F1000003001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F1000003000 /* Assets.xcassets */; };
@@ -73,6 +74,7 @@
 		F1000144001 /* Challenge.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000144000 /* Challenge.swift */; };
 		F1000145001 /* ChallengesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000145000 /* ChallengesView.swift */; };
 		F1000146001 /* MilestoneCelebrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000146000 /* MilestoneCelebrationView.swift */; };
+		F1000157001 /* PathDiscoveryPromptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000157000 /* PathDiscoveryPromptView.swift */; };
 		F1000147001 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000147000 /* AnalyticsService.swift */; };
 		F1000148001 /* InsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000148000 /* InsightsView.swift */; };
 		F1000149001 /* PhoneConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000149000 /* PhoneConnectivityManager.swift */; };
@@ -92,7 +94,6 @@
 		F1000165005 /* AppIcon-Lavender@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F1000165004 /* AppIcon-Lavender@2x~ipad.png */; };
 		F1000165007 /* AppIcon-Purple@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F1000165006 /* AppIcon-Purple@2x~ipad.png */; };
 		F1000165009 /* AppIcon-Orange@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F1000165008 /* AppIcon-Orange@2x~ipad.png */; };
-		F1000150001 /* InAppNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000150000 /* InAppNotificationService.swift */; };
 		F1000151001 /* NotificationCenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000151000 /* NotificationCenterView.swift */; };
 /* End PBXBuildFile section */
 
@@ -121,6 +122,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		729F04E896DE765ABD7ECB92 /* LifeGoalsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Views/Goals/LifeGoalsView.swift"; sourceTree = "<group>"; };
 		F1000001000 /* LifeBlocksApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeBlocksApp.swift; sourceTree = "<group>"; };
 		F1000002000 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		F1000003000 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 		F1000144000 /* Challenge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Challenge.swift; sourceTree = "<group>"; };
 		F1000145000 /* ChallengesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengesView.swift; sourceTree = "<group>"; };
 		F1000146000 /* MilestoneCelebrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneCelebrationView.swift; sourceTree = "<group>"; };
+		F1000157000 /* PathDiscoveryPromptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathDiscoveryPromptView.swift; sourceTree = "<group>"; };
 		F1000147000 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
 		F1000148000 /* InsightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsView.swift; sourceTree = "<group>"; };
 		F1000149000 /* PhoneConnectivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneConnectivityManager.swift; sourceTree = "<group>"; };
@@ -211,7 +214,6 @@
 		F1000165004 /* AppIcon-Lavender@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Lavender@2x~ipad.png"; sourceTree = "<group>"; };
 		F1000165006 /* AppIcon-Purple@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Purple@2x~ipad.png"; sourceTree = "<group>"; };
 		F1000165008 /* AppIcon-Orange@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Orange@2x~ipad.png"; sourceTree = "<group>"; };
-		F1000150000 /* InAppNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppNotificationService.swift; sourceTree = "<group>"; };
 		F1000151000 /* NotificationCenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -245,6 +247,7 @@
 		F1000500001 /* LifeBlocks */ = {
 			isa = PBXGroup;
 			children = (
+				729F04E896DE765ABD7ECB92 /* LifeGoalsView.swift */,
 				F1000500010 /* App */,
 				F1000500011 /* Models */,
 				F1000500012 /* Views */,
@@ -373,6 +376,7 @@
 			children = (
 				F1000136000 /* IconPickerView.swift */,
 				F1000146000 /* MilestoneCelebrationView.swift */,
+				F1000157000 /* PathDiscoveryPromptView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -380,7 +384,6 @@
 		F1000500013 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				F1000150000 /* InAppNotificationService.swift */,
 				F1000080000 /* DataManager.swift */,
 				F1000081000 /* HealthKitManager.swift */,
 				F1000082000 /* NotificationManager.swift */,
@@ -638,7 +641,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F1000001001 /* LifeBlocksApp.swift in Sources */,
+				5B6A19D78A8FEEC60B485821 /* LifeGoalsView.swift in Sources */,
+						F1000001001 /* LifeBlocksApp.swift in Sources */,
 				F1000002001 /* ContentView.swift in Sources */,
 				F1000010001 /* Habit.swift in Sources */,
 				F1000011001 /* DayEntry.swift in Sources */,
@@ -691,6 +695,7 @@
 				F1000144001 /* Challenge.swift in Sources */,
 				F1000145001 /* ChallengesView.swift in Sources */,
 				F1000146001 /* MilestoneCelebrationView.swift in Sources */,
+				F1000157001 /* PathDiscoveryPromptView.swift in Sources */,
 				F1000147001 /* AnalyticsService.swift in Sources */,
 				F1000148001 /* InsightsView.swift in Sources */,
 				F1000149001 /* PhoneConnectivityManager.swift in Sources */,

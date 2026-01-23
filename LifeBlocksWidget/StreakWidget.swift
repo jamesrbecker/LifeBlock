@@ -10,7 +10,7 @@ struct StreakWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: LifeBlocksTimelineProvider()) { entry in
             StreakWidgetView(entry: entry)
-                .containerBackground(.fill.tertiary, for: .widget)
+                .containerBackground(Color(hex: "#0D1117"), for: .widget)
         }
         .configurationDisplayName("Streak Tracker")
         .description("Keep your streak alive with this motivational display.")

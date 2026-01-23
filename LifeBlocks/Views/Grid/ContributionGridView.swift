@@ -9,24 +9,27 @@ struct ContributionGridView: View {
     @State private var gridScale: CGFloat = 1.0
 
     let colorScheme: GridColorScheme
-    let weeks: Int
+    let pastDays: Int
+    let futureDays: Int
     let squareSize: CGFloat
     let spacing: CGFloat
 
     init(
         colorScheme: GridColorScheme = .green,
-        weeks: Int = 52,
-        squareSize: CGFloat = 11,
+        pastDays: Int = 80,  // 80 days of history
+        futureDays: Int = 10, // 10 days into the future
+        squareSize: CGFloat = 14,  // Larger squares like GitHub
         spacing: CGFloat = 3
     ) {
         self.colorScheme = colorScheme
-        self.weeks = weeks
+        self.pastDays = pastDays
+        self.futureDays = futureDays
         self.squareSize = squareSize
         self.spacing = spacing
     }
 
     private var gridDates: [[Date]] {
-        DateHelpers.gridDates(weeks: weeks)
+        DateHelpers.githubStyleGridDates(pastDays: pastDays, futureDays: futureDays)
     }
 
     private var monthLabels: [(month: String, weekIndex: Int)] {
@@ -34,8 +37,8 @@ struct ContributionGridView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            // Month labels
+        VStack(alignment: .center, spacing: 8) {
+            // Month labels - centered
             monthLabelsView
 
             HStack(alignment: .top, spacing: spacing) {
@@ -50,6 +53,7 @@ struct ContributionGridView: View {
             GridLegendView(colorScheme: colorScheme)
                 .padding(.top, 8)
         }
+        .frame(maxWidth: .infinity)
         .scaleEffect(gridScale)
         .gesture(
             MagnificationGesture()
@@ -103,16 +107,24 @@ struct ContributionGridView: View {
     private var gridView: some View {
         HStack(alignment: .top, spacing: spacing) {
             ForEach(Array(gridDates.enumerated()), id: \.offset) { weekIndex, week in
+                let isCurrentWeekColumn = weekIndex == gridDates.count - 1 ||
+                    week.contains(where: { $0.isToday })
+
                 VStack(spacing: spacing) {
                     ForEach(week, id: \.self) { date in
+                        let isFutureDate = DateHelpers.isFuture(date)
                         DaySquareView(
                             date: date,
-                            level: levelForDate(date),
+                            level: isFutureDate ? 0 : levelForDate(date),
                             colorScheme: colorScheme,
                             size: squareSize,
-                            isSelected: selectedDate?.isSameDay(as: date) ?? false
+                            isSelected: selectedDate?.isSameDay(as: date) ?? false,
+                            isFuture: isFutureDate,
+                            isCurrentWeek: DateHelpers.isCurrentWeek(date)
                         )
                         .onTapGesture {
+                            // Only allow tapping past/today dates
+                            guard !isFutureDate else { return }
                             withAnimation(.easeInOut(duration: 0.2)) {
                                 if selectedDate?.isSameDay(as: date) ?? false {
                                     selectedDate = nil
@@ -123,7 +135,7 @@ struct ContributionGridView: View {
                         }
                     }
 
-                    // Pad incomplete weeks
+                    // Pad incomplete weeks at the start
                     if week.count < 7 {
                         ForEach(0..<(7 - week.count), id: \.self) { _ in
                             Color.clear

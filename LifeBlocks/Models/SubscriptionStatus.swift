@@ -1,24 +1,42 @@
 import Foundation
 import StoreKit
+import SwiftUI
 
 enum SubscriptionTier: String, CaseIterable {
     case free = "free"
     case premium = "premium"
 
-    var maxHabits: Int {
+    // MARK: - Habit Limits
+    // Free: 3 custom habits (plus system habits)
+    // Premium: Unlimited
+    var maxCustomHabits: Int {
         switch self {
-        case .free: return 5
+        case .free: return 3
         case .premium: return .max
         }
     }
 
+    // MARK: - History Limits
+    // Free: 7 days
+    // Premium: Full year (365 days)
     var historyDays: Int {
         switch self {
-        case .free: return 30
+        case .free: return 7
         case .premium: return 365
         }
     }
 
+    // MARK: - Life Goals Limits
+    // Free: 1 goal
+    // Premium: Unlimited
+    var maxLifeGoals: Int {
+        switch self {
+        case .free: return 1
+        case .premium: return .max
+        }
+    }
+
+    // MARK: - Feature Access
     var hasAllWidgets: Bool {
         self == .premium
     }
@@ -32,6 +50,27 @@ enum SubscriptionTier: String, CaseIterable {
     }
 
     var canExportData: Bool {
+        self == .premium
+    }
+
+    // Social features - Premium only
+    var hasFriendsFeature: Bool {
+        self == .premium
+    }
+
+    var hasLeaderboards: Bool {
+        self == .premium
+    }
+
+    var hasChallenges: Bool {
+        self == .premium
+    }
+
+    var hasShareCards: Bool {
+        self == .premium
+    }
+
+    var hasMultiplePaths: Bool {
         self == .premium
     }
 }
@@ -67,14 +106,35 @@ final class SubscriptionStatus: ObservableObject {
         AppSettings.shared.isPremium = isPremium
     }
 
-    // Feature gating helpers
+    // MARK: - Feature Gating Helpers
+
     func canAddMoreHabits(currentCount: Int) -> Bool {
-        currentCount < tier.maxHabits
+        currentCount < tier.maxCustomHabits
+    }
+
+    func canAddMoreGoals(currentCount: Int) -> Bool {
+        currentCount < tier.maxLifeGoals
     }
 
     func isDateInHistory(_ date: Date) -> Bool {
         let daysAgo = Calendar.current.dateComponents([.day], from: date, to: Date()).day ?? 0
         return daysAgo <= tier.historyDays
+    }
+
+    var canAccessLeaderboards: Bool {
+        tier.hasLeaderboards
+    }
+
+    var canAccessChallenges: Bool {
+        tier.hasChallenges
+    }
+
+    var canAccessShareCards: Bool {
+        tier.hasShareCards
+    }
+
+    var canAccessFriends: Bool {
+        tier.hasFriendsFeature
     }
 }
 
@@ -94,10 +154,16 @@ struct PricingInfo {
 
     static let features: [(icon: String, title: String, description: String)] = [
         ("infinity", "Unlimited Habits", "Track as many habits as you want"),
-        ("rectangle.3.group", "All Widget Sizes", "Small, medium, and large widgets"),
+        ("star.fill", "Unlimited Life Goals", "Set short & long-term goals"),
         ("calendar", "Full Year History", "View your entire year at a glance"),
+        ("person.2.fill", "Friends & Social", "Connect and compete with friends"),
+        ("trophy.fill", "Leaderboards", "See how you rank globally"),
+        ("flag.checkered", "Challenges", "Join challenges to stay motivated"),
+        ("square.and.arrow.up", "Share Cards", "Share your progress beautifully"),
+        ("rectangle.3.group", "All Widget Sizes", "Small, medium, and large widgets"),
         ("chart.bar.fill", "Advanced Analytics", "Detailed insights and trends"),
         ("paintpalette.fill", "Custom Themes", "Personalize your experience"),
-        ("square.and.arrow.up", "Export Data", "Download your data anytime")
+        ("arrow.down.doc", "Export Data", "Download your data anytime")
     ]
 }
+

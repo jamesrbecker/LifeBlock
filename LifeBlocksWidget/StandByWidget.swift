@@ -10,7 +10,7 @@ struct StandByWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: LifeBlocksTimelineProvider()) { entry in
             StandByWidgetView(entry: entry)
-                .containerBackground(.fill.tertiary, for: .widget)
+                .containerBackground(Color(hex: "#0D1117"), for: .widget)
         }
         .configurationDisplayName("LifeBlocks StandBy")
         .description("View your streak and activity at a glance in StandBy mode.")

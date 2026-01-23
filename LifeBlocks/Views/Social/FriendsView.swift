@@ -514,15 +514,22 @@ struct EmptyFriendsView: View {
 struct FeatureRow: View {
     let icon: String
     let text: String
+    var color: Color = .accentGreen
 
     var body: some View {
         HStack(spacing: 12) {
             Image(systemName: icon)
-                .foregroundStyle(Color.accentGreen)
+                .foregroundStyle(color)
                 .frame(width: 24)
 
             Text(text)
                 .font(.subheadline)
+
+            Spacer()
+
+            Image(systemName: "checkmark")
+                .font(.caption)
+                .foregroundStyle(.green)
         }
     }
 }

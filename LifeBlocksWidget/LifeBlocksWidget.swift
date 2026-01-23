@@ -152,7 +152,6 @@ struct LifeBlocksWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: LifeBlocksTimelineProvider()) { entry in
             LifeBlocksWidgetEntryView(entry: entry)
-                .containerBackground(.fill.tertiary, for: .widget)
         }
         .configurationDisplayName("LifeBlocks")
         .description("Track your daily habits with a GitHub-style grid.")

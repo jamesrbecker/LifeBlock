@@ -290,7 +290,7 @@ struct OnboardingView: View {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 14) {
                     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 14) {
-                        ForEach(LifePathCategory.allCases.filter { $0 != .custom }, id: \.self) { path in
+                        ForEach(LifePathCategory.allCases.filter { $0 != .custom && $0 != .exploring }, id: \.self) { path in
                             PathCard(
                                 path: path,
                                 isSelected: selectedPath == path
@@ -314,6 +314,15 @@ struct OnboardingView: View {
                             }
                         }
                     )
+                    .padding(.top, 4)
+
+                    // Skip option - just build habits without a path
+                    SkipPathCard {
+                        HapticManager.shared.lightTap()
+                        // Skip to habit selection with generic habits
+                        AppSettings.shared.isExplorationMode = true
+                        withAnimation { currentStep = .habitSelection }
+                    }
                     .padding(.top, 4)
                 }
                 .padding(.horizontal)
@@ -701,13 +710,51 @@ struct OnboardingView: View {
                     .fontWeight(.bold)
                     .foregroundStyle(Color.primaryText)
 
-                Text("These habits will move you toward your goals")
+                Text(AppSettings.shared.isExplorationMode
+                    ? "Start with foundational habits"
+                    : "These habits will move you toward your goals")
                     .font(.subheadline)
                     .foregroundStyle(Color.secondaryText)
             }
             .padding(.top, 24)
 
-            if let path = selectedPath {
+            // Exploration mode - show generic habits
+            if AppSettings.shared.isExplorationMode {
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 12) {
+                        ForEach(ExplorationHabits.habits) { habit in
+                            HabitTemplateRow(
+                                template: habit,
+                                isSelected: selectedHabits.contains(habit.id)
+                            ) {
+                                HapticManager.shared.lightTap()
+                                withAnimation(.spring(response: 0.2)) {
+                                    if selectedHabits.contains(habit.id) {
+                                        selectedHabits.remove(habit.id)
+                                    } else {
+                                        selectedHabits.insert(habit.id)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .padding(.horizontal)
+                }
+
+                // Selection count
+                HStack {
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundStyle(Color.accentGreen)
+                    Text("\(selectedHabits.count) habits selected")
+                        .font(.subheadline)
+                        .fontWeight(.medium)
+                }
+                .padding(.vertical, 8)
+
+                Text("You can always add path-specific habits later")
+                    .font(.caption)
+                    .foregroundStyle(Color.secondaryText)
+            } else if let path = selectedPath {
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 12) {
                         // Path-specific habits
@@ -863,6 +910,10 @@ struct OnboardingView: View {
 
     // Helper to determine previous step for habit selection
     private var previousStepForHabitSelection: OnboardingStep {
+        // If in exploration mode, go back to path selection
+        if AppSettings.shared.isExplorationMode {
+            return .pathSelection
+        }
         guard let path = selectedPath else { return .pathSelection }
         switch path {
         case .student:
@@ -880,7 +931,49 @@ struct OnboardingView: View {
         VStack(spacing: 32) {
             Spacer()
 
-            if let path = selectedPath {
+            if AppSettings.shared.isExplorationMode {
+                // Exploration mode motivation
+                VStack(spacing: 24) {
+                    ZStack {
+                        Circle()
+                            .fill(Color.accentGreen.opacity(0.3))
+                            .frame(width: 100, height: 100)
+                            .blur(radius: 15)
+
+                        Circle()
+                            .fill(Color.accentGreen.opacity(0.2))
+                            .frame(width: 80, height: 80)
+
+                        Image(systemName: "sparkles")
+                            .font(.system(size: 40))
+                            .foregroundStyle(Color.accentGreen)
+                    }
+
+                    Text("Your Journey of Discovery")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundStyle(Color.primaryText)
+
+                    Text("Build habits, find your path")
+                        .font(.title3)
+                        .foregroundStyle(Color.secondaryText)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 32)
+
+                    VStack(spacing: 8) {
+                        Image(systemName: "quote.opening")
+                            .foregroundStyle(Color.accentGreen.opacity(0.5))
+
+                        Text("The journey of a thousand miles begins with a single step.")
+                            .font(.body)
+                            .italic()
+                            .foregroundStyle(Color.secondaryText)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 40)
+                    }
+                    .padding(.top, 16)
+                }
+            } else if let path = selectedPath {
                 VStack(spacing: 24) {
                     // Path icon with glow
                     ZStack {
@@ -961,7 +1054,11 @@ struct OnboardingView: View {
                     .foregroundStyle(Color.primaryText)
 
                 VStack(spacing: 12) {
-                    summaryRow(icon: selectedPath?.icon ?? "star.fill", text: selectedPath?.displayName ?? "Custom Path", color: selectedPath?.color ?? .gray)
+                    if AppSettings.shared.isExplorationMode {
+                        summaryRow(icon: "sparkles", text: "Explorer Mode", color: .accentGreen)
+                    } else {
+                        summaryRow(icon: selectedPath?.icon ?? "star.fill", text: selectedPath?.displayName ?? "Custom Path", color: selectedPath?.color ?? .gray)
+                    }
                     summaryRow(icon: "checkmark.circle.fill", text: "\(selectedHabits.count) daily habits", color: .green)
                     summaryRow(icon: "calendar", text: "Day 1 starts now", color: .blue)
                 }
@@ -1063,23 +1160,38 @@ struct OnboardingView: View {
     // MARK: - Complete Onboarding
 
     private func completeOnboarding() {
-        guard let path = selectedPath else { return }
+        // Handle exploration mode - no path selected
+        if AppSettings.shared.isExplorationMode {
+            // Create habits from exploration templates
+            let templates = ExplorationHabits.habits.filter { selectedHabits.contains($0.id) }
+            for (index, template) in templates.enumerated() {
+                let habit = Habit(
+                    name: template.name,
+                    icon: template.icon,
+                    colorHex: template.color
+                )
+                habit.sortOrder = index
+                modelContext.insert(habit)
+            }
+        } else {
+            guard let path = selectedPath else { return }
 
-        // Save life path
-        let lifePath = UserLifePath(path: path)
-        AppSettings.shared.userLifePath = lifePath
-        AppSettings.shared.pathStartDate = Date()
+            // Save life path
+            let lifePath = UserLifePath(path: path)
+            AppSettings.shared.userLifePath = lifePath
+            AppSettings.shared.pathStartDate = Date()
 
-        // Create habits from selected templates
-        let templates = path.suggestedHabits.filter { selectedHabits.contains($0.id) }
-        for (index, template) in templates.enumerated() {
-            let habit = Habit(
-                name: template.name,
-                icon: template.icon,
-                colorHex: template.color
-            )
-            habit.sortOrder = index
-            modelContext.insert(habit)
+            // Create habits from selected templates
+            let templates = path.suggestedHabits.filter { selectedHabits.contains($0.id) }
+            for (index, template) in templates.enumerated() {
+                let habit = Habit(
+                    name: template.name,
+                    icon: template.icon,
+                    colorHex: template.color
+                )
+                habit.sortOrder = index
+                modelContext.insert(habit)
+            }
         }
 
         // Create user settings
@@ -1276,6 +1388,52 @@ struct ValuePropRow: View {
     }
 }
 
+// MARK: - Skip Path Card
+
+struct SkipPathCard: View {
+    let onTap: () -> Void
+
+    var body: some View {
+        Button(action: onTap) {
+            HStack(spacing: 16) {
+                ZStack {
+                    Circle()
+                        .fill(Color.secondaryText.opacity(0.2))
+                        .frame(width: 50, height: 50)
+
+                    Image(systemName: "sparkle")
+                        .font(.title2)
+                        .foregroundStyle(Color.secondaryText)
+                }
+
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("I'm Still Exploring")
+                        .font(.headline)
+                        .foregroundStyle(Color.primaryText)
+
+                    Text("Build habits first, choose a path later")
+                        .font(.caption)
+                        .foregroundStyle(Color.secondaryText)
+                }
+
+                Spacer()
+
+                Image(systemName: "chevron.right")
+                    .font(.body)
+                    .foregroundStyle(Color.tertiaryText)
+            }
+            .padding()
+            .background(Color.cardBackground)
+            .clipShape(RoundedRectangle(cornerRadius: 14))
+            .overlay(
+                RoundedRectangle(cornerRadius: 14)
+                    .strokeBorder(Color.borderColor, lineWidth: 1)
+            )
+        }
+        .buttonStyle(.plain)
+    }
+}
+
 // MARK: - Custom Path Card
 
 struct CustomPathCard: View {
@@ -1383,7 +1541,7 @@ struct CustomPathBuilderSheet: View {
     let onSave: (Set<LifePathCategory>) -> Void
     @Environment(\.dismiss) private var dismiss
 
-    private let availablePaths = LifePathCategory.allCases.filter { $0 != .custom }
+    private let availablePaths = LifePathCategory.allCases.filter { $0 != .custom && $0 != .exploring }
 
     var body: some View {
         NavigationView {

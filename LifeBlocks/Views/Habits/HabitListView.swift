@@ -104,11 +104,11 @@ struct HabitListView: View {
     }
 
     private var freeHabitLimit: Int {
-        SubscriptionTier.free.maxHabits - Habit.systemHabits.count
+        SubscriptionTier.free.maxCustomHabits
     }
 
     private var canAddHabit: Bool {
-        subscription.isPremium || customHabitCount < freeHabitLimit
+        subscription.canAddMoreHabits(currentCount: customHabitCount)
     }
 
     private func toggleHabit(_ habit: Habit) {

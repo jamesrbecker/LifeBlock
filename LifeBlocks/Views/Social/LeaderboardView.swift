@@ -2,36 +2,49 @@ import SwiftUI
 
 struct LeaderboardView: View {
     @StateObject private var service = LeaderboardService.shared
+    @ObservedObject private var subscription = SubscriptionStatus.shared
     @State private var selectedType: LeaderboardType = .streak
     @State private var selectedScope: LeaderboardScope = .global
     @State private var showingSettings = false
+    @State private var showingPremium = false
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 0) {
-                // Type Picker
-                Picker("Leaderboard Type", selection: $selectedType) {
-                    ForEach(LeaderboardType.allCases, id: \.self) { type in
-                        Label(type.rawValue, systemImage: type.icon)
-                            .tag(type)
-                    }
-                }
-                .pickerStyle(.segmented)
-                .padding(.horizontal)
-                .padding(.top, 8)
+            if subscription.canAccessLeaderboards {
+                leaderboardContent
+            } else {
+                premiumRequired
+            }
+        }
+    }
 
-                // Scope Toggle
-                Picker("Scope", selection: $selectedScope) {
-                    ForEach(LeaderboardScope.allCases, id: \.self) { scope in
-                        Label(scope.rawValue, systemImage: scope.icon)
-                            .tag(scope)
-                    }
-                }
-                .pickerStyle(.segmented)
-                .padding(.horizontal)
-                .padding(.top, 8)
+    // MARK: - Leaderboard Content
 
-                if service.isLoading {
+    private var leaderboardContent: some View {
+        VStack(spacing: 0) {
+            // Type Picker
+            Picker("Leaderboard Type", selection: $selectedType) {
+                ForEach(LeaderboardType.allCases, id: \.self) { type in
+                    Label(type.rawValue, systemImage: type.icon)
+                        .tag(type)
+                }
+            }
+            .pickerStyle(.segmented)
+            .padding(.horizontal)
+            .padding(.top, 8)
+
+            // Scope Toggle
+            Picker("Scope", selection: $selectedScope) {
+                ForEach(LeaderboardScope.allCases, id: \.self) { scope in
+                    Label(scope.rawValue, systemImage: scope.icon)
+                        .tag(scope)
+                }
+            }
+            .pickerStyle(.segmented)
+            .padding(.horizontal)
+            .padding(.top, 8)
+
+            if service.isLoading {
                     Spacer()
                     ProgressView("Loading leaderboard...")
                     Spacer()
@@ -89,32 +102,85 @@ struct LeaderboardView: View {
                     }
                 }
             }
-            .navigationTitle("Leaderboard")
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        showingSettings = true
-                    } label: {
-                        Image(systemName: "gearshape")
-                    }
+        .navigationTitle("Leaderboard")
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    showingSettings = true
+                } label: {
+                    Image(systemName: "gearshape")
                 }
             }
-            .sheet(isPresented: $showingSettings) {
-                LeaderboardSettingsView()
-            }
-            .onChange(of: selectedType) { _, _ in
-                Task {
-                    await service.fetchLeaderboard(type: selectedType, scope: selectedScope)
-                }
-            }
-            .onChange(of: selectedScope) { _, _ in
-                Task {
-                    await service.fetchLeaderboard(type: selectedType, scope: selectedScope)
-                }
-            }
-            .task {
+        }
+        .sheet(isPresented: $showingSettings) {
+            LeaderboardSettingsView()
+        }
+        .onChange(of: selectedType) { _, _ in
+            Task {
                 await service.fetchLeaderboard(type: selectedType, scope: selectedScope)
             }
+        }
+        .onChange(of: selectedScope) { _, _ in
+            Task {
+                await service.fetchLeaderboard(type: selectedType, scope: selectedScope)
+            }
+        }
+        .task {
+            await service.fetchLeaderboard(type: selectedType, scope: selectedScope)
+        }
+    }
+
+    // MARK: - Premium Required
+
+    private var premiumRequired: some View {
+        VStack(spacing: 24) {
+            Spacer()
+
+            Image(systemName: "trophy.circle.fill")
+                .font(.system(size: 80))
+                .foregroundStyle(.yellow)
+
+            VStack(spacing: 8) {
+                Text("Leaderboards")
+                    .font(.title2)
+                    .fontWeight(.bold)
+
+                Text("See how you rank against the community and compete with friends.")
+                    .font(.body)
+                    .foregroundStyle(Color.secondaryText)
+                    .multilineTextAlignment(.center)
+            }
+
+            VStack(spacing: 12) {
+                FeatureRow(icon: "globe", text: "Global rankings", color: .blue)
+                FeatureRow(icon: "person.2.fill", text: "Friend leaderboards", color: .green)
+                FeatureRow(icon: "chart.bar.fill", text: "Weekly & all-time stats", color: .purple)
+            }
+            .padding()
+            .background(Color.cardBackground)
+            .clipShape(RoundedRectangle(cornerRadius: 16))
+
+            Button {
+                showingPremium = true
+            } label: {
+                HStack {
+                    Image(systemName: "star.fill")
+                    Text("Unlock with Premium")
+                        .fontWeight(.semibold)
+                }
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(Color.purple)
+                .foregroundColor(.white)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+            }
+
+            Spacer()
+        }
+        .padding()
+        .navigationTitle("Leaderboard")
+        .sheet(isPresented: $showingPremium) {
+            PremiumView()
         }
     }
 

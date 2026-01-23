@@ -35,6 +35,67 @@ struct DateHelpers {
         return weeklyDates
     }
 
+    /// GitHub-style grid: 80 days past + current week (including future days)
+    /// Current week is on the far right with today highlighted
+    static func githubStyleGridDates(pastDays: Int = 80, futureDays: Int = 10) -> [[Date]] {
+        let today = calendar.startOfDay(for: Date())
+
+        // Find what day of the week today is (1 = Sunday, 2 = Monday, etc.)
+        let weekday = calendar.component(.weekday, from: today)
+        // Calculate days until end of week (Saturday = 7)
+        // For Monday start: Monday = 2, so days from Monday to Sunday = 7 days
+        let mondayWeekday = 2
+        let adjustedWeekday = weekday == 1 ? 8 : weekday // Sunday wraps to 8
+        let daysFromMonday = adjustedWeekday - mondayWeekday
+        let daysUntilSunday = 6 - daysFromMonday
+
+        // Calculate end date (end of current week + remaining future days)
+        let endOfCurrentWeek = calendar.date(byAdding: .day, value: daysUntilSunday, to: today)!
+        let remainingFutureDays = max(0, futureDays - daysUntilSunday - 1)
+        let endDate = calendar.date(byAdding: .day, value: remainingFutureDays, to: endOfCurrentWeek)!
+
+        // Total days we need
+        let totalDays = pastDays + futureDays
+        let totalWeeks = (totalDays + 6) / 7
+
+        // Start date - align to Monday
+        let startDate = calendar.date(byAdding: .day, value: -(pastDays - 1), to: today)!
+        // Adjust to previous Monday
+        let startWeekday = calendar.component(.weekday, from: startDate)
+        let adjustedStartWeekday = startWeekday == 1 ? 8 : startWeekday
+        let daysToSubtract = adjustedStartWeekday - mondayWeekday
+        let alignedStartDate = calendar.date(byAdding: .day, value: -daysToSubtract, to: startDate)!
+
+        var weeklyDates: [[Date]] = []
+        var currentDate = alignedStartDate
+
+        while currentDate <= endDate {
+            var week: [Date] = []
+            for _ in 0..<7 {
+                if currentDate <= endDate {
+                    week.append(currentDate)
+                }
+                currentDate = calendar.date(byAdding: .day, value: 1, to: currentDate)!
+            }
+            if !week.isEmpty {
+                weeklyDates.append(week)
+            }
+        }
+
+        return weeklyDates
+    }
+
+    /// Check if a date is in the future
+    static func isFuture(_ date: Date) -> Bool {
+        let today = calendar.startOfDay(for: Date())
+        return date > today
+    }
+
+    /// Check if a date is in the current week
+    static func isCurrentWeek(_ date: Date) -> Bool {
+        calendar.isDate(date, equalTo: Date(), toGranularity: .weekOfYear)
+    }
+
     // Get month labels for the grid
     static func monthLabels(for dates: [[Date]]) -> [(month: String, weekIndex: Int)] {
         var labels: [(String, Int)] = []

@@ -21,6 +21,30 @@ enum LifePathCategory: String, CaseIterable, Codable {
     case writer = "writer"
     case parent = "parent"
     case digitalNomad = "digital_nomad"
+    // Trade School Paths
+    case electrician = "electrician"
+    case plumber = "plumber"
+    case welder = "welder"
+    case construction = "construction"
+    case hvacTech = "hvac_tech"
+    case carpenter = "carpenter"
+    case mechanic = "mechanic"
+    case truckDriver = "truck_driver"
+    // Healthcare Paths
+    case nurse = "nurse"
+    case emt = "emt"
+    case physicalTherapist = "physical_therapist"
+    case dentalPro = "dental_pro"
+    // Professional Paths
+    case teacher = "teacher"
+    case lawyer = "lawyer"
+    case realEstate = "real_estate"
+    case chef = "chef"
+    case pilot = "pilot"
+    case military = "military"
+    case firstResponder = "first_responder"
+    case sales = "sales"
+    case exploring = "exploring"  // For users who want to explore before committing
     case custom = "custom"
 
     var displayName: String {
@@ -41,6 +65,27 @@ enum LifePathCategory: String, CaseIterable, Codable {
         case .writer: return "Writer & Author"
         case .parent: return "Parent"
         case .digitalNomad: return "Digital Nomad"
+        case .electrician: return "Electrician"
+        case .plumber: return "Plumber"
+        case .welder: return "Welder"
+        case .construction: return "Construction"
+        case .hvacTech: return "HVAC Technician"
+        case .carpenter: return "Carpenter"
+        case .mechanic: return "Mechanic"
+        case .truckDriver: return "Truck Driver"
+        case .nurse: return "Nurse"
+        case .emt: return "EMT / Paramedic"
+        case .physicalTherapist: return "Physical Therapist"
+        case .dentalPro: return "Dental Professional"
+        case .teacher: return "Teacher"
+        case .lawyer: return "Lawyer"
+        case .realEstate: return "Real Estate Agent"
+        case .chef: return "Chef"
+        case .pilot: return "Pilot"
+        case .military: return "Military"
+        case .firstResponder: return "First Responder"
+        case .sales: return "Sales Professional"
+        case .exploring: return "Just Exploring"
         case .custom: return "Custom Path"
         }
     }
@@ -63,6 +108,27 @@ enum LifePathCategory: String, CaseIterable, Codable {
         case .writer: return "pencil.line"
         case .parent: return "figure.and.child.holdinghands"
         case .digitalNomad: return "airplane"
+        case .electrician: return "bolt.fill"
+        case .plumber: return "wrench.and.screwdriver.fill"
+        case .welder: return "flame.fill"
+        case .construction: return "hammer.fill"
+        case .hvacTech: return "thermometer.snowflake"
+        case .carpenter: return "ruler.fill"
+        case .mechanic: return "car.fill"
+        case .truckDriver: return "truck.box.fill"
+        case .nurse: return "cross.case.fill"
+        case .emt: return "staroflife.fill"
+        case .physicalTherapist: return "figure.walk"
+        case .dentalPro: return "mouth.fill"
+        case .teacher: return "graduationcap.fill"
+        case .lawyer: return "building.columns.fill"
+        case .realEstate: return "house.fill"
+        case .chef: return "frying.pan.fill"
+        case .pilot: return "airplane"
+        case .military: return "shield.fill"
+        case .firstResponder: return "light.beacon.max.fill"
+        case .sales: return "person.badge.shield.checkmark.fill"
+        case .exploring: return "magnifyingglass"
         case .custom: return "star.fill"
         }
     }
@@ -85,6 +151,27 @@ enum LifePathCategory: String, CaseIterable, Codable {
         case .writer: return Color(red: 0.6, green: 0.4, blue: 0.2) // Sepia
         case .parent: return Color(red: 0.9, green: 0.7, blue: 0.5) // Warm peach
         case .digitalNomad: return Color(red: 0.2, green: 0.8, blue: 0.8) // Teal
+        case .electrician: return Color(red: 1.0, green: 0.8, blue: 0.0) // Electric yellow
+        case .plumber: return Color(red: 0.0, green: 0.5, blue: 0.8) // Pipe blue
+        case .welder: return Color(red: 1.0, green: 0.4, blue: 0.0) // Welding orange
+        case .construction: return Color(red: 0.8, green: 0.5, blue: 0.2) // Hard hat orange
+        case .hvacTech: return Color(red: 0.3, green: 0.7, blue: 0.9) // Cool blue
+        case .carpenter: return Color(red: 0.6, green: 0.4, blue: 0.2) // Wood brown
+        case .mechanic: return Color(red: 0.3, green: 0.3, blue: 0.3) // Steel gray
+        case .truckDriver: return Color(red: 0.4, green: 0.2, blue: 0.6) // Highway purple
+        case .nurse: return Color(red: 0.9, green: 0.4, blue: 0.5) // Scrubs pink
+        case .emt: return Color(red: 1.0, green: 0.2, blue: 0.2) // Emergency red
+        case .physicalTherapist: return Color(red: 0.4, green: 0.7, blue: 0.5) // Healing green
+        case .dentalPro: return Color(red: 0.6, green: 0.8, blue: 0.9) // Clinical blue
+        case .teacher: return Color(red: 0.8, green: 0.4, blue: 0.4) // Apple red
+        case .lawyer: return Color(red: 0.3, green: 0.3, blue: 0.5) // Navy
+        case .realEstate: return Color(red: 0.0, green: 0.6, blue: 0.4) // Money green
+        case .chef: return Color(red: 0.9, green: 0.5, blue: 0.1) // Flame orange
+        case .pilot: return Color(red: 0.2, green: 0.4, blue: 0.7) // Sky blue
+        case .military: return Color(red: 0.3, green: 0.4, blue: 0.3) // Army green
+        case .firstResponder: return Color(red: 0.8, green: 0.1, blue: 0.1) // Fire red
+        case .sales: return Color(red: 0.2, green: 0.7, blue: 0.3) // Success green
+        case .exploring: return Color(red: 0.5, green: 0.5, blue: 0.6) // Neutral gray-purple
         case .custom: return .gray
         }
     }
@@ -107,6 +194,27 @@ enum LifePathCategory: String, CaseIterable, Codable {
         case .writer: return "Write your story, inspire millions"
         case .parent: return "Raise amazing humans"
         case .digitalNomad: return "Work anywhere, live everywhere"
+        case .electrician: return "Power the world, build your future"
+        case .plumber: return "Essential skills, essential income"
+        case .welder: return "Forge your path with fire and steel"
+        case .construction: return "Build something that lasts"
+        case .hvacTech: return "Keep the world comfortable"
+        case .carpenter: return "Craft with your hands, build with pride"
+        case .mechanic: return "Master the machines"
+        case .truckDriver: return "Keep America moving"
+        case .nurse: return "Care for others, change lives"
+        case .emt: return "Be the calm in the chaos"
+        case .physicalTherapist: return "Help others move through life"
+        case .dentalPro: return "Create healthy smiles"
+        case .teacher: return "Shape the future, one student at a time"
+        case .lawyer: return "Fight for what's right"
+        case .realEstate: return "Help people find home"
+        case .chef: return "Create experiences through food"
+        case .pilot: return "See the world from above"
+        case .military: return "Serve something greater than yourself"
+        case .firstResponder: return "When seconds count, you're there"
+        case .sales: return "Solve problems, close deals"
+        case .exploring: return "Build habits first, find your path later"
         case .custom: return "Design your own journey"
         }
     }
@@ -242,6 +350,174 @@ enum LifePathCategory: String, CaseIterable, Codable {
                 "Freedom requires discipline.",
                 "The world is your workplace.",
                 "Adventure and income can coexist."
+            ]
+        case .electrician:
+            return [
+                "Electricians light up the world.",
+                "Master the code, master the trade.",
+                "Every circuit you wire builds your future.",
+                "High demand means high pay. Stay sharp.",
+                "Safety first, excellence always."
+            ]
+        case .plumber:
+            return [
+                "Plumbers keep civilization running.",
+                "No one questions your rates when the water's off.",
+                "Master your trade, own your future.",
+                "Every call is a chance to build your reputation.",
+                "Essential work means essential income."
+            ]
+        case .welder:
+            return [
+                "Welders build the backbone of industry.",
+                "Your welds hold the world together.",
+                "Master your craft, name your price.",
+                "Every bead you lay is a step toward mastery.",
+                "Precision today, prosperity tomorrow."
+            ]
+        case .construction:
+            return [
+                "You build what others only dream of.",
+                "Every structure started with someone like you.",
+                "Hard work builds hard assets.",
+                "Show up, work hard, get ahead.",
+                "The world needs builders. Be the best."
+            ]
+        case .hvacTech:
+            return [
+                "Everyone needs comfort. You provide it.",
+                "Hot summers and cold winters mean year-round work.",
+                "Master the systems, master your income.",
+                "Certifications open doors. Keep learning.",
+                "You're essential when the AC breaks in July."
+            ]
+        case .carpenter:
+            return [
+                "Measure twice, cut once. Excellence in everything.",
+                "Your hands create what CAD can only design.",
+                "Every piece you craft is a signature.",
+                "Carpentry is where art meets function.",
+                "Build your skills, build your wealth."
+            ]
+        case .mechanic:
+            return [
+                "Master the machines that move the world.",
+                "Every problem you solve builds your reputation.",
+                "Diagnostics is detective work. Stay curious.",
+                "Cars will always need fixing. You'll always have work.",
+                "Your skills are your security."
+            ]
+        case .truckDriver:
+            return [
+                "The open road is your office.",
+                "Every mile builds your paycheck.",
+                "Reliability is everything in trucking.",
+                "Owner-operators build real wealth.",
+                "Keep moving, keep earning."
+            ]
+        case .nurse:
+            return [
+                "You make the difference in someone's worst day.",
+                "Compassion is your superpower.",
+                "Every shift, you save lives.",
+                "Nursing opens doors everywhere.",
+                "Your care matters more than you know."
+            ]
+        case .emt:
+            return [
+                "You are the first hope in an emergency.",
+                "Stay calm, save lives.",
+                "Every call makes you stronger.",
+                "Your training is someone's lifeline.",
+                "Heroes don't always wear capes."
+            ]
+        case .physicalTherapist:
+            return [
+                "You help people reclaim their lives.",
+                "Every rep you guide is progress.",
+                "Patience and skill heal together.",
+                "Movement is medicine.",
+                "Your hands restore independence."
+            ]
+        case .dentalPro:
+            return [
+                "Healthy smiles change lives.",
+                "Precision and care in every procedure.",
+                "Your skills are always in demand.",
+                "Prevention is the best treatment.",
+                "Build trust, build your practice."
+            ]
+        case .teacher:
+            return [
+                "You shape the future every day.",
+                "One lesson can change a life.",
+                "The best teachers never stop learning.",
+                "Your impact lasts generations.",
+                "Education is the great equalizer."
+            ]
+        case .lawyer:
+            return [
+                "Words are your weapon. Use them wisely.",
+                "Every case sharpens your skills.",
+                "Justice requires persistence.",
+                "Preparation wins cases.",
+                "Your voice matters in the courtroom."
+            ]
+        case .realEstate:
+            return [
+                "Every closed deal builds your empire.",
+                "Relationships are your real inventory.",
+                "Hustle today, passive income tomorrow.",
+                "The market rewards the prepared.",
+                "Your network is your net worth."
+            ]
+        case .chef:
+            return [
+                "Every dish is a chance to create joy.",
+                "Master the basics, then innovate.",
+                "Your kitchen, your rules.",
+                "Taste everything, learn everything.",
+                "Great food brings people together."
+            ]
+        case .pilot:
+            return [
+                "The sky is your office.",
+                "Precision and calm under pressure.",
+                "Every flight hour builds your career.",
+                "See the world while you work.",
+                "Safety first, adventure always."
+            ]
+        case .military:
+            return [
+                "Discipline is freedom.",
+                "You're part of something bigger.",
+                "Train hard, stay ready.",
+                "Honor, courage, commitment.",
+                "Your service matters."
+            ]
+        case .firstResponder:
+            return [
+                "When others run away, you run toward.",
+                "Your courage saves lives.",
+                "Every call is a chance to help.",
+                "The community depends on you.",
+                "Train like lives depend on it—they do."
+            ]
+        case .sales:
+            return [
+                "Every no gets you closer to yes.",
+                "Solve problems, earn trust, close deals.",
+                "Your income has no ceiling.",
+                "Rejection is just redirection.",
+                "Top performers never stop prospecting."
+            ]
+        case .exploring:
+            return [
+                "Every journey starts with a single step.",
+                "You don't have to have it all figured out.",
+                "Build the habit of showing up first.",
+                "Clarity comes from action, not thought.",
+                "Small wins lead to big discoveries."
             ]
         case .custom:
             return [
@@ -401,6 +677,195 @@ enum LifePathCategory: String, CaseIterable, Codable {
                 HabitTemplate(name: "Savings/Emergency", icon: "banknote.fill", color: "#96CEB4", description: "Save for emergencies, travel fund"),
                 HabitTemplate(name: "Find New Clients", icon: "person.badge.plus", color: "#FFEAA7", description: "Outreach, proposals, networking")
             ]
+        case .electrician:
+            return [
+                HabitTemplate(name: "Study NEC Code", icon: "book.fill", color: "#FFCC00", description: "Review electrical codes and standards"),
+                HabitTemplate(name: "Practice Wiring", icon: "bolt.fill", color: "#FF6B6B", description: "Hands-on electrical work"),
+                HabitTemplate(name: "Tool Maintenance", icon: "wrench.fill", color: "#4ECDC4", description: "Clean and organize tools"),
+                HabitTemplate(name: "Safety Training", icon: "exclamationmark.shield.fill", color: "#45B7D1", description: "Review safety procedures"),
+                HabitTemplate(name: "Certification Study", icon: "checkmark.seal.fill", color: "#96CEB4", description: "Work toward journeyman/master license"),
+                HabitTemplate(name: "Track Jobs/Income", icon: "dollarsign.circle.fill", color: "#FFEAA7", description: "Log completed work and earnings")
+            ]
+        case .plumber:
+            return [
+                HabitTemplate(name: "Study Plumbing Code", icon: "book.fill", color: "#0080CC", description: "Review IPC/UPC codes"),
+                HabitTemplate(name: "Practice Installations", icon: "wrench.and.screwdriver.fill", color: "#FF6B6B", description: "Hands-on pipe work"),
+                HabitTemplate(name: "Tool Inventory", icon: "archivebox.fill", color: "#4ECDC4", description: "Maintain and stock tools"),
+                HabitTemplate(name: "Customer Service", icon: "person.fill.checkmark", color: "#45B7D1", description: "Follow up with clients"),
+                HabitTemplate(name: "License Prep", icon: "checkmark.seal.fill", color: "#96CEB4", description: "Study for journeyman/master exam"),
+                HabitTemplate(name: "Track Jobs/Income", icon: "dollarsign.circle.fill", color: "#FFEAA7", description: "Log jobs and earnings")
+            ]
+        case .welder:
+            return [
+                HabitTemplate(name: "Practice Welds", icon: "flame.fill", color: "#FF6600", description: "MIG, TIG, or stick welding practice"),
+                HabitTemplate(name: "Blueprint Reading", icon: "doc.text.fill", color: "#FF6B6B", description: "Study welding symbols and drawings"),
+                HabitTemplate(name: "Safety Check", icon: "exclamationmark.shield.fill", color: "#4ECDC4", description: "Inspect PPE and equipment"),
+                HabitTemplate(name: "Certification Prep", icon: "checkmark.seal.fill", color: "#45B7D1", description: "AWS certification study"),
+                HabitTemplate(name: "Metal Prep Skills", icon: "hammer.fill", color: "#96CEB4", description: "Grinding, cutting, fitting practice"),
+                HabitTemplate(name: "Track Jobs/Income", icon: "dollarsign.circle.fill", color: "#FFEAA7", description: "Log projects and pay")
+            ]
+        case .construction:
+            return [
+                HabitTemplate(name: "Jobsite Work", icon: "hammer.fill", color: "#CC8833", description: "On-site construction tasks"),
+                HabitTemplate(name: "Blueprint Study", icon: "doc.text.fill", color: "#FF6B6B", description: "Read and understand plans"),
+                HabitTemplate(name: "Tool Maintenance", icon: "wrench.fill", color: "#4ECDC4", description: "Care for your equipment"),
+                HabitTemplate(name: "Safety Training", icon: "exclamationmark.shield.fill", color: "#45B7D1", description: "OSHA compliance and best practices"),
+                HabitTemplate(name: "Physical Fitness", icon: "figure.strengthtraining.traditional", color: "#96CEB4", description: "Stay strong for the job"),
+                HabitTemplate(name: "Track Hours/Pay", icon: "dollarsign.circle.fill", color: "#FFEAA7", description: "Log hours and earnings")
+            ]
+        case .hvacTech:
+            return [
+                HabitTemplate(name: "System Diagnostics", icon: "thermometer.snowflake", color: "#4DB8E8", description: "Practice troubleshooting"),
+                HabitTemplate(name: "EPA Certification", icon: "checkmark.seal.fill", color: "#FF6B6B", description: "Study for 608/609 certification"),
+                HabitTemplate(name: "Tool Calibration", icon: "gauge.with.needle.fill", color: "#4ECDC4", description: "Maintain measuring equipment"),
+                HabitTemplate(name: "Code Study", icon: "book.fill", color: "#45B7D1", description: "HVAC codes and refrigerant handling"),
+                HabitTemplate(name: "Customer Calls", icon: "phone.fill", color: "#96CEB4", description: "Service calls and follow-ups"),
+                HabitTemplate(name: "Track Jobs/Income", icon: "dollarsign.circle.fill", color: "#FFEAA7", description: "Log service calls and pay")
+            ]
+        case .carpenter:
+            return [
+                HabitTemplate(name: "Build/Practice", icon: "ruler.fill", color: "#996633", description: "Hands-on carpentry work"),
+                HabitTemplate(name: "Blueprint Reading", icon: "doc.text.fill", color: "#FF6B6B", description: "Study construction drawings"),
+                HabitTemplate(name: "Tool Sharpening", icon: "scissors", color: "#4ECDC4", description: "Maintain cutting tools"),
+                HabitTemplate(name: "Measure & Layout", icon: "ruler.fill", color: "#45B7D1", description: "Practice precision measuring"),
+                HabitTemplate(name: "Finish Work", icon: "paintbrush.fill", color: "#96CEB4", description: "Trim, molding, detail work"),
+                HabitTemplate(name: "Track Projects/Pay", icon: "dollarsign.circle.fill", color: "#FFEAA7", description: "Log projects and income")
+            ]
+        case .mechanic:
+            return [
+                HabitTemplate(name: "Diagnostic Practice", icon: "car.fill", color: "#4D4D4D", description: "Troubleshoot vehicle issues"),
+                HabitTemplate(name: "ASE Study", icon: "book.fill", color: "#FF6B6B", description: "Certification exam prep"),
+                HabitTemplate(name: "Tool Organization", icon: "wrench.fill", color: "#4ECDC4", description: "Maintain your toolbox"),
+                HabitTemplate(name: "Technical Reading", icon: "doc.text.fill", color: "#45B7D1", description: "Study service manuals"),
+                HabitTemplate(name: "Hands-On Repair", icon: "wrench.and.screwdriver.fill", color: "#96CEB4", description: "Practice repairs and maintenance"),
+                HabitTemplate(name: "Track Jobs/Income", icon: "dollarsign.circle.fill", color: "#FFEAA7", description: "Log repairs and flat rate hours")
+            ]
+        case .truckDriver:
+            return [
+                HabitTemplate(name: "Pre-Trip Inspection", icon: "checklist", color: "#663399", description: "Safety check before driving"),
+                HabitTemplate(name: "Drive Hours", icon: "truck.box.fill", color: "#FF6B6B", description: "Log driving time"),
+                HabitTemplate(name: "CDL Study", icon: "book.fill", color: "#4ECDC4", description: "Endorsement and renewal prep"),
+                HabitTemplate(name: "Health & Fitness", icon: "heart.fill", color: "#45B7D1", description: "Stay healthy on the road"),
+                HabitTemplate(name: "Route Planning", icon: "map.fill", color: "#96CEB4", description: "Plan efficient routes"),
+                HabitTemplate(name: "Track Miles/Pay", icon: "dollarsign.circle.fill", color: "#FFEAA7", description: "Log loads and earnings")
+            ]
+        case .nurse:
+            return [
+                HabitTemplate(name: "Clinical Skills", icon: "cross.case.fill", color: "#E6667A", description: "Practice nursing procedures"),
+                HabitTemplate(name: "Study/CEUs", icon: "book.fill", color: "#FF6B6B", description: "Continuing education"),
+                HabitTemplate(name: "Self-Care", icon: "heart.fill", color: "#4ECDC4", description: "Rest and recovery"),
+                HabitTemplate(name: "Patient Notes", icon: "doc.text.fill", color: "#45B7D1", description: "Documentation practice"),
+                HabitTemplate(name: "Certification Prep", icon: "checkmark.seal.fill", color: "#96CEB4", description: "Specialty certifications"),
+                HabitTemplate(name: "Track Shifts/Pay", icon: "dollarsign.circle.fill", color: "#FFEAA7", description: "Log hours and overtime")
+            ]
+        case .emt:
+            return [
+                HabitTemplate(name: "Protocol Review", icon: "staroflife.fill", color: "#FF3333", description: "Study emergency protocols"),
+                HabitTemplate(name: "Skills Practice", icon: "heart.fill", color: "#FF6B6B", description: "CPR, IVs, intubation"),
+                HabitTemplate(name: "Physical Fitness", icon: "figure.run", color: "#4ECDC4", description: "Stay in shape for the job"),
+                HabitTemplate(name: "Equipment Check", icon: "checklist", color: "#45B7D1", description: "Inspect and stock gear"),
+                HabitTemplate(name: "Paramedic Study", icon: "book.fill", color: "#96CEB4", description: "Advance your certification"),
+                HabitTemplate(name: "Track Shifts", icon: "dollarsign.circle.fill", color: "#FFEAA7", description: "Log hours and calls")
+            ]
+        case .physicalTherapist:
+            return [
+                HabitTemplate(name: "Patient Sessions", icon: "figure.walk", color: "#66B380", description: "Therapy appointments"),
+                HabitTemplate(name: "Treatment Planning", icon: "doc.text.fill", color: "#FF6B6B", description: "Design recovery programs"),
+                HabitTemplate(name: "CEU Courses", icon: "book.fill", color: "#4ECDC4", description: "Continuing education"),
+                HabitTemplate(name: "Manual Techniques", icon: "hand.raised.fill", color: "#45B7D1", description: "Practice hands-on skills"),
+                HabitTemplate(name: "Documentation", icon: "pencil.and.list.clipboard", color: "#96CEB4", description: "Patient notes and billing"),
+                HabitTemplate(name: "Track Revenue", icon: "dollarsign.circle.fill", color: "#FFEAA7", description: "Monitor billing and income")
+            ]
+        case .dentalPro:
+            return [
+                HabitTemplate(name: "Patient Care", icon: "mouth.fill", color: "#99CCE6", description: "Cleanings and procedures"),
+                HabitTemplate(name: "Study/CEUs", icon: "book.fill", color: "#FF6B6B", description: "Continuing education"),
+                HabitTemplate(name: "Instrument Care", icon: "wrench.fill", color: "#4ECDC4", description: "Sterilization and maintenance"),
+                HabitTemplate(name: "Patient Education", icon: "person.fill.questionmark", color: "#45B7D1", description: "Teach oral hygiene"),
+                HabitTemplate(name: "Practice Skills", icon: "hand.raised.fill", color: "#96CEB4", description: "Improve technique"),
+                HabitTemplate(name: "Track Production", icon: "dollarsign.circle.fill", color: "#FFEAA7", description: "Log procedures and revenue")
+            ]
+        case .teacher:
+            return [
+                HabitTemplate(name: "Lesson Planning", icon: "doc.text.fill", color: "#CC6666", description: "Prepare engaging lessons"),
+                HabitTemplate(name: "Grading", icon: "checkmark.circle.fill", color: "#FF6B6B", description: "Assess student work"),
+                HabitTemplate(name: "Professional Development", icon: "book.fill", color: "#4ECDC4", description: "Learn new teaching methods"),
+                HabitTemplate(name: "Student Check-ins", icon: "person.2.fill", color: "#45B7D1", description: "Connect with students"),
+                HabitTemplate(name: "Classroom Prep", icon: "desktopcomputer", color: "#96CEB4", description: "Organize materials"),
+                HabitTemplate(name: "Side Income", icon: "dollarsign.circle.fill", color: "#FFEAA7", description: "Tutoring, summer work")
+            ]
+        case .lawyer:
+            return [
+                HabitTemplate(name: "Case Research", icon: "magnifyingglass", color: "#4D4D80", description: "Legal research and prep"),
+                HabitTemplate(name: "Client Work", icon: "person.fill", color: "#FF6B6B", description: "Client calls and meetings"),
+                HabitTemplate(name: "Brief Writing", icon: "doc.text.fill", color: "#4ECDC4", description: "Draft legal documents"),
+                HabitTemplate(name: "CLE Credits", icon: "book.fill", color: "#45B7D1", description: "Continuing legal education"),
+                HabitTemplate(name: "Court Prep", icon: "building.columns.fill", color: "#96CEB4", description: "Prepare for appearances"),
+                HabitTemplate(name: "Track Billables", icon: "dollarsign.circle.fill", color: "#FFEAA7", description: "Log billable hours")
+            ]
+        case .realEstate:
+            return [
+                HabitTemplate(name: "Prospecting", icon: "phone.fill", color: "#009966", description: "Lead generation calls"),
+                HabitTemplate(name: "Showings", icon: "house.fill", color: "#FF6B6B", description: "Property tours"),
+                HabitTemplate(name: "Follow-Ups", icon: "envelope.fill", color: "#4ECDC4", description: "Client communication"),
+                HabitTemplate(name: "Market Research", icon: "chart.bar.fill", color: "#45B7D1", description: "Study local market trends"),
+                HabitTemplate(name: "CE Courses", icon: "book.fill", color: "#96CEB4", description: "License renewal education"),
+                HabitTemplate(name: "Track Deals", icon: "dollarsign.circle.fill", color: "#FFEAA7", description: "Pipeline and commissions")
+            ]
+        case .chef:
+            return [
+                HabitTemplate(name: "Prep Work", icon: "frying.pan.fill", color: "#E68019", description: "Kitchen prep and mise en place"),
+                HabitTemplate(name: "Recipe Development", icon: "doc.text.fill", color: "#FF6B6B", description: "Create and test dishes"),
+                HabitTemplate(name: "Skill Practice", icon: "flame.fill", color: "#4ECDC4", description: "Master techniques"),
+                HabitTemplate(name: "Inventory/Ordering", icon: "cart.fill", color: "#45B7D1", description: "Manage supplies"),
+                HabitTemplate(name: "Food Cost Review", icon: "chart.bar.fill", color: "#96CEB4", description: "Track food costs"),
+                HabitTemplate(name: "Revenue/Tips", icon: "dollarsign.circle.fill", color: "#FFEAA7", description: "Track earnings")
+            ]
+        case .pilot:
+            return [
+                HabitTemplate(name: "Flight Hours", icon: "airplane", color: "#3366B3", description: "Log flight time"),
+                HabitTemplate(name: "Ground School", icon: "book.fill", color: "#FF6B6B", description: "Study regulations and procedures"),
+                HabitTemplate(name: "Simulator Practice", icon: "desktopcomputer", color: "#4ECDC4", description: "Sim time for proficiency"),
+                HabitTemplate(name: "Medical/Fitness", icon: "heart.fill", color: "#45B7D1", description: "Maintain flight medical"),
+                HabitTemplate(name: "Checkride Prep", icon: "checkmark.seal.fill", color: "#96CEB4", description: "Certificate advancement"),
+                HabitTemplate(name: "Track Income", icon: "dollarsign.circle.fill", color: "#FFEAA7", description: "Log pay and per diem")
+            ]
+        case .military:
+            return [
+                HabitTemplate(name: "PT/Fitness", icon: "figure.run", color: "#4D664D", description: "Physical training"),
+                HabitTemplate(name: "MOS Training", icon: "shield.fill", color: "#FF6B6B", description: "Job-specific skills"),
+                HabitTemplate(name: "Leadership Study", icon: "book.fill", color: "#4ECDC4", description: "Professional development"),
+                HabitTemplate(name: "Gear Maintenance", icon: "wrench.fill", color: "#45B7D1", description: "Equipment readiness"),
+                HabitTemplate(name: "Career Planning", icon: "chart.line.uptrend.xyaxis", color: "#96CEB4", description: "Promotion and transition"),
+                HabitTemplate(name: "Savings/TSP", icon: "dollarsign.circle.fill", color: "#FFEAA7", description: "Financial planning")
+            ]
+        case .firstResponder:
+            return [
+                HabitTemplate(name: "Training Drills", icon: "flame.fill", color: "#CC1A1A", description: "Practice emergency response"),
+                HabitTemplate(name: "Physical Fitness", icon: "figure.run", color: "#FF6B6B", description: "Stay in peak condition"),
+                HabitTemplate(name: "Equipment Check", icon: "checklist", color: "#4ECDC4", description: "Inspect and maintain gear"),
+                HabitTemplate(name: "Certification", icon: "checkmark.seal.fill", color: "#45B7D1", description: "Maintain required certs"),
+                HabitTemplate(name: "Mental Health", icon: "brain.head.profile", color: "#96CEB4", description: "Self-care and wellness"),
+                HabitTemplate(name: "Track OT/Pay", icon: "dollarsign.circle.fill", color: "#FFEAA7", description: "Log shifts and overtime")
+            ]
+        case .sales:
+            return [
+                HabitTemplate(name: "Prospecting", icon: "phone.fill", color: "#33B34D", description: "Cold calls and outreach"),
+                HabitTemplate(name: "Follow-Ups", icon: "envelope.fill", color: "#FF6B6B", description: "Nurture leads"),
+                HabitTemplate(name: "Demos/Meetings", icon: "person.2.fill", color: "#4ECDC4", description: "Present to prospects"),
+                HabitTemplate(name: "CRM Updates", icon: "doc.text.fill", color: "#45B7D1", description: "Pipeline management"),
+                HabitTemplate(name: "Product Knowledge", icon: "book.fill", color: "#96CEB4", description: "Know what you sell"),
+                HabitTemplate(name: "Track Deals/Commission", icon: "dollarsign.circle.fill", color: "#FFEAA7", description: "Monitor pipeline and earnings")
+            ]
+        case .exploring:
+            return [
+                HabitTemplate(name: "Morning Routine", icon: "sunrise.fill", color: "#FFB347", description: "Start your day with intention"),
+                HabitTemplate(name: "Exercise", icon: "figure.run", color: "#FF6B6B", description: "Move your body daily"),
+                HabitTemplate(name: "Read/Learn", icon: "book.fill", color: "#4ECDC4", description: "Learn something new"),
+                HabitTemplate(name: "Reflect/Journal", icon: "pencil.line", color: "#45B7D1", description: "Write down your thoughts"),
+                HabitTemplate(name: "Connect", icon: "person.2.fill", color: "#96CEB4", description: "Reach out to someone"),
+                HabitTemplate(name: "Plan Tomorrow", icon: "checklist", color: "#FFEAA7", description: "Set intentions for the next day")
+            ]
         case .custom:
             return []
         }
@@ -510,4 +975,23 @@ extension AppSettings {
         get { UserDefaults.standard.object(forKey: Self.pathStartDateKey) as? Date }
         set { UserDefaults.standard.set(newValue, forKey: Self.pathStartDateKey) }
     }
+
+}
+
+// MARK: - Exploration Mode Habits
+
+/// Generic habits for users who haven't chosen a path yet
+struct ExplorationHabits {
+    static let habits: [HabitTemplate] = [
+        HabitTemplate(name: "Morning Routine", icon: "sunrise.fill", color: "#FFB347", description: "Start your day with intention"),
+        HabitTemplate(name: "Exercise", icon: "figure.run", color: "#FF6B6B", description: "Move your body"),
+        HabitTemplate(name: "Read/Learn", icon: "book.fill", color: "#4ECDC4", description: "Invest in your mind"),
+        HabitTemplate(name: "Hydrate", icon: "drop.fill", color: "#45B7D1", description: "Drink enough water"),
+        HabitTemplate(name: "Meditate", icon: "brain.head.profile", color: "#9B59B6", description: "Clear your mind"),
+        HabitTemplate(name: "Journal", icon: "pencil.line", color: "#96CEB4", description: "Reflect on your day"),
+        HabitTemplate(name: "Sleep 7+ Hours", icon: "moon.fill", color: "#5D5FEF", description: "Rest and recover"),
+        HabitTemplate(name: "No Phone Hour", icon: "iphone.slash", color: "#E74C3C", description: "Digital detox time"),
+        HabitTemplate(name: "Gratitude", icon: "heart.fill", color: "#E91E63", description: "Appreciate what you have"),
+        HabitTemplate(name: "Connect", icon: "person.2.fill", color: "#00BCD4", description: "Reach out to someone")
+    ]
 }

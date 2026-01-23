@@ -1,9 +1,12 @@
 import SwiftUI
+import StoreKit
 
 // MARK: - Streak Milestone Celebration View
 /// Full-screen celebration when user hits a streak milestone
 
 struct StreakMilestoneCelebrationView: View {
+    @Environment(\.requestReview) private var requestReview
+
     let milestone: Int
     let onDismiss: () -> Void
 
@@ -97,6 +100,12 @@ struct StreakMilestoneCelebrationView: View {
                         Button {
                             HapticManager.shared.lightTap()
                             AppSettings.shared.celebrateMilestone(milestone)
+                            // Request review at key milestones (7, 21, 100 days)
+                            if shouldRequestReview {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                    requestReview()
+                                }
+                            }
                             onDismiss()
                         } label: {
                             Text("Continue")
@@ -211,6 +220,23 @@ struct StreakMilestoneCelebrationView: View {
 
     private func shareMilestone() {
         // Will integrate with ShareGridView or create share image
+    }
+
+    /// Request review at milestones where users feel most accomplished
+    private var shouldRequestReview: Bool {
+        // Only request at specific milestones: 7 (first week), 21 (habit formed), 100 (century)
+        let reviewMilestones = [7, 21, 100]
+        guard reviewMilestones.contains(milestone) else { return false }
+
+        // Check if we've already asked for this milestone
+        let key = "hasRequestedReview_\(milestone)"
+        if UserDefaults.standard.bool(forKey: key) {
+            return false
+        }
+
+        // Mark as requested
+        UserDefaults.standard.set(true, forKey: key)
+        return true
     }
 }
 

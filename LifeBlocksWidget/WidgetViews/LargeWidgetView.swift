@@ -3,29 +3,39 @@ import WidgetKit
 
 struct LargeWidgetView: View {
     let entry: LifeBlocksEntry
+    @Environment(\.colorScheme) private var systemColorScheme
+
+    private var isDarkMode: Bool {
+        systemColorScheme == .dark
+    }
 
     private var colorScheme: GridColorScheme {
         GridColorScheme.userSelected
     }
 
-    private let squareSize: CGFloat = 12
+    private let squareSize: CGFloat = 14
     private let spacing: CGFloat = 3
 
+    // GitHub-style: 80 days past + 10 future for large widget
     private var gridDates: [[Date]] {
-        WidgetDateHelpers.gridDates(weeks: 20)
+        WidgetDateHelpers.githubStyleGridDates(pastDays: 80, futureDays: 10)
     }
 
     private var monthLabels: [(month: String, weekIndex: Int)] {
         WidgetDateHelpers.monthLabels(for: gridDates)
     }
 
+    private var todayBorderColor: Color {
+        isDarkMode ? .white : Color(hex: "#1B1F23")
+    }
+
     var body: some View {
         Link(destination: DeepLink.checkInURL()) {
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .center, spacing: 8) {
                 // Month labels
                 monthLabelsSection
 
-                // Main grid
+                // Main grid - centered
                 gridSection
 
                 Spacer(minLength: 4)
@@ -35,24 +45,24 @@ struct LargeWidgetView: View {
             }
             .padding(14)
         }
-        .containerBackground(Color(hex: "#0D1117"), for: .widget)
+        .containerBackground(GridColorScheme.widgetBackground(isDarkMode: isDarkMode), for: .widget)
     }
 
     private var monthLabelsSection: some View {
-        GeometryReader { geometry in
+        GeometryReader { _ in
             let weekWidth = squareSize + spacing
+            let labelOffset: CGFloat = 18 // Account for day labels
 
             ZStack(alignment: .leading) {
                 ForEach(monthLabels, id: \.weekIndex) { label in
                     Text(label.month)
                         .font(.system(size: 9))
                         .foregroundStyle(.secondary)
-                        .offset(x: CGFloat(label.weekIndex) * weekWidth)
+                        .offset(x: labelOffset + CGFloat(label.weekIndex) * weekWidth)
                 }
             }
         }
         .frame(height: 12)
-        .padding(.leading, 18)
     }
 
     private var gridSection: some View {
@@ -69,18 +79,21 @@ struct LargeWidgetView: View {
 
             // Grid
             HStack(alignment: .top, spacing: spacing) {
-                ForEach(Array(gridDates.enumerated()), id: \.offset) { _, week in
+                ForEach(Array(gridDates.enumerated()), id: \.offset) { weekIndex, week in
+                    let isCurrentWeekColumn = week.contains(where: { $0.widgetIsToday })
+
                     VStack(spacing: spacing) {
                         ForEach(week, id: \.self) { date in
-                            let score = entry.dayScores[date.widgetStartOfDay] ?? 0
+                            let isFuture = WidgetDateHelpers.isFuture(date)
+                            let score = isFuture ? 0 : (entry.dayScores[date.widgetStartOfDay] ?? 0)
 
                             RoundedRectangle(cornerRadius: 2)
-                                .fill(colorScheme.color(for: score, isDarkMode: true))
+                                .fill(isFuture ? GridColorScheme.futureColor(isDarkMode: isDarkMode) : colorScheme.color(for: score, isDarkMode: isDarkMode))
                                 .frame(width: squareSize, height: squareSize)
                                 .overlay {
                                     if date.widgetIsToday {
                                         RoundedRectangle(cornerRadius: 2)
-                                            .strokeBorder(Color.white.opacity(0.6), lineWidth: 1)
+                                            .strokeBorder(todayBorderColor, lineWidth: 1.5)
                                     }
                                 }
                         }
@@ -95,6 +108,7 @@ struct LargeWidgetView: View {
                 }
             }
         }
+        .frame(maxWidth: .infinity)
     }
 
     private var footerSection: some View {
