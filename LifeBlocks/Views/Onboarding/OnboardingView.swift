@@ -165,11 +165,11 @@ struct OnboardingView: View {
                 Text("Welcome to Blocks")
                     .font(.largeTitle)
                     .fontWeight(.bold)
-                    .foregroundStyle(Color.primaryText)
+                    .foregroundStyle(.white)
 
                 Text("Build the life you want,\none day at a time.")
                     .font(.title3)
-                    .foregroundStyle(Color.secondaryText)
+                    .foregroundStyle(.white.opacity(0.8))
                     .multilineTextAlignment(.center)
             }
 
@@ -182,16 +182,16 @@ struct OnboardingView: View {
                 }
                 Text("Join thousands building better habits")
                     .font(.caption)
-                    .foregroundStyle(Color.secondaryText)
+                    .foregroundStyle(.white.opacity(0.7))
             }
 
             Spacer()
 
             // Value propositions
             VStack(spacing: 12) {
-                ValuePropRow(icon: "chart.line.uptrend.xyaxis", text: "Visual progress tracking")
-                ValuePropRow(icon: "bell.badge.fill", text: "Smart reminders")
-                ValuePropRow(icon: "person.2.fill", text: "Community challenges")
+                ValuePropRow(icon: "chart.line.uptrend.xyaxis", text: "Visual progress tracking", useLightText: true)
+                ValuePropRow(icon: "bell.badge.fill", text: "Smart reminders", useLightText: true)
+                ValuePropRow(icon: "person.2.fill", text: "Community challenges", useLightText: true)
             }
             .padding(.horizontal, 40)
 
@@ -213,9 +213,9 @@ struct OnboardingView: View {
             }
             .padding(.horizontal, 24)
 
-            Text("Identify your path,build your future.")
+            Text("Identify your path, build your future.")
                 .font(.caption)
-                .foregroundStyle(Color.secondaryText)
+                .foregroundStyle(.white.opacity(0.6))
                 .padding(.bottom, 40)
         }
     }
@@ -1297,6 +1297,7 @@ struct HabitTemplateRow: View {
             }
             .padding(.horizontal, 14)
             .padding(.vertical, 12)
+            .contentShape(Rectangle())
             .background(
                 RoundedRectangle(cornerRadius: 12)
                     .fill(isSelected ? Color.accentGreen.opacity(0.08) : Color.cardBackground)
@@ -1306,7 +1307,16 @@ struct HabitTemplateRow: View {
                     .strokeBorder(isSelected ? Color.accentGreen.opacity(0.5) : Color.borderColor.opacity(0.5), lineWidth: 1)
             )
         }
-        .buttonStyle(.plain)
+        .buttonStyle(ScaleButtonStyle())
+    }
+}
+
+// Custom button style that provides visual feedback
+struct ScaleButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.97 : 1.0)
+            .animation(.easeInOut(duration: 0.1), value: configuration.isPressed)
     }
 }
 
@@ -1367,6 +1377,7 @@ struct PermissionRow: View {
 struct ValuePropRow: View {
     let icon: String
     let text: String
+    var useLightText: Bool = false
 
     var body: some View {
         HStack(spacing: 12) {
@@ -1377,7 +1388,7 @@ struct ValuePropRow: View {
 
             Text(text)
                 .font(.subheadline)
-                .foregroundStyle(Color.primaryText)
+                .foregroundStyle(useLightText ? .white : Color.primaryText)
 
             Spacer()
 
