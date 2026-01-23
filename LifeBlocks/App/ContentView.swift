@@ -332,7 +332,7 @@ struct ContentView: View {
     }
 }
 
-// Interactive grid that allows tapping on dates - GitHub style
+// Interactive grid that allows tapping on dates
 struct InteractiveContributionGridView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var dayEntries: [DayEntry]
@@ -345,7 +345,7 @@ struct InteractiveContributionGridView: View {
     let spacing: CGFloat = 4
 
     private var gridDates: [[Date]] {
-        DateHelpers.githubStyleGridDates(pastDays: pastDays, futureDays: futureDays)
+        DateHelpers.contributionGridDates(pastDays: pastDays, futureDays: futureDays)
     }
 
     private var monthLabels: [(month: String, weekIndex: Int)] {

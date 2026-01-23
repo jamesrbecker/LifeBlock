@@ -1,7 +1,7 @@
 import SwiftUI
 import UIKit
 
-// GitHub-style contribution colors
+// Contribution grid color schemes
 enum GridColorScheme: String, CaseIterable {
     case green = "green"      // iMessage Green
     case skyblue = "skyblue"  // Sky Blue

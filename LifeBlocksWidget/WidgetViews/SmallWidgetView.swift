@@ -13,9 +13,9 @@ struct SmallWidgetView: View {
         GridColorScheme.userSelected
     }
 
-    // GitHub-style: 80 days past + 10 future, but smaller for widget
+    // Contribution grid: past days + future for widget
     private var gridDates: [[Date]] {
-        WidgetDateHelpers.githubStyleGridDates(pastDays: 63, futureDays: 7)  // ~10 weeks for small widget
+        WidgetDateHelpers.contributionGridDates(pastDays: 63, futureDays: 7)  // ~10 weeks for small widget
     }
 
     private let squareSize: CGFloat = 9
@@ -28,7 +28,7 @@ struct SmallWidgetView: View {
     var body: some View {
         Link(destination: DeepLink.checkInURL()) {
             VStack(spacing: 0) {
-                // GitHub-style contribution grid - centered
+                // Contribution grid - centered
                 HStack(alignment: .top, spacing: spacing) {
                     ForEach(Array(gridDates.enumerated()), id: \.offset) { _, week in
                         VStack(spacing: spacing) {

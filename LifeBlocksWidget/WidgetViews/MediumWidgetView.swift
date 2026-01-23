@@ -13,9 +13,9 @@ struct MediumWidgetView: View {
         GridColorScheme.userSelected
     }
 
-    // GitHub-style: 80 days past + 10 future
+    // Contribution grid: 80 days past + 10 future
     private var gridDates: [[Date]] {
-        WidgetDateHelpers.githubStyleGridDates(pastDays: 80, futureDays: 10)
+        WidgetDateHelpers.contributionGridDates(pastDays: 80, futureDays: 10)
     }
 
     private var monthLabels: [(month: String, weekIndex: Int)] {
@@ -35,7 +35,7 @@ struct MediumWidgetView: View {
                 // Month labels - centered above grid
                 monthLabelsSection
 
-                // GitHub-style contribution grid - centered
+                // Contribution grid - centered
                 HStack(alignment: .top, spacing: spacing) {
                     // Day labels
                     VStack(spacing: spacing) {

@@ -18,7 +18,7 @@ struct ContributionGridView: View {
         colorScheme: GridColorScheme = .green,
         pastDays: Int = 80,  // 80 days of history
         futureDays: Int = 10, // 10 days into the future
-        squareSize: CGFloat = 14,  // Larger squares like GitHub
+        squareSize: CGFloat = 14,  // Larger squares for better visibility
         spacing: CGFloat = 3
     ) {
         self.colorScheme = colorScheme
@@ -29,7 +29,7 @@ struct ContributionGridView: View {
     }
 
     private var gridDates: [[Date]] {
-        DateHelpers.githubStyleGridDates(pastDays: pastDays, futureDays: futureDays)
+        DateHelpers.contributionGridDates(pastDays: pastDays, futureDays: futureDays)
     }
 
     private var monthLabels: [(month: String, weekIndex: Int)] {

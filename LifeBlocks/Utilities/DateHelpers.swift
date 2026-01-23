@@ -35,9 +35,9 @@ struct DateHelpers {
         return weeklyDates
     }
 
-    /// GitHub-style grid: 80 days past + current week (including future days)
+    /// Contribution grid: 80 days past + current week (including future days)
     /// Current week is on the far right with today highlighted
-    static func githubStyleGridDates(pastDays: Int = 80, futureDays: Int = 10) -> [[Date]] {
+    static func contributionGridDates(pastDays: Int = 80, futureDays: Int = 10) -> [[Date]] {
         let today = calendar.startOfDay(for: Date())
 
         // Find what day of the week today is (1 = Sunday, 2 = Monday, etc.)

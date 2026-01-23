@@ -53,9 +53,9 @@ struct WidgetDateHelpers {
         return weeklyDates
     }
 
-    /// GitHub-style grid: past days + current week with future days
+    /// Contribution grid: past days + current week with future days
     /// Current week is on the far right with today highlighted
-    static func githubStyleGridDates(pastDays: Int = 80, futureDays: Int = 10) -> [[Date]] {
+    static func contributionGridDates(pastDays: Int = 80, futureDays: Int = 10) -> [[Date]] {
         let today = calendar.startOfDay(for: Date())
 
         // Find what day of the week today is (1 = Sunday, 2 = Monday, etc.)
@@ -148,7 +148,7 @@ enum GridColorScheme: String, CaseIterable {
         return .skyblue
     }
 
-    /// Empty cell color for dark mode widget - GitHub style dark gray
+    /// Empty cell color for dark mode widget - dark gray
     private static let darkEmptyColor = Color(hex: "#161B22")
     /// Empty cell color for light mode widget - light gray
     private static let lightEmptyColor = Color(hex: "#EBEDF0")

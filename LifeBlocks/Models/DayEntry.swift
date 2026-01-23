@@ -5,7 +5,7 @@ import SwiftData
 final class DayEntry {
     var id: UUID
     var date: Date
-    var totalScore: Int // 0-4 scale like GitHub
+    var totalScore: Int // 0-4 intensity scale
     var checkedIn: Bool
     var checkedInAt: Date?
     var note: String? // Daily journal note (Premium feature)

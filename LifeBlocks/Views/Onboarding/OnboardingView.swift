@@ -110,7 +110,7 @@ struct OnboardingView: View {
                     .frame(height: 6)
 
                 RoundedRectangle(cornerRadius: 4)
-                    .fill(selectedPath?.color ?? Color.accentGreen)
+                    .fill(selectedPath?.color ?? Color.accentSkyBlue)
                     .frame(width: geometry.size.width * currentStep.progress, height: 6)
                     .animation(.spring(), value: currentStep)
             }
@@ -166,7 +166,7 @@ struct OnboardingView: View {
             VStack(spacing: 16) {
                 WelcomeFeatureRow(icon: "chart.bar.fill", text: "Track your progress visually", accentColor: welcomeAccentColor)
                 WelcomeFeatureRow(icon: "flame.fill", text: "Build lasting streaks", accentColor: welcomeAccentColor)
-                WelcomeFeatureRow(icon: "square.grid.3x3.topleft.filled", text: "GitHub-style contribution grid", accentColor: welcomeAccentColor)
+                WelcomeFeatureRow(icon: "square.grid.3x3.topleft.filled", text: "Beautiful contribution grid", accentColor: welcomeAccentColor)
             }
             .padding(.horizontal, 32)
             .padding(.bottom, 40)
@@ -206,7 +206,7 @@ struct OnboardingView: View {
             VStack(spacing: 16) {
                 Image(systemName: "person.fill")
                     .font(.system(size: 40))
-                    .foregroundStyle(Color.accentGreen)
+                    .foregroundStyle(Color.accentSkyBlue)
 
                 Text("What should we call you?")
                     .font(.title)
@@ -462,11 +462,11 @@ struct OnboardingView: View {
 
                                         Text(String(format: "%.2f", currentGPA))
                                             .font(.headline)
-                                            .foregroundStyle(Color.accentGreen)
+                                            .foregroundStyle(Color.accentSkyBlue)
                                     }
 
                                     Slider(value: $currentGPA, in: 1.0...4.3, step: 0.01)
-                                        .tint(Color.accentGreen)
+                                        .tint(Color.accentSkyBlue)
                                 }
                                 .padding()
                                 .background(Color.cardBackground)
@@ -721,7 +721,7 @@ struct OnboardingView: View {
                 // Selection count
                 HStack {
                     Image(systemName: "checkmark.circle.fill")
-                        .foregroundStyle(Color.accentGreen)
+                        .foregroundStyle(Color.accentSkyBlue)
                     Text("\(selectedHabits.count) habits selected")
                         .font(.subheadline)
                         .fontWeight(.medium)
@@ -807,7 +807,7 @@ struct OnboardingView: View {
                 // Selection count
                 HStack {
                     Image(systemName: "checkmark.circle.fill")
-                        .foregroundStyle(Color.accentGreen)
+                        .foregroundStyle(Color.accentSkyBlue)
                     Text("\(selectedHabits.count) habits selected")
                         .font(.subheadline)
                         .fontWeight(.medium)
@@ -913,17 +913,17 @@ struct OnboardingView: View {
                 VStack(spacing: 24) {
                     ZStack {
                         Circle()
-                            .fill(Color.accentGreen.opacity(0.3))
+                            .fill(Color.accentSkyBlue.opacity(0.3))
                             .frame(width: 100, height: 100)
                             .blur(radius: 15)
 
                         Circle()
-                            .fill(Color.accentGreen.opacity(0.2))
+                            .fill(Color.accentSkyBlue.opacity(0.2))
                             .frame(width: 80, height: 80)
 
                         Image(systemName: "sparkles")
                             .font(.system(size: 40))
-                            .foregroundStyle(Color.accentGreen)
+                            .foregroundStyle(Color.accentSkyBlue)
                     }
 
                     Text("Your Journey of Discovery")
@@ -939,7 +939,7 @@ struct OnboardingView: View {
 
                     VStack(spacing: 8) {
                         Image(systemName: "quote.opening")
-                            .foregroundStyle(Color.accentGreen.opacity(0.5))
+                            .foregroundStyle(Color.accentSkyBlue.opacity(0.5))
 
                         Text("The journey of a thousand miles begins with a single step.")
                             .font(.body)
@@ -1017,12 +1017,12 @@ struct OnboardingView: View {
                 // Success animation
                 ZStack {
                     Circle()
-                        .fill(Color.accentGreen.opacity(0.2))
+                        .fill(Color.accentSkyBlue.opacity(0.2))
                         .frame(width: 120, height: 120)
 
                     Image(systemName: "checkmark.circle.fill")
                         .font(.system(size: 60))
-                        .foregroundStyle(Color.accentGreen)
+                        .foregroundStyle(Color.accentSkyBlue)
                 }
 
                 Text("You're Ready, \(userName)!")
@@ -1032,11 +1032,11 @@ struct OnboardingView: View {
 
                 VStack(spacing: 12) {
                     if AppSettings.shared.isExplorationMode {
-                        summaryRow(icon: "sparkles", text: "Explorer Mode", color: .accentGreen)
+                        summaryRow(icon: "sparkles", text: "Explorer Mode", color: .accentSkyBlue)
                     } else {
-                        summaryRow(icon: selectedPath?.icon ?? "star.fill", text: selectedPath?.displayName ?? "Custom Path", color: selectedPath?.color ?? .gray)
+                        summaryRow(icon: selectedPath?.icon ?? "star.fill", text: selectedPath?.displayName ?? "Custom Path", color: selectedPath?.color ?? .accentSkyBlue)
                     }
-                    summaryRow(icon: "checkmark.circle.fill", text: "\(selectedHabits.count) daily habits", color: .green)
+                    summaryRow(icon: "checkmark.circle.fill", text: "\(selectedHabits.count) daily habits", color: .accentSkyBlue)
                     summaryRow(icon: "calendar", text: "Day 1 starts now", color: .blue)
                 }
                 .padding()
@@ -1066,7 +1066,7 @@ struct OnboardingView: View {
                 .padding(.vertical, 18)
                 .background(
                     LinearGradient(
-                        colors: [selectedPath?.color ?? Color.accentGreen, (selectedPath?.color ?? Color.accentGreen).opacity(0.8)],
+                        colors: [selectedPath?.color ?? Color.accentSkyBlue, (selectedPath?.color ?? Color.accentSkyBlue).opacity(0.8)],
                         startPoint: .leading,
                         endPoint: .trailing
                     )
@@ -1125,7 +1125,7 @@ struct OnboardingView: View {
                 .foregroundStyle(.white)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 18)
-                .background(canContinue ? (selectedPath?.color ?? Color.accentGreen) : Color.gray)
+                .background(canContinue ? (selectedPath?.color ?? Color.accentSkyBlue) : Color.gray)
                 .clipShape(RoundedRectangle(cornerRadius: 16))
             }
             .disabled(!canContinue)
@@ -1270,18 +1270,18 @@ struct HabitTemplateRow: View {
 
                 Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
                     .font(.title2)
-                    .foregroundStyle(isSelected ? Color.accentGreen : Color.tertiaryText)
+                    .foregroundStyle(isSelected ? Color.accentSkyBlue : Color.tertiaryText)
             }
             .padding(.horizontal, 14)
             .padding(.vertical, 12)
             .contentShape(Rectangle())
             .background(
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(isSelected ? Color.accentGreen.opacity(0.08) : Color.cardBackground)
+                    .fill(isSelected ? Color.accentSkyBlue.opacity(0.08) : Color.cardBackground)
             )
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
-                    .strokeBorder(isSelected ? Color.accentGreen.opacity(0.5) : Color.borderColor.opacity(0.5), lineWidth: 1)
+                    .strokeBorder(isSelected ? Color.accentSkyBlue.opacity(0.5) : Color.borderColor.opacity(0.5), lineWidth: 1)
             )
         }
         .buttonStyle(ScaleButtonStyle())
@@ -1311,7 +1311,7 @@ struct PermissionRow: View {
             HStack(spacing: 16) {
                 Image(systemName: icon)
                     .font(.title2)
-                    .foregroundStyle(isEnabled ? Color.accentGreen : Color.secondaryText)
+                    .foregroundStyle(isEnabled ? Color.accentSkyBlue : Color.secondaryText)
                     .frame(width: 32)
 
                 VStack(alignment: .leading, spacing: 2) {
@@ -1328,7 +1328,7 @@ struct PermissionRow: View {
 
                 if isEnabled {
                     Image(systemName: "checkmark.circle.fill")
-                        .foregroundStyle(Color.accentGreen)
+                        .foregroundStyle(Color.accentSkyBlue)
                 } else {
                     Text("Enable")
                         .font(.caption)
@@ -1336,7 +1336,7 @@ struct PermissionRow: View {
                         .foregroundStyle(.white)
                         .padding(.horizontal, 12)
                         .padding(.vertical, 6)
-                        .background(Color.accentGreen)
+                        .background(Color.accentSkyBlue)
                         .clipShape(Capsule())
                 }
             }
@@ -1460,7 +1460,7 @@ struct CustomPathCard: View {
                         Circle()
                             .fill(
                                 LinearGradient(
-                                    colors: [.purple, .blue, .green],
+                                    colors: [.purple, .blue, .cyan],
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
                                 )
@@ -1533,7 +1533,7 @@ struct CustomPathCard: View {
                 RoundedRectangle(cornerRadius: 14)
                     .strokeBorder(
                         LinearGradient(
-                            colors: isPremium ? [.purple, .blue, .green] : [Color.borderColor],
+                            colors: isPremium ? [.purple, .blue, .cyan] : [Color.borderColor],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         ),
@@ -1563,7 +1563,7 @@ struct CustomPathBuilderSheet: View {
                         .font(.system(size: 40))
                         .foregroundStyle(
                             LinearGradient(
-                                colors: [.purple, .blue, .green],
+                                colors: [.purple, .blue, .cyan],
                                 startPoint: .topLeading,
                                 endPoint: .bottomTrailing
                             )

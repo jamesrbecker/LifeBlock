@@ -154,7 +154,7 @@ struct LifeBlocksWidget: Widget {
             LifeBlocksWidgetEntryView(entry: entry)
         }
         .configurationDisplayName("LifeBlocks")
-        .description("Track your daily habits with a GitHub-style grid.")
+        .description("Track your daily habits with a beautiful contribution grid.")
         .supportedFamilies([
             .systemSmall,
             .systemMedium,

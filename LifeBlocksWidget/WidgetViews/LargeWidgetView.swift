@@ -16,9 +16,9 @@ struct LargeWidgetView: View {
     private let squareSize: CGFloat = 14
     private let spacing: CGFloat = 3
 
-    // GitHub-style: 80 days past + 10 future for large widget
+    // Contribution grid: 80 days past + 10 future for large widget
     private var gridDates: [[Date]] {
-        WidgetDateHelpers.githubStyleGridDates(pastDays: 80, futureDays: 10)
+        WidgetDateHelpers.contributionGridDates(pastDays: 80, futureDays: 10)
     }
 
     private var monthLabels: [(month: String, weekIndex: Int)] {
