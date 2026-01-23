@@ -47,7 +47,7 @@ final class UserSettings {
         self.reminderEnabled = true
         self.healthKitEnabled = false
         self.weekStartsOnMonday = true
-        self.selectedTheme = "green"
+        self.selectedTheme = "skyblue"
         self.createdAt = Date()
     }
 

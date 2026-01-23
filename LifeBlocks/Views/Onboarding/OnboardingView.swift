@@ -97,21 +97,7 @@ struct OnboardingView: View {
     // MARK: - Background
 
     private var backgroundGradient: some View {
-        Group {
-            if let path = selectedPath {
-                LinearGradient(
-                    colors: [path.color.opacity(0.15), Color.gridBackground, Color.black],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-            } else {
-                LinearGradient(
-                    colors: [Color.gridBackground, Color.black],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-            }
-        }
+        Color.gridBackground
     }
 
     // MARK: - Progress Bar
@@ -134,90 +120,81 @@ struct OnboardingView: View {
 
     // MARK: - Welcome Step
 
+    @Environment(\.colorScheme) private var systemColorScheme
+
+    private var welcomeIsDarkMode: Bool {
+        systemColorScheme == .dark
+    }
+
+    // Sky blue is the default free theme
+    private var welcomeAccentColor: Color {
+        Color.accentSkyBlue
+    }
+
     private var welcomeStep: some View {
-        VStack(spacing: 40) {
+        VStack(spacing: 0) {
             Spacer()
 
-            // Animated logo
+            // Logo
             ZStack {
-                // Outer glow
                 Circle()
-                    .fill(Color.accentGreen.opacity(0.3))
-                    .frame(width: 140, height: 140)
-                    .blur(radius: 20)
-
-                Circle()
-                    .fill(
-                        LinearGradient(
-                            colors: [Color.accentGreen, Color.accentGreen.opacity(0.7)],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-                    .frame(width: 120, height: 120)
+                    .fill(welcomeAccentColor)
+                    .frame(width: 100, height: 100)
 
                 Image(systemName: "square.grid.3x3.fill")
-                    .font(.system(size: 50))
+                    .font(.system(size: 44, weight: .medium))
                     .foregroundStyle(.white)
             }
+            .padding(.bottom, 32)
 
-            VStack(spacing: 16) {
-                Text("Welcome to Blocks")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .foregroundStyle(.white)
+            // Title
+            Text("LifeBlocks")
+                .font(.system(size: 36, weight: .bold))
+                .foregroundStyle(Color.primaryText)
+                .padding(.bottom, 12)
 
-                Text("Build the life you want,\none day at a time.")
-                    .font(.title3)
-                    .foregroundStyle(.white.opacity(0.8))
-                    .multilineTextAlignment(.center)
-            }
-
-            // Social proof
-            HStack(spacing: 4) {
-                ForEach(0..<5, id: \.self) { _ in
-                    Image(systemName: "star.fill")
-                        .foregroundStyle(.yellow)
-                        .font(.caption)
-                }
-                Text("Join thousands building better habits")
-                    .font(.caption)
-                    .foregroundStyle(.white.opacity(0.7))
-            }
+            // Subtitle
+            Text("Build better habits,\none day at a time.")
+                .font(.title3)
+                .foregroundStyle(Color.secondaryText)
+                .multilineTextAlignment(.center)
+                .padding(.bottom, 40)
 
             Spacer()
 
-            // Value propositions
-            VStack(spacing: 12) {
-                ValuePropRow(icon: "chart.line.uptrend.xyaxis", text: "Visual progress tracking", useLightText: true)
-                ValuePropRow(icon: "bell.badge.fill", text: "Smart reminders", useLightText: true)
-                ValuePropRow(icon: "person.2.fill", text: "Community challenges", useLightText: true)
+            // Features list - minimal and clean
+            VStack(spacing: 16) {
+                WelcomeFeatureRow(icon: "chart.bar.fill", text: "Track your progress visually", accentColor: welcomeAccentColor)
+                WelcomeFeatureRow(icon: "flame.fill", text: "Build lasting streaks", accentColor: welcomeAccentColor)
+                WelcomeFeatureRow(icon: "square.grid.3x3.topleft.filled", text: "GitHub-style contribution grid", accentColor: welcomeAccentColor)
             }
-            .padding(.horizontal, 40)
+            .padding(.horizontal, 32)
+            .padding(.bottom, 40)
 
-            // CTA Button
+            // CTA Button - sky blue
             Button {
                 HapticManager.shared.mediumTap()
                 withAnimation { currentStep = .nameInput }
             } label: {
-                HStack {
-                    Text("Start Building Your Path")
-                        .font(.headline)
-                    Image(systemName: "arrow.right")
-                }
-                .foregroundStyle(.white)
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 18)
-                .background(Color.accentGreen)
-                .clipShape(RoundedRectangle(cornerRadius: 16))
+                Text("Get Started")
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 16)
+                    .background(welcomeAccentColor)
+                    .clipShape(RoundedRectangle(cornerRadius: 14))
             }
             .padding(.horizontal, 24)
+            .padding(.bottom, 16)
 
-            Text("Identify your path, build your future.")
+            // Privacy note
+            Text("Your data stays on your device")
                 .font(.caption)
-                .foregroundStyle(.white.opacity(0.6))
+                .foregroundStyle(Color.tertiaryText)
                 .padding(.bottom, 40)
         }
+        .background(Color.gridBackground)
     }
 
     // MARK: - Name Step
@@ -1372,6 +1349,29 @@ struct PermissionRow: View {
     }
 }
 
+// MARK: - Welcome Feature Row (Clean, minimal)
+
+struct WelcomeFeatureRow: View {
+    let icon: String
+    let text: String
+    let accentColor: Color
+
+    var body: some View {
+        HStack(spacing: 14) {
+            Image(systemName: icon)
+                .font(.system(size: 18))
+                .foregroundStyle(accentColor)
+                .frame(width: 28)
+
+            Text(text)
+                .font(.subheadline)
+                .foregroundStyle(Color.primaryText)
+
+            Spacer()
+        }
+    }
+}
+
 // MARK: - Value Proposition Row
 
 struct ValuePropRow: View {
@@ -1383,18 +1383,18 @@ struct ValuePropRow: View {
         HStack(spacing: 12) {
             Image(systemName: icon)
                 .font(.body)
-                .foregroundStyle(Color.accentGreen)
+                .foregroundStyle(Color.accentSkyBlue)
                 .frame(width: 24)
 
             Text(text)
                 .font(.subheadline)
-                .foregroundStyle(useLightText ? .white : Color.primaryText)
+                .foregroundStyle(Color.primaryText)
 
             Spacer()
 
             Image(systemName: "checkmark")
                 .font(.caption)
-                .foregroundStyle(Color.accentGreen)
+                .foregroundStyle(Color.accentSkyBlue)
         }
     }
 }

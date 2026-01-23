@@ -145,7 +145,7 @@ enum GridColorScheme: String, CaseIterable {
            let theme = GridColorScheme(rawValue: themeName) {
             return theme
         }
-        return .green
+        return .skyblue
     }
 
     /// Empty cell color for dark mode widget - GitHub style dark gray

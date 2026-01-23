@@ -276,7 +276,7 @@ extension Color {
 class ThemeManager: ObservableObject {
     static let shared = ThemeManager()
 
-    @Published var currentTheme: GridColorScheme = .green
+    @Published var currentTheme: GridColorScheme = .skyblue
 
     private let sharedDefaults = UserDefaults(suiteName: "group.com.lifeblock.app")
 
