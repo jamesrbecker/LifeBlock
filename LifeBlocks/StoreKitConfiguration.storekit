@@ -15,7 +15,7 @@
           "locale" : "en_US"
         }
       ],
-      "productID" : "com.lifeblocks.premium.lifetime",
+      "productID" : "com.lifeblocks.app.premium.lifetime",
       "referenceName" : "Premium Lifetime",
       "type" : "NonConsumable"
     },
@@ -30,7 +30,7 @@
           "locale" : "en_US"
         }
       ],
-      "productID" : "com.lifeblocks.premium.family.lifetime",
+      "productID" : "com.lifeblocks.app.premium.family.lifetime",
       "referenceName" : "Family Lifetime",
       "type" : "NonConsumable"
     }
@@ -121,7 +121,7 @@
               "locale" : "en_US"
             }
           ],
-          "productID" : "com.lifeblocks.premium.monthly",
+          "productID" : "com.lifeblocks.app.premium.monthly",
           "recurringSubscriptionPeriod" : "P1M",
           "referenceName" : "Premium Monthly",
           "subscriptionGroupID" : "premium_subscriptions",
@@ -146,7 +146,7 @@
               "locale" : "en_US"
             }
           ],
-          "productID" : "com.lifeblocks.premium.yearly",
+          "productID" : "com.lifeblocks.app.premium.yearly",
           "recurringSubscriptionPeriod" : "P1Y",
           "referenceName" : "Premium Yearly",
           "subscriptionGroupID" : "premium_subscriptions",
@@ -184,7 +184,7 @@
               "locale" : "en_US"
             }
           ],
-          "productID" : "com.lifeblocks.premium.family.monthly",
+          "productID" : "com.lifeblocks.app.premium.family.monthly",
           "recurringSubscriptionPeriod" : "P1M",
           "referenceName" : "Family Monthly",
           "subscriptionGroupID" : "family_subscriptions",
@@ -209,7 +209,7 @@
               "locale" : "en_US"
             }
           ],
-          "productID" : "com.lifeblocks.premium.family.yearly",
+          "productID" : "com.lifeblocks.app.premium.family.yearly",
           "recurringSubscriptionPeriod" : "P1Y",
           "referenceName" : "Family Yearly",
           "subscriptionGroupID" : "family_subscriptions",
