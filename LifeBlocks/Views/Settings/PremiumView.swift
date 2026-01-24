@@ -168,7 +168,7 @@ struct PremiumView: View {
             }
 
             // Family yearly option
-            if let family = purchases.familyProduct {
+            if let family = purchases.familyYearlyProduct {
                 PricingOptionView(
                     product: family,
                     isSelected: selectedProduct?.id == family.id,
