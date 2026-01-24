@@ -1,52 +1,123 @@
 import Foundation
 import SwiftUI
 
-// MARK: - Life Path Archetypes
+// =============================================================================
+// MARK: - LifePath.swift
+// =============================================================================
+/// This file contains all the Life Path functionality for LifeBlocks.
+///
+/// ## Overview
+/// Life Paths are pre-defined career/life archetypes that users can choose
+/// during onboarding. Each path comes with:
+/// - A custom icon and color theme
+/// - Motivational quotes specific to that path
+/// - A curated set of habit suggestions
+/// - A tagline/description
+///
+/// ## Available Paths (38+ total)
+/// - **Tech**: Software Engineer, Game Developer
+/// - **Creative**: Content Creator, Musician, Actor, Writer, Creative Artist
+/// - **Business**: Entrepreneur, Investor, Sales, Real Estate
+/// - **Healthcare**: Doctor, Nurse, EMT, Physical Therapist, Dental Pro
+/// - **Trades**: Electrician, Plumber, Welder, HVAC, Carpenter, Mechanic, Construction
+/// - **Public Service**: Teacher, Military, First Responder, Pilot
+/// - **Lifestyle**: Health & Wellness, Parent, Digital Nomad, Student, Athlete
+///
+/// ## Premium Feature
+/// Life Paths are a premium-only feature. Free users see "Start Building Habits"
+/// which provides 10 foundational habits without path customization.
+///
+/// ## Key Components
+/// - `LifePathCategory`: Enum of all available paths
+/// - `HabitTemplate`: Template for creating habits from a path
+/// - `UserLifePath`: The user's selected path and progress
+/// - `ExplorationHabits`: Generic habits for free/exploring users
+
+// =============================================================================
+// MARK: - LifePathCategory
+// =============================================================================
+/// Represents all available life path/career archetypes in the app.
+///
+/// Each case corresponds to a specific career or life focus. Users select
+/// one during onboarding, and the app customizes their experience accordingly.
+///
+/// ## Raw Value
+/// Uses snake_case strings for CloudKit/database compatibility.
 
 enum LifePathCategory: String, CaseIterable, Codable {
-    case contentCreator = "content_creator"
-    case fitnessInfluencer = "fitness_influencer"
-    case entrepreneur = "entrepreneur"
-    case softwareEngineer = "software_engineer"
-    case investor = "investor"
-    case healthWellness = "health_wellness"
-    case creative = "creative"
-    case student = "student"
-    // New paths
-    case musician = "musician"
-    case actor = "actor"
-    case doctor = "doctor"
-    case athlete = "athlete"
-    case gameDeveloper = "game_developer"
-    case writer = "writer"
-    case parent = "parent"
-    case digitalNomad = "digital_nomad"
-    // Trade School Paths
-    case electrician = "electrician"
-    case plumber = "plumber"
-    case welder = "welder"
-    case construction = "construction"
-    case hvacTech = "hvac_tech"
-    case carpenter = "carpenter"
-    case mechanic = "mechanic"
-    case truckDriver = "truck_driver"
-    // Healthcare Paths
-    case nurse = "nurse"
-    case emt = "emt"
-    case physicalTherapist = "physical_therapist"
-    case dentalPro = "dental_pro"
-    // Professional Paths
-    case teacher = "teacher"
-    case lawyer = "lawyer"
-    case realEstate = "real_estate"
-    case chef = "chef"
-    case pilot = "pilot"
-    case military = "military"
-    case firstResponder = "first_responder"
-    case sales = "sales"
-    case exploring = "exploring"  // For users who want to explore before committing
-    case custom = "custom"
+    // ═══════════════════════════════════════════════════════════════════════
+    // CREATIVE & MEDIA PATHS
+    // ═══════════════════════════════════════════════════════════════════════
+    case contentCreator = "content_creator"       // YouTubers, TikTokers, Podcasters
+    case fitnessInfluencer = "fitness_influencer" // Fitness content creators
+    case musician = "musician"                     // Musicians, Producers, DJs
+    case actor = "actor"                           // Actors, Performers, Voice Artists
+    case writer = "writer"                         // Authors, Screenwriters, Bloggers
+    case creative = "creative"                     // Visual artists, Designers
 
+    // ═══════════════════════════════════════════════════════════════════════
+    // TECH & ENGINEERING PATHS
+    // ═══════════════════════════════════════════════════════════════════════
+    case softwareEngineer = "software_engineer"   // Developers, Programmers
+    case gameDeveloper = "game_developer"         // Game designers, Indie devs
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // BUSINESS & FINANCE PATHS
+    // ═══════════════════════════════════════════════════════════════════════
+    case entrepreneur = "entrepreneur"             // Founders, Business owners
+    case investor = "investor"                     // Traders, Investors
+    case sales = "sales"                           // Sales professionals
+    case realEstate = "real_estate"               // Real estate agents
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // HEALTHCARE PATHS
+    // ═══════════════════════════════════════════════════════════════════════
+    case doctor = "doctor"                         // Physicians, Med students
+    case nurse = "nurse"                           // RNs, LPNs, Nursing students
+    case emt = "emt"                               // EMTs, Paramedics
+    case physicalTherapist = "physical_therapist" // PTs, PTAs
+    case dentalPro = "dental_pro"                 // Dentists, Hygienists
+    case healthWellness = "health_wellness"       // Wellness coaches, Nutritionists
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // SKILLED TRADES PATHS
+    // ═══════════════════════════════════════════════════════════════════════
+    case electrician = "electrician"               // Electricians, Apprentices
+    case plumber = "plumber"                       // Plumbers
+    case welder = "welder"                         // Welders, Fabricators
+    case construction = "construction"             // General construction workers
+    case hvacTech = "hvac_tech"                   // HVAC Technicians
+    case carpenter = "carpenter"                   // Carpenters, Woodworkers
+    case mechanic = "mechanic"                     // Auto/Diesel mechanics
+    case truckDriver = "truck_driver"             // CDL drivers, Owner-operators
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // PROFESSIONAL & PUBLIC SERVICE PATHS
+    // ═══════════════════════════════════════════════════════════════════════
+    case teacher = "teacher"                       // Teachers, Professors
+    case lawyer = "lawyer"                         // Attorneys, Law students
+    case chef = "chef"                             // Chefs, Culinary professionals
+    case pilot = "pilot"                           // Commercial/Private pilots
+    case military = "military"                     // Active duty, Veterans
+    case firstResponder = "first_responder"       // Firefighters, Police
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // LIFESTYLE PATHS
+    // ═══════════════════════════════════════════════════════════════════════
+    case student = "student"                       // Students at any level
+    case athlete = "athlete"                       // Professional/Amateur athletes
+    case parent = "parent"                         // Parents focusing on family
+    case digitalNomad = "digital_nomad"           // Remote workers, Travelers
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // SPECIAL PATHS
+    // ═══════════════════════════════════════════════════════════════════════
+    case exploring = "exploring"                   // Free tier - building habits first
+    case custom = "custom"                         // Premium - custom hybrid path
+
+    // MARK: - Display Name
+
+    /// Human-readable name for the path, shown in UI
     var displayName: String {
         switch self {
         case .contentCreator: return "Content Creator"
@@ -90,6 +161,9 @@ enum LifePathCategory: String, CaseIterable, Codable {
         }
     }
 
+    // MARK: - Icon
+
+    /// SF Symbol name for the path icon
     var icon: String {
         switch self {
         case .contentCreator: return "video.fill"
@@ -133,6 +207,10 @@ enum LifePathCategory: String, CaseIterable, Codable {
         }
     }
 
+    // MARK: - Color
+
+    /// The accent color for this path, used throughout the app
+    /// Each path has a unique color to make it visually distinct
     var color: Color {
         switch self {
         case .contentCreator: return .red
@@ -176,6 +254,10 @@ enum LifePathCategory: String, CaseIterable, Codable {
         }
     }
 
+    // MARK: - Tagline
+
+    /// A short inspirational tagline for the path
+    /// Shown on the motivation screen during onboarding
     var tagline: String {
         switch self {
         case .contentCreator: return "Build your audience, one video at a time"
@@ -219,6 +301,11 @@ enum LifePathCategory: String, CaseIterable, Codable {
         }
     }
 
+    // MARK: - Motivational Quotes
+
+    /// Array of motivational quotes specific to this path
+    /// One is randomly selected and shown during onboarding
+    /// Also used for daily motivation notifications
     var motivationalQuotes: [String] {
         switch self {
         case .contentCreator:
@@ -530,7 +617,26 @@ enum LifePathCategory: String, CaseIterable, Codable {
         }
     }
 
-    // Suggested habits for each path
+    // MARK: - Suggested Habits
+
+    /// Array of habit templates suggested for this path.
+    ///
+    /// Each path has 5-6 curated habits that are most relevant to that
+    /// career/life focus. Users can select/deselect these during onboarding.
+    ///
+    /// ## Habit Categories
+    /// Most paths include a mix of:
+    /// - Core skill development (e.g., "Code" for Software Engineer)
+    /// - Income/money habits (e.g., "Track Revenue", "Freelance")
+    /// - Health/wellness habits
+    /// - Learning/growth habits
+    ///
+    /// ## Habit Template Structure
+    /// Each template includes:
+    /// - `name`: Display name for the habit
+    /// - `icon`: SF Symbol name
+    /// - `color`: Hex color string (e.g., "#FF6B6B")
+    /// - `description`: Short description of what the habit involves
     var suggestedHabits: [HabitTemplate] {
         switch self {
         case .contentCreator:
@@ -872,63 +978,183 @@ enum LifePathCategory: String, CaseIterable, Codable {
     }
 }
 
-// MARK: - Habit Template
+// =============================================================================
+// MARK: - HabitTemplate
+// =============================================================================
+/// A template for creating habits, used during onboarding and path selection.
+///
+/// ## Overview
+/// HabitTemplates are the "blueprints" for habits. They contain all the
+/// information needed to create a Habit object but aren't stored in the
+/// database themselves. They're defined in code as part of each LifePathCategory.
+///
+/// ## ID Generation
+/// The ID is deterministically generated from the name to ensure stability.
+/// For example, "Morning Workout" becomes "morning-workout".
+/// This prevents issues with SwiftUI's ForEach when the array is recomputed.
+///
+/// ## Codable & Hashable
+/// The struct conforms to Codable for potential future persistence and
+/// Hashable for use in Sets (e.g., selectedHabits during onboarding).
 
-struct HabitTemplate: Identifiable, Codable {
-    var id = UUID()
+struct HabitTemplate: Identifiable, Codable, Hashable {
+
+    /// Deterministic ID based on the habit name.
+    /// Converts to lowercase and replaces spaces with hyphens.
+    /// Example: "Morning Workout" → "morning-workout"
+    var id: String { name.lowercased().replacingOccurrences(of: " ", with: "-") }
+
+    /// The display name of the habit (e.g., "Morning Workout")
     let name: String
+
+    /// The SF Symbol name for the habit icon (e.g., "figure.run")
     let icon: String
+
+    /// The hex color string for the habit (e.g., "#FF6B6B")
     let color: String
+
+    /// A short description explaining what the habit involves
     let description: String
 
+    // MARK: - Conversion
+
+    /// Converts this template into an actual Habit object for storage.
+    /// Called when user completes onboarding and their selected habits
+    /// need to be saved to SwiftData.
+    ///
+    /// - Returns: A new Habit instance with the template's properties
     func toHabit() -> Habit {
         let habit = Habit(name: name, icon: icon, colorHex: color)
         return habit
     }
+
+    // MARK: - Hashable Conformance
+
+    /// Hashes using only the ID for consistent Set behavior
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+
+    /// Two templates are equal if they have the same ID
+    static func == (lhs: HabitTemplate, rhs: HabitTemplate) -> Bool {
+        lhs.id == rhs.id
+    }
 }
 
-// MARK: - User's Life Path
+// =============================================================================
+// MARK: - UserLifePath
+// =============================================================================
+/// Represents the user's selected life path and associated data.
+///
+/// ## Overview
+/// This struct is stored in UserDefaults (via AppSettings) and tracks
+/// which path the user selected, any custom goal name, and their milestones.
+///
+/// ## Storage
+/// Encoded as JSON and stored in UserDefaults via AppSettings.userLifePath
 
 struct UserLifePath: Codable {
+
+    /// The life path category the user selected during onboarding
     var selectedPath: LifePathCategory
+
+    /// Optional custom name for their goal (for custom paths)
     var customGoalName: String?
-    var selectedDate: Date // When they want to achieve this
+
+    /// The target date for achieving their goal (default: 1 year from start)
+    var selectedDate: Date
+
+    /// User-defined milestones on their journey
     var milestones: [Milestone]
+
+    /// An optional daily quote override
     var dailyQuote: String?
 
+    // MARK: - Initialization
+
+    /// Creates a new UserLifePath with the given path.
+    /// - Parameters:
+    ///   - path: The selected LifePathCategory
+    ///   - goalName: Optional custom goal name
     init(path: LifePathCategory, goalName: String? = nil) {
         self.selectedPath = path
         self.customGoalName = goalName
+        // Default target date is 1 year from now
         self.selectedDate = Calendar.current.date(byAdding: .year, value: 1, to: Date()) ?? Date()
         self.milestones = []
     }
 }
 
-// MARK: - Milestones
+// =============================================================================
+// MARK: - Milestone
+// =============================================================================
+/// A user-defined milestone on their life path journey.
+///
+/// Milestones help users break down their big goal into smaller,
+/// achievable targets with specific deadlines.
 
 struct Milestone: Identifiable, Codable {
+
+    /// Unique identifier for this milestone
     var id = UUID()
+
+    /// The title of the milestone (e.g., "Launch MVP")
     var title: String
+
+    /// A longer description of what this milestone involves
     var description: String
+
+    /// The target date to complete this milestone
     var targetDate: Date
+
+    /// Whether the milestone has been marked as complete
     var isCompleted: Bool = false
+
+    /// The date when the milestone was completed (nil if not completed)
     var completedDate: Date?
 }
 
-// MARK: - Path Progress
+// =============================================================================
+// MARK: - PathProgress
+// =============================================================================
+/// Tracks the user's progress on their selected life path.
+///
+/// ## Leveling System
+/// Users level up every 7 days of consistent tracking:
+/// - Level 1: Beginner (days 1-7)
+/// - Level 2-3: Apprentice (days 8-21)
+/// - Level 4-6: Practitioner (days 22-42)
+/// - Level 7-10: Expert (days 43-70)
+/// - Level 11-15: Master (days 71-105)
+/// - Level 16-25: Grandmaster (days 106-175)
+/// - Level 26+: Legend (days 176+)
 
 struct PathProgress {
+
+    /// Total number of days since the user started this path
     let daysOnPath: Int
+
+    /// Current consecutive day streak
     let currentStreak: Int
+
+    /// Total number of habit check-ins completed
     let totalCheckIns: Int
+
+    /// Average daily score (0-100)
     let averageScore: Double
+
+    /// Total number of habits marked complete
     let habitsCompleted: Int
 
+    // MARK: - Computed Properties
+
+    /// The user's current level based on days on path.
+    /// Level increases every 7 days of tracking.
     var level: Int {
-        // Level up every 7 days of consistent tracking
         return max(1, daysOnPath / 7 + 1)
     }
 
+    /// Human-readable title for the current level
     var levelTitle: String {
         switch level {
         case 1: return "Beginner"
@@ -941,19 +1167,38 @@ struct PathProgress {
         }
     }
 
+    /// Progress towards the next level (0.0 to 1.0)
+    /// Used to display a progress bar
     var progressToNextLevel: Double {
         let daysInCurrentLevel = daysOnPath % 7
         return Double(daysInCurrentLevel) / 7.0
     }
 }
 
-// MARK: - App Settings Extension for Life Path
+// =============================================================================
+// MARK: - AppSettings Extension for Life Path
+// =============================================================================
+/// Extends AppSettings with life path-related properties.
+///
+/// These properties are stored in UserDefaults and persist across app launches.
 
 extension AppSettings {
+
+    // MARK: - UserDefaults Keys
+
+    /// Key for storing the user's selected life path (as JSON)
     private static let lifePathKey = "userLifePath"
+
+    /// Key for tracking if user has completed onboarding
     private static let onboardingCompleteKey = "onboardingComplete"
+
+    /// Key for storing when the user started their path
     private static let pathStartDateKey = "pathStartDate"
 
+    // MARK: - Life Path Properties
+
+    /// The user's selected life path, stored as encoded JSON in UserDefaults.
+    /// Returns nil if user hasn't selected a path yet.
     var userLifePath: UserLifePath? {
         get {
             guard let data = UserDefaults.standard.data(forKey: Self.lifePathKey) else { return nil }
@@ -966,32 +1211,109 @@ extension AppSettings {
         }
     }
 
+    /// Whether the user has completed the onboarding flow.
+    /// When true, the main app is shown instead of onboarding.
     var isOnboardingComplete: Bool {
         get { UserDefaults.standard.bool(forKey: Self.onboardingCompleteKey) }
         set { UserDefaults.standard.set(newValue, forKey: Self.onboardingCompleteKey) }
     }
 
+    /// The date when the user started their current path.
+    /// Used to calculate days on path and leveling.
     var pathStartDate: Date? {
         get { UserDefaults.standard.object(forKey: Self.pathStartDateKey) as? Date }
         set { UserDefaults.standard.set(newValue, forKey: Self.pathStartDateKey) }
     }
 
+    // MARK: - Path Change Tracking
+
+    /// Key for tracking path change count
+    private static let pathChangeCountKey = "pathChangeCount"
+
+    /// Number of times user has changed their path
+    var pathChangeCount: Int {
+        get { UserDefaults.standard.integer(forKey: Self.pathChangeCountKey) }
+        set { UserDefaults.standard.set(newValue, forKey: Self.pathChangeCountKey) }
+    }
+
+    /// Maximum path changes allowed (free: 3, premium: unlimited)
+    var maxPathChanges: Int {
+        isPremium ? Int.max : 3
+    }
+
+    /// Whether user can change their path
+    var canChangePath: Bool {
+        pathChangeCount < maxPathChanges
+    }
+
+    /// Remaining path changes (for display)
+    var remainingPathChanges: Int {
+        max(0, maxPathChanges - pathChangeCount)
+    }
+
+    /// Change the user's primary path
+    /// - Parameter newPath: The new path to switch to
+    /// - Returns: True if successful, false if limit reached
+    func changePrimaryPath(to newPath: LifePathCategory) -> Bool {
+        guard canChangePath else { return false }
+
+        // Update the path
+        userLifePath = UserLifePath(path: newPath)
+        pathStartDate = Date()
+        pathChangeCount += 1
+
+        return true
+    }
 }
 
-// MARK: - Exploration Mode Habits
+// =============================================================================
+// MARK: - ExplorationHabits
+// =============================================================================
+/// Generic foundational habits for users who haven't chosen a path yet.
+///
+/// ## Overview
+/// These habits are shown to:
+/// - Free users who select "Start Building Habits"
+/// - Premium users who select "Just Exploring"
+///
+/// ## Design Philosophy
+/// These 10 habits are universally beneficial regardless of career path.
+/// They cover the fundamentals of a healthy, productive lifestyle:
+/// - Physical health (Exercise, Hydrate, Sleep)
+/// - Mental health (Meditate, Journal, Gratitude)
+/// - Personal growth (Read/Learn, Morning Routine)
+/// - Digital wellness (No Phone Hour)
+/// - Social connection (Connect)
+///
+/// ## Free Tier
+/// This is the default habit set for free users. They can start building
+/// consistency with these foundational habits before upgrading to get
+/// path-specific habits.
 
-/// Generic habits for users who haven't chosen a path yet
 struct ExplorationHabits {
+
+    /// The 10 foundational habits available to all users
     static let habits: [HabitTemplate] = [
+        // Morning & Productivity
         HabitTemplate(name: "Morning Routine", icon: "sunrise.fill", color: "#FFB347", description: "Start your day with intention"),
+
+        // Physical Health
         HabitTemplate(name: "Exercise", icon: "figure.run", color: "#FF6B6B", description: "Move your body"),
-        HabitTemplate(name: "Read/Learn", icon: "book.fill", color: "#4ECDC4", description: "Invest in your mind"),
         HabitTemplate(name: "Hydrate", icon: "drop.fill", color: "#45B7D1", description: "Drink enough water"),
+        HabitTemplate(name: "Sleep 7+ Hours", icon: "moon.fill", color: "#5D5FEF", description: "Rest and recover"),
+
+        // Mental Health & Mindfulness
         HabitTemplate(name: "Meditate", icon: "brain.head.profile", color: "#9B59B6", description: "Clear your mind"),
         HabitTemplate(name: "Journal", icon: "pencil.line", color: "#96CEB4", description: "Reflect on your day"),
-        HabitTemplate(name: "Sleep 7+ Hours", icon: "moon.fill", color: "#5D5FEF", description: "Rest and recover"),
-        HabitTemplate(name: "No Phone Hour", icon: "iphone.slash", color: "#E74C3C", description: "Digital detox time"),
         HabitTemplate(name: "Gratitude", icon: "heart.fill", color: "#E91E63", description: "Appreciate what you have"),
+
+        // Personal Growth
+        HabitTemplate(name: "Read/Learn", icon: "book.fill", color: "#4ECDC4", description: "Invest in your mind"),
+
+        // Digital Wellness
+        HabitTemplate(name: "No Phone Hour", icon: "iphone.slash", color: "#E74C3C", description: "Digital detox time"),
+
+        // Social Connection
         HabitTemplate(name: "Connect", icon: "person.2.fill", color: "#00BCD4", description: "Reach out to someone")
     ]
 }

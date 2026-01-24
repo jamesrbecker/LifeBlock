@@ -24,6 +24,7 @@ struct SettingsView: View {
     @State private var showingShareGrid = false
     @State private var showingChallenges = false
     @State private var showingFriends = false
+    @State private var showingChangePath = false
 
     private var settings: UserSettings {
         userSettings.first ?? UserSettings()
@@ -33,6 +34,7 @@ struct SettingsView: View {
         NavigationStack {
             List {
                 premiumSection
+                lifePathSection
                 socialSection
                 streakProtectionSection
                 privacySection
@@ -73,6 +75,9 @@ struct SettingsView: View {
             }
             .sheet(isPresented: $showingFriends) {
                 FriendsView()
+            }
+            .sheet(isPresented: $showingChangePath) {
+                ChangePathView()
             }
             .onAppear {
                 loadSettings()
@@ -171,6 +176,57 @@ struct SettingsView: View {
                     }
                     .padding(.vertical, 8)
                 }
+            }
+        }
+    }
+
+    private var lifePathSection: some View {
+        Section {
+            // Current Path Display
+            if let currentPath = appSettings.userLifePath?.selectedPath {
+                HStack {
+                    Image(systemName: currentPath.icon)
+                        .font(.title2)
+                        .foregroundStyle(currentPath.color)
+                        .frame(width: 40)
+
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(currentPath.displayName)
+                            .font(.headline)
+                        Text(currentPath.tagline)
+                            .font(.caption)
+                            .foregroundStyle(Color.secondaryText)
+                    }
+
+                    Spacer()
+                }
+                .padding(.vertical, 4)
+            }
+
+            // Change Path Button
+            Button {
+                showingChangePath = true
+            } label: {
+                HStack {
+                    Label("Change Path", systemImage: "arrow.triangle.swap")
+
+                    Spacer()
+
+                    if !purchases.isPremium {
+                        Text("\(appSettings.remainingPathChanges) left")
+                            .font(.caption)
+                            .foregroundStyle(Color.secondaryText)
+                    }
+                }
+            }
+            .disabled(!appSettings.canChangePath && !purchases.isPremium)
+        } header: {
+            Text("Life Path")
+        } footer: {
+            if purchases.isPremium {
+                Text("Premium members can change paths anytime")
+            } else {
+                Text("Free users can change paths up to 3 times")
             }
         }
     }
@@ -1120,6 +1176,131 @@ struct PrivacyToggle: View {
             }
         }
         .tint(Color.accentGreen)
+    }
+}
+
+// MARK: - Change Path View
+
+struct ChangePathView: View {
+    @Environment(\.dismiss) private var dismiss
+    @ObservedObject private var appSettings = AppSettings.shared
+    @StateObject private var purchases = PurchaseManager.shared
+
+    @State private var selectedPath: LifePathCategory?
+    @State private var showingConfirmation = false
+
+    var body: some View {
+        NavigationStack {
+            List {
+                // Warning/Info Section
+                Section {
+                    VStack(alignment: .leading, spacing: 12) {
+                        HStack {
+                            Image(systemName: "exclamationmark.triangle.fill")
+                                .foregroundStyle(.orange)
+                            Text("Changing Your Path")
+                                .font(.headline)
+                        }
+
+                        Text("Changing your path will reset your path-specific progress and give you new suggested habits. Your streak and check-in history will be preserved.")
+                            .font(.subheadline)
+                            .foregroundStyle(Color.secondaryText)
+
+                        if !purchases.isPremium {
+                            HStack {
+                                Image(systemName: "info.circle.fill")
+                                    .foregroundStyle(Color.accentSkyBlue)
+                                Text("You have \(appSettings.remainingPathChanges) path changes remaining")
+                                    .font(.caption)
+                                    .foregroundStyle(Color.secondaryText)
+                            }
+                            .padding(.top, 4)
+                        }
+                    }
+                    .padding(.vertical, 8)
+                }
+
+                // Current Path
+                if let currentPath = appSettings.userLifePath?.selectedPath {
+                    Section("Current Path") {
+                        HStack {
+                            Image(systemName: currentPath.icon)
+                                .font(.title2)
+                                .foregroundStyle(currentPath.color)
+                                .frame(width: 40)
+
+                            VStack(alignment: .leading) {
+                                Text(currentPath.displayName)
+                                    .font(.body)
+                                Text(currentPath.tagline)
+                                    .font(.caption)
+                                    .foregroundStyle(Color.secondaryText)
+                            }
+
+                            Spacer()
+
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundStyle(Color.accentGreen)
+                        }
+                    }
+                }
+
+                // Available Paths
+                Section("Choose New Path") {
+                    ForEach(LifePathCategory.allCases.filter { $0 != .custom && $0 != appSettings.userLifePath?.selectedPath }, id: \.self) { path in
+                        Button {
+                            selectedPath = path
+                            showingConfirmation = true
+                        } label: {
+                            HStack {
+                                Image(systemName: path.icon)
+                                    .font(.title2)
+                                    .foregroundStyle(path.color)
+                                    .frame(width: 40)
+
+                                VStack(alignment: .leading) {
+                                    Text(path.displayName)
+                                        .font(.body)
+                                        .foregroundStyle(.primary)
+                                    Text(path.tagline)
+                                        .font(.caption)
+                                        .foregroundStyle(Color.secondaryText)
+                                }
+
+                                Spacer()
+
+                                Image(systemName: "chevron.right")
+                                    .font(.caption)
+                                    .foregroundStyle(.tertiary)
+                            }
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+            }
+            .navigationTitle("Change Path")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
+                }
+            }
+            .alert("Change to \(selectedPath?.displayName ?? "new path")?", isPresented: $showingConfirmation) {
+                Button("Cancel", role: .cancel) { }
+                Button("Change Path") {
+                    if let path = selectedPath {
+                        if appSettings.changePrimaryPath(to: path) {
+                            HapticManager.shared.success()
+                            dismiss()
+                        }
+                    }
+                }
+            } message: {
+                Text("This will update your suggested habits and reset your path progress. Your streak will be preserved.")
+            }
+        }
     }
 }
 

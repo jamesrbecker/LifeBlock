@@ -277,19 +277,26 @@ enum GridColorScheme: String, CaseIterable {
         }
     }
 
+    /// Get color for contribution level - always use light mode colors for GitHub style
     func color(for level: Int, isDarkMode: Bool) -> Color {
         let clampedLevel = min(max(level, 0), 4)
-        return isDarkMode ? darkColors[clampedLevel] : lightColors[clampedLevel]
+        // Always use light colors for GitHub-style widget
+        return lightColors[clampedLevel]
     }
 
-    /// Color for future dates
+    /// Color for future dates - always light for GitHub style
     static func futureColor(isDarkMode: Bool) -> Color {
-        isDarkMode ? Color(hex: "#21262D") : Color(hex: "#F6F8FA")
+        Color(hex: "#F6F8FA")
     }
 
-    /// Background color for widget
+    /// Background color for widget - always light like GitHub
     static func widgetBackground(isDarkMode: Bool) -> Color {
-        isDarkMode ? Color(hex: "#0D1117") : Color.white
+        Color.white
+    }
+
+    /// Empty cell color - always light gray like GitHub
+    static func emptyColor() -> Color {
+        Color(hex: "#EBEDF0")
     }
 }
 

@@ -1,66 +1,143 @@
 import SwiftUI
 import SwiftData
 
+// =============================================================================
+// MARK: - OnboardingView
+// =============================================================================
+/// The main onboarding flow that new users see when they first launch the app.
+///
+/// This view guides users through a multi-step setup process:
+/// 1. Welcome screen - introduces the app
+/// 2. Name input - personalizes the experience
+/// 3. Path selection - FREE users get "Start Building Habits", PREMIUM users can choose Life Goals
+/// 4. Student/Career details - additional customization for certain paths (premium only)
+/// 5. Habit selection - users can select/deselect habits they want to track
+/// 6. Sprint setup - configure their first goal sprint
+/// 7. Permissions - request HealthKit and notification access
+/// 8. Motivation - show an inspiring quote
+/// 9. Ready - final confirmation before entering the main app
+///
+/// ## Navigation
+/// - Users can swipe right to go back to the previous step
+/// - The continue button is centered at the bottom of each step
+/// - Progress is shown via a progress bar at the top
+///
+/// ## Free vs Premium
+/// - Free users: Only see "Start Building Habits" option with 10 foundational habits
+/// - Premium users: Can choose from 38+ career/life paths with customized habits
+
 struct OnboardingView: View {
+
+    // MARK: - Environment & Bindings
+
+    /// SwiftData model context for saving habits to the database
     @Environment(\.modelContext) private var modelContext
+
+    /// Binding to track whether onboarding is complete - when set to true, the main app appears
     @Binding var hasCompletedOnboarding: Bool
 
+    // MARK: - Navigation State
+
+    /// The current step in the onboarding flow (controls which screen is displayed)
     @State private var currentStep: OnboardingStep = .welcome
+
+    /// The user's first name, entered during the name input step
     @State private var userName: String = ""
+
+    /// The life path/career category the user selected (nil for exploration mode)
+    /// Only available to premium users
     @State private var selectedPath: LifePathCategory?
-    @State private var selectedHabits: Set<UUID> = []
+
+    /// Set of habit IDs that the user has selected to track
+    /// Uses String IDs (based on habit name) to ensure stability across sessions
+    @State private var selectedHabits: Set<String> = []
+
+    /// Controls whether the custom path builder sheet is shown (premium feature)
     @State private var showCustomPathSheet = false
+
+    /// For hybrid/custom paths: the set of paths the user wants to combine
     @State private var selectedPathsForHybrid: Set<LifePathCategory> = []
+
+    /// Reference to the HealthKit manager for requesting health data access
     @StateObject private var healthKit = HealthKitManager.shared
+
+    /// Reference to the notification manager for requesting push notification permissions
     @StateObject private var notifications = NotificationManager.shared
 
-    // Student-specific state
+    // MARK: - Student-Specific State (Premium Feature)
+
+    /// The type of student (high school, undergrad, grad, etc.)
     @State private var selectedStudentType: StudentType?
+
+    /// The student's major/field of study
     @State private var selectedMajor: StudentMajor?
+
+    /// The college/university the student attends
     @State private var selectedCollege: CollegeInfo?
+
+    /// The student's current GPA (used for academic habit suggestions)
     @State private var currentGPA: Double = 3.5
+
+    /// Controls whether the college selector sheet is shown
     @State private var showCollegeSelector = false
 
-    // Career-specific state
+    // MARK: - Career-Specific State (Premium Feature)
+
+    /// The specific career path within a category (e.g., iOS Developer within Software Engineer)
     @State private var selectedCareerPath: CareerPath?
+
+    /// The user's current career level (junior, mid, senior, etc.)
     @State private var currentCareerLevel: CareerLevel?
+
+    /// The career level the user is working towards
     @State private var targetCareerLevel: CareerLevel?
 
-    enum OnboardingStep: Int, CaseIterable {
-        case welcome
-        case nameInput
-        case pathSelection
-        case studentDetails   // New: for student path customization
-        case careerDetails    // New: for professional path customization
-        case habitSelection
-        case sprintSetup      // New: set up first sprint/goal
-        case permissions
-        case motivation
-        case ready
+    // MARK: - Onboarding Step Enum
 
+    /// Defines all the steps in the onboarding flow.
+    /// The raw Int value is used for progress calculation and navigation.
+    enum OnboardingStep: Int, CaseIterable {
+        case welcome          // Step 0: Welcome screen with app introduction
+        case nameInput        // Step 1: Ask for user's first name
+        case pathSelection    // Step 2: Choose life path (premium) or start exploring (free)
+        case studentDetails   // Step 3a: Additional details for student path (premium only)
+        case careerDetails    // Step 3b: Additional details for career paths (premium only)
+        case habitSelection   // Step 4: Select which habits to track
+        case sprintSetup      // Step 5: Set up first goal/sprint
+        case permissions      // Step 6: Request HealthKit and notification permissions
+        case motivation       // Step 7: Show motivational quote
+        case ready            // Step 8: Final "You're all set!" screen
+
+        /// Calculates the progress percentage (0.0 to 1.0) for the progress bar
         var progress: Double {
-            // Adjust progress calculation for dynamic steps
-            let totalSteps = 8.0 // Approximate visible steps
+            // We use 8.0 as the approximate number of visible steps
+            // (some steps like studentDetails/careerDetails are conditional)
+            let totalSteps = 8.0
             return min(1.0, Double(rawValue) / totalSteps)
         }
     }
 
+    // MARK: - Main Body
+
     var body: some View {
         ZStack {
-            // Dynamic background based on selected path
+            // Background color that fills the entire screen
+            // Uses the app's standard grid background color for consistency
             backgroundGradient
                 .ignoresSafeArea()
                 .animation(.easeInOut(duration: 0.5), value: selectedPath)
 
             VStack(spacing: 0) {
-                // Progress bar
+                // Progress bar at the top (hidden on welcome screen)
+                // Shows users how far they are through the onboarding process
                 if currentStep != .welcome {
                     progressBar
                         .padding(.horizontal)
                         .padding(.top, 8)
                 }
 
-                // Content
+                // Main content area - displays the current step's view
+                // Uses a switch statement to show the appropriate view for each step
                 Group {
                     switch currentStep {
                     case .welcome:
@@ -85,17 +162,74 @@ struct OnboardingView: View {
                         readyStep
                     }
                 }
+                // Transition animation: new content slides in from right, old slides out to left
                 .transition(.asymmetric(
                     insertion: .move(edge: .trailing).combined(with: .opacity),
                     removal: .move(edge: .leading).combined(with: .opacity)
                 ))
             }
         }
+        // Animate all changes to currentStep with a smooth ease-in-out
         .animation(.easeInOut(duration: 0.3), value: currentStep)
+        // Swipe gesture: allows users to swipe right to go back
+        .gesture(
+            DragGesture(minimumDistance: 50, coordinateSpace: .local)
+                .onEnded { value in
+                    // Check if the user swiped right (positive X translation)
+                    // and they're not on the first step
+                    if value.translation.width > 100 && currentStep.rawValue > 0 {
+                        // Provide haptic feedback so user knows gesture was recognized
+                        HapticManager.shared.lightTap()
+                        withAnimation {
+                            goToPreviousStep()
+                        }
+                    }
+                }
+        )
+    }
+
+    // MARK: - Navigation Helper
+
+    /// Navigates to the previous step in the onboarding flow.
+    /// Called when user swipes right or taps a back button.
+    ///
+    /// The navigation logic accounts for the fact that some steps are conditional:
+    /// - studentDetails only appears for student path
+    /// - careerDetails only appears for certain career paths
+    private func goToPreviousStep() {
+        switch currentStep {
+        case .welcome:
+            // Can't go back from the first step
+            break
+        case .nameInput:
+            currentStep = .welcome
+        case .pathSelection:
+            currentStep = .nameInput
+        case .studentDetails:
+            // Go back to path selection
+            currentStep = .pathSelection
+        case .careerDetails:
+            // Go back to path selection
+            currentStep = .pathSelection
+        case .habitSelection:
+            // Use helper property to determine correct previous step
+            // (could be pathSelection, studentDetails, or careerDetails)
+            currentStep = previousStepForHabitSelection
+        case .sprintSetup:
+            currentStep = .habitSelection
+        case .permissions:
+            currentStep = .sprintSetup
+        case .motivation:
+            currentStep = .permissions
+        case .ready:
+            currentStep = .motivation
+        }
     }
 
     // MARK: - Background
 
+    /// The background view for the onboarding screens.
+    /// Uses the app's standard grid background color for visual consistency.
     private var backgroundGradient: some View {
         Color.gridBackground
     }
@@ -258,7 +392,7 @@ struct OnboardingView: View {
                     .fontWeight(.bold)
                     .foregroundStyle(Color.primaryText)
 
-                Text("Choose your path to greatness")
+                Text(AppSettings.shared.isPremium ? "Choose your path to greatness" : "Start with foundational habits")
                     .font(.subheadline)
                     .foregroundStyle(Color.secondaryText)
             }
@@ -266,50 +400,72 @@ struct OnboardingView: View {
 
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 14) {
-                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 14) {
-                        ForEach(LifePathCategory.allCases.filter { $0 != .custom && $0 != .exploring }, id: \.self) { path in
-                            PathCard(
-                                path: path,
-                                isSelected: selectedPath == path
-                            ) {
-                                HapticManager.shared.lightTap()
-                                withAnimation(.spring(response: 0.3)) {
-                                    selectedPath = path
-                                    // Pre-select all habits by default
-                                    selectedHabits = Set(path.suggestedHabits.map { $0.id })
+                    // Free option - Exploration mode (always available)
+                    FreePathCard {
+                        HapticManager.shared.lightTap()
+                        // Start with exploration mode and generic habits
+                        AppSettings.shared.isExplorationMode = true
+                        selectedHabits = Set(ExplorationHabits.habits.map { $0.id })
+                        withAnimation { currentStep = .habitSelection }
+                    }
+
+                    // Premium Life Goals section
+                    if AppSettings.shared.isPremium {
+                        Text("Life Goals")
+                            .font(.headline)
+                            .foregroundStyle(Color.primaryText)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.top, 8)
+
+                        LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 14) {
+                            ForEach(LifePathCategory.allCases.filter { $0 != .custom && $0 != .exploring }, id: \.self) { path in
+                                PathCard(
+                                    path: path,
+                                    isSelected: selectedPath == path
+                                ) {
+                                    HapticManager.shared.lightTap()
+                                    withAnimation(.spring(response: 0.3)) {
+                                        selectedPath = path
+                                        AppSettings.shared.isExplorationMode = false
+                                        // Pre-select all habits by default
+                                        selectedHabits = Set(path.suggestedHabits.map { $0.id })
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    // Custom/Hybrid Path Option
-                    CustomPathCard(
-                        isPremium: AppSettings.shared.isPremium,
-                        onTap: {
-                            if AppSettings.shared.isPremium {
+                        // Custom/Hybrid Path Option
+                        CustomPathCard(
+                            isPremium: true,
+                            onTap: {
                                 showCustomPathSheet = true
                             }
-                        }
-                    )
-                    .padding(.top, 4)
-
-                    // Skip option - just build habits without a path
-                    SkipPathCard {
-                        HapticManager.shared.lightTap()
-                        // Skip to habit selection with generic habits
-                        AppSettings.shared.isExplorationMode = true
-                        withAnimation { currentStep = .habitSelection }
+                        )
+                        .padding(.top, 4)
+                    } else {
+                        // Show premium upsell for free users
+                        PremiumPathsUpsellCard()
+                            .padding(.top, 8)
                     }
-                    .padding(.top, 4)
                 }
                 .padding(.horizontal)
             }
 
-            navigationButtons(
-                backStep: .nameInput,
-                nextStep: nextStepAfterPathSelection,
-                canContinue: selectedPath != nil
-            )
+            // For free users, they continue via the FreePathCard tap
+            // For premium users, they select a path then continue
+            if AppSettings.shared.isPremium {
+                navigationButtons(
+                    backStep: .nameInput,
+                    nextStep: nextStepAfterPathSelection,
+                    canContinue: selectedPath != nil
+                )
+            } else {
+                // Free users - just show a back button hint
+                Text("Tap 'Start Building Habits' above to continue")
+                    .font(.caption)
+                    .foregroundStyle(Color.secondaryText)
+                    .padding(.bottom, 40)
+            }
         }
         .sheet(isPresented: $showCustomPathSheet) {
             CustomPathBuilderSheet(
@@ -1098,38 +1254,24 @@ struct OnboardingView: View {
         canContinue: Bool,
         nextButtonText: String = "Continue"
     ) -> some View {
-        HStack(spacing: 16) {
-            if let back = backStep, currentStep.rawValue > 0 {
-                Button {
-                    withAnimation { currentStep = back }
-                } label: {
-                    Image(systemName: "arrow.left")
-                        .font(.headline)
-                        .foregroundStyle(Color.secondaryText)
-                        .frame(width: 56, height: 56)
-                        .background(Color.cardBackground)
-                        .clipShape(Circle())
+        // Centered continue button (swipe right to go back)
+        Button {
+            withAnimation { currentStep = nextStep }
+        } label: {
+            HStack {
+                Text(nextButtonText)
+                    .font(.headline)
+                if canContinue {
+                    Image(systemName: "arrow.right")
                 }
             }
-
-            Button {
-                withAnimation { currentStep = nextStep }
-            } label: {
-                HStack {
-                    Text(nextButtonText)
-                        .font(.headline)
-                    if canContinue {
-                        Image(systemName: "arrow.right")
-                    }
-                }
-                .foregroundStyle(.white)
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 18)
-                .background(canContinue ? (selectedPath?.color ?? Color.accentSkyBlue) : Color.gray)
-                .clipShape(RoundedRectangle(cornerRadius: 16))
-            }
-            .disabled(!canContinue)
+            .foregroundStyle(.white)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 18)
+            .background(canContinue ? (selectedPath?.color ?? Color.accentSkyBlue) : Color.gray)
+            .clipShape(RoundedRectangle(cornerRadius: 16))
         }
+        .disabled(!canContinue)
         .padding(.horizontal, 24)
         .padding(.bottom, 40)
     }
@@ -1242,60 +1384,52 @@ struct HabitTemplateRow: View {
     let action: () -> Void
 
     var body: some View {
-        Button(action: action) {
-            HStack(spacing: 14) {
-                ZStack {
-                    Circle()
-                        .fill(Color(hex: template.color).opacity(0.2))
-                        .frame(width: 44, height: 44)
+        HStack(spacing: 14) {
+            ZStack {
+                Circle()
+                    .fill(Color(hex: template.color).opacity(0.2))
+                    .frame(width: 44, height: 44)
 
-                    Image(systemName: template.icon)
-                        .font(.title3)
-                        .foregroundStyle(Color(hex: template.color))
-                }
-
-                VStack(alignment: .leading, spacing: 3) {
-                    Text(template.name)
-                        .font(.subheadline)
-                        .fontWeight(.semibold)
-                        .foregroundStyle(Color.primaryText)
-
-                    Text(template.description)
-                        .font(.caption)
-                        .foregroundStyle(Color.secondaryText)
-                        .lineLimit(1)
-                }
-
-                Spacer()
-
-                Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
-                    .font(.title2)
-                    .foregroundStyle(isSelected ? Color.accentSkyBlue : Color.tertiaryText)
+                Image(systemName: template.icon)
+                    .font(.title3)
+                    .foregroundStyle(Color(hex: template.color))
             }
-            .padding(.horizontal, 14)
-            .padding(.vertical, 12)
-            .contentShape(Rectangle())
-            .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(isSelected ? Color.accentSkyBlue.opacity(0.08) : Color.cardBackground)
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                    .strokeBorder(isSelected ? Color.accentSkyBlue.opacity(0.5) : Color.borderColor.opacity(0.5), lineWidth: 1)
-            )
+
+            VStack(alignment: .leading, spacing: 3) {
+                Text(template.name)
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(Color.primaryText)
+
+                Text(template.description)
+                    .font(.caption)
+                    .foregroundStyle(Color.secondaryText)
+                    .lineLimit(1)
+            }
+
+            Spacer()
+
+            Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+                .font(.title2)
+                .foregroundStyle(isSelected ? Color.accentSkyBlue : Color.tertiaryText)
         }
-        .buttonStyle(ScaleButtonStyle())
+        .padding(.horizontal, 14)
+        .padding(.vertical, 12)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .fill(isSelected ? Color.accentSkyBlue.opacity(0.08) : Color.cardBackground)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .strokeBorder(isSelected ? Color.accentSkyBlue.opacity(0.5) : Color.borderColor.opacity(0.5), lineWidth: 1)
+        )
+        .contentShape(Rectangle())
+        .onTapGesture {
+            action()
+        }
     }
 }
 
-// Custom button style that provides visual feedback
-struct ScaleButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .scaleEffect(configuration.isPressed ? 0.97 : 1.0)
-            .animation(.easeInOut(duration: 0.1), value: configuration.isPressed)
-    }
-}
 
 // MARK: - Permission Row
 
@@ -1396,6 +1530,164 @@ struct ValuePropRow: View {
                 .font(.caption)
                 .foregroundStyle(Color.accentSkyBlue)
         }
+    }
+}
+
+// MARK: - Free Path Card (for free users)
+
+struct FreePathCard: View {
+    let onTap: () -> Void
+
+    var body: some View {
+        Button(action: onTap) {
+            HStack(spacing: 16) {
+                ZStack {
+                    Circle()
+                        .fill(Color.accentSkyBlue.opacity(0.2))
+                        .frame(width: 56, height: 56)
+
+                    Image(systemName: "checkmark.circle.fill")
+                        .font(.system(size: 28))
+                        .foregroundStyle(Color.accentSkyBlue)
+                }
+
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack(spacing: 6) {
+                        Text("Start Building Habits")
+                            .font(.headline)
+                            .foregroundStyle(Color.primaryText)
+
+                        Text("FREE")
+                            .font(.caption2)
+                            .fontWeight(.bold)
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(Color.accentSkyBlue)
+                            .clipShape(Capsule())
+                    }
+
+                    Text("10 foundational habits to build consistency")
+                        .font(.caption)
+                        .foregroundStyle(Color.secondaryText)
+                }
+
+                Spacer()
+
+                Image(systemName: "arrow.right.circle.fill")
+                    .font(.title2)
+                    .foregroundStyle(Color.accentSkyBlue)
+            }
+            .padding()
+            .background(Color.accentSkyBlue.opacity(0.08))
+            .clipShape(RoundedRectangle(cornerRadius: 14))
+            .overlay(
+                RoundedRectangle(cornerRadius: 14)
+                    .strokeBorder(Color.accentSkyBlue.opacity(0.5), lineWidth: 2)
+            )
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+// MARK: - Premium Paths Upsell Card
+
+struct PremiumPathsUpsellCard: View {
+    var body: some View {
+        VStack(spacing: 16) {
+            // Header
+            HStack {
+                Image(systemName: "star.fill")
+                    .foregroundStyle(.yellow)
+                Text("Life Goals")
+                    .font(.headline)
+                    .foregroundStyle(Color.primaryText)
+                Text("PRO")
+                    .font(.caption2)
+                    .fontWeight(.bold)
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
+                    .background(
+                        LinearGradient(
+                            colors: [.purple, .blue],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+                    .clipShape(Capsule())
+                Spacer()
+            }
+
+            // Sample paths preview
+            HStack(spacing: 12) {
+                ForEach([LifePathCategory.entrepreneur, .softwareEngineer, .student, .contentCreator], id: \.self) { path in
+                    VStack(spacing: 4) {
+                        ZStack {
+                            Circle()
+                                .fill(path.color.opacity(0.2))
+                                .frame(width: 40, height: 40)
+                            Image(systemName: path.icon)
+                                .font(.body)
+                                .foregroundStyle(path.color)
+                        }
+                        Text(path.displayName)
+                            .font(.system(size: 8))
+                            .foregroundStyle(Color.secondaryText)
+                            .lineLimit(1)
+                    }
+                    .frame(maxWidth: .infinity)
+                }
+            }
+
+            // Benefits
+            VStack(alignment: .leading, spacing: 6) {
+                HStack(spacing: 8) {
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundStyle(.green)
+                        .font(.caption)
+                    Text("38+ career & life paths")
+                        .font(.caption)
+                        .foregroundStyle(Color.secondaryText)
+                }
+                HStack(spacing: 8) {
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundStyle(.green)
+                        .font(.caption)
+                    Text("Customized habits for your goals")
+                        .font(.caption)
+                        .foregroundStyle(Color.secondaryText)
+                }
+                HStack(spacing: 8) {
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundStyle(.green)
+                        .font(.caption)
+                    Text("Premium themes & analytics")
+                        .font(.caption)
+                        .foregroundStyle(Color.secondaryText)
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+
+            // Upgrade hint
+            Text("Upgrade anytime in Settings")
+                .font(.caption2)
+                .foregroundStyle(Color.tertiaryText)
+        }
+        .padding()
+        .background(Color.cardBackground)
+        .clipShape(RoundedRectangle(cornerRadius: 14))
+        .overlay(
+            RoundedRectangle(cornerRadius: 14)
+                .strokeBorder(
+                    LinearGradient(
+                        colors: [.purple.opacity(0.5), .blue.opacity(0.5)],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    ),
+                    lineWidth: 1
+                )
+        )
     }
 }
 

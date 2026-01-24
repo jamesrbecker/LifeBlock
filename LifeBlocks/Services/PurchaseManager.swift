@@ -18,12 +18,12 @@ final class PurchaseManager: ObservableObject {
     // Family Annual: $39.99/yr (up to 5) - ~$3.33/mo, save 33%
     // Family Lifetime: $79.99 - one-time for families
     private let productIDs = [
-        "com.lifeblock.premium.monthly",        // $1.99/mo
-        "com.lifeblock.premium.yearly",         // $19.99/yr (~$1.67/mo)
-        "com.lifeblock.premium.lifetime",       // $49.99 one-time
-        "com.lifeblock.premium.family.monthly", // $4.99/mo (up to 5)
-        "com.lifeblock.premium.family",         // $39.99/yr (up to 5)
-        "com.lifeblock.premium.family.lifetime" // $79.99 one-time (up to 5)
+        "com.lifeblocks.premium.monthly",        // $1.99/mo
+        "com.lifeblocks.premium.yearly",         // $19.99/yr (~$1.67/mo)
+        "com.lifeblocks.premium.lifetime",       // $49.99 one-time
+        "com.lifeblocks.premium.family.monthly", // $4.99/mo (up to 5)
+        "com.lifeblocks.premium.family.yearly",  // $39.99/yr (up to 5)
+        "com.lifeblocks.premium.family.lifetime" // $79.99 one-time (up to 5)
     ]
 
     private var updateListenerTask: Task<Void, Error>?
@@ -43,27 +43,27 @@ final class PurchaseManager: ObservableObject {
     // MARK: - Products
 
     var monthlyProduct: Product? {
-        products.first { $0.id == "com.lifeblock.premium.monthly" }
+        products.first { $0.id == "com.lifeblocks.premium.monthly" }
     }
 
     var yearlyProduct: Product? {
-        products.first { $0.id == "com.lifeblock.premium.yearly" }
+        products.first { $0.id == "com.lifeblocks.premium.yearly" }
     }
 
     var lifetimeProduct: Product? {
-        products.first { $0.id == "com.lifeblock.premium.lifetime" }
+        products.first { $0.id == "com.lifeblocks.premium.lifetime" }
     }
 
     var familyMonthlyProduct: Product? {
-        products.first { $0.id == "com.lifeblock.premium.family.monthly" }
+        products.first { $0.id == "com.lifeblocks.premium.family.monthly" }
     }
 
-    var familyProduct: Product? {
-        products.first { $0.id == "com.lifeblock.premium.family" }
+    var familyYearlyProduct: Product? {
+        products.first { $0.id == "com.lifeblocks.premium.family.yearly" }
     }
 
     var familyLifetimeProduct: Product? {
-        products.first { $0.id == "com.lifeblock.premium.family.lifetime" }
+        products.first { $0.id == "com.lifeblocks.premium.family.lifetime" }
     }
 
     var isPremium: Bool {
@@ -71,14 +71,14 @@ final class PurchaseManager: ObservableObject {
     }
 
     var hasLifetime: Bool {
-        purchasedProductIDs.contains("com.lifeblock.premium.lifetime") ||
-        purchasedProductIDs.contains("com.lifeblock.premium.family.lifetime")
+        purchasedProductIDs.contains("com.lifeblocks.premium.lifetime") ||
+        purchasedProductIDs.contains("com.lifeblocks.premium.family.lifetime")
     }
 
     var hasFamilyPlan: Bool {
-        purchasedProductIDs.contains("com.lifeblock.premium.family.monthly") ||
-        purchasedProductIDs.contains("com.lifeblock.premium.family") ||
-        purchasedProductIDs.contains("com.lifeblock.premium.family.lifetime")
+        purchasedProductIDs.contains("com.lifeblocks.premium.family.monthly") ||
+        purchasedProductIDs.contains("com.lifeblocks.premium.family.yearly") ||
+        purchasedProductIDs.contains("com.lifeblocks.premium.family.lifetime")
     }
 
     func loadProducts() async {

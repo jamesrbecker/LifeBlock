@@ -25,8 +25,9 @@ struct MediumWidgetView: View {
     private let squareSize: CGFloat = 12
     private let spacing: CGFloat = 2.5
 
+    /// Border color for today - dark gray for contrast on light background
     private var todayBorderColor: Color {
-        isDarkMode ? .white : Color(hex: "#1B1F23")
+        Color(hex: "#1B1F23")
     }
 
     var body: some View {
@@ -37,12 +38,12 @@ struct MediumWidgetView: View {
 
                 // Contribution grid - centered
                 HStack(alignment: .top, spacing: spacing) {
-                    // Day labels
+                    // Day labels - dark text for light background
                     VStack(spacing: spacing) {
                         ForEach(["", "M", "", "W", "", "F", ""], id: \.self) { label in
                             Text(label)
                                 .font(.system(size: 8))
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Color(hex: "#57606A"))
                                 .frame(width: 12, height: squareSize)
                         }
                     }
@@ -80,18 +81,6 @@ struct MediumWidgetView: View {
                 }
                 .frame(maxWidth: .infinity)
 
-                // Minimal footer - streak only
-                if entry.currentStreak > 0 {
-                    HStack(spacing: 3) {
-                        Image(systemName: "flame.fill")
-                            .font(.system(size: 9))
-                            .foregroundStyle(.orange)
-                        Text("\(entry.currentStreak) day streak")
-                            .font(.system(size: 10))
-                            .foregroundStyle(.secondary)
-                        Spacer()
-                    }
-                }
             }
             .padding(12)
         }
@@ -107,7 +96,7 @@ struct MediumWidgetView: View {
                 ForEach(monthLabels, id: \.weekIndex) { label in
                     Text(label.month)
                         .font(.system(size: 9))
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color(hex: "#57606A"))
                         .offset(x: labelOffset + CGFloat(label.weekIndex) * weekWidth)
                 }
             }

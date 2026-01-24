@@ -21,8 +21,9 @@ struct SmallWidgetView: View {
     private let squareSize: CGFloat = 9
     private let spacing: CGFloat = 2
 
+    /// Border color for today - dark gray for contrast on light background
     private var todayBorderColor: Color {
-        isDarkMode ? .white : Color(hex: "#1B1F23")
+        Color(hex: "#1B1F23")
     }
 
     var body: some View {
@@ -58,28 +59,8 @@ struct SmallWidgetView: View {
                 }
                 .frame(maxWidth: .infinity)
 
-                Spacer(minLength: 4)
-
-                // Minimal footer
-                HStack {
-                    Text("LifeBlocks")
-                        .font(.system(size: 9, weight: .medium))
-                        .foregroundStyle(.secondary)
-
-                    Spacer()
-
-                    if entry.currentStreak > 0 {
-                        HStack(spacing: 2) {
-                            Image(systemName: "flame.fill")
-                                .font(.system(size: 9))
-                            Text("\(entry.currentStreak)")
-                                .font(.system(size: 10, weight: .bold))
-                        }
-                        .foregroundStyle(.orange)
-                    }
-                }
             }
-            .padding(10)
+            .padding(12)
         }
         .containerBackground(GridColorScheme.widgetBackground(isDarkMode: isDarkMode), for: .widget)
     }

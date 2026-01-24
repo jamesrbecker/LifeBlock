@@ -1,0 +1,225 @@
+{
+  "identifier" : "com.lifeblock.app.storekit",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+    {
+      "displayPrice" : "49.99",
+      "familyShareable" : false,
+      "internalID" : "lifetime_individual",
+      "localizations" : [
+        {
+          "description" : "Unlock all premium features forever.",
+          "displayName" : "Premium Lifetime",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.lifeblocks.premium.lifetime",
+      "referenceName" : "Premium Lifetime",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "79.99",
+      "familyShareable" : true,
+      "internalID" : "lifetime_family",
+      "localizations" : [
+        {
+          "description" : "Premium for your whole family, forever.",
+          "displayName" : "Family Lifetime",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.lifeblocks.premium.family.lifetime",
+      "referenceName" : "Family Lifetime",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_applicationInternalID" : "lifeblocks",
+    "_developerTeamID" : "",
+    "_failTransactionsEnabled" : false,
+    "_lastSynchronizedDate" : null,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : [
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Load Products"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Purchase"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Verification"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Store Sync"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Subscription Status"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Transaction"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Manage Subscriptions Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Refund Request Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Offer Code Redeem Sheet"
+      }
+    ]
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "premium_subscriptions",
+      "localizations" : [
+        {
+          "description" : "LifeBlocks Premium",
+          "displayName" : "Premium",
+          "locale" : "en_US"
+        }
+      ],
+      "name" : "Premium",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "1.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "premium_monthly",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Unlimited paths, themes, and streak freezes.",
+              "displayName" : "Premium Monthly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.lifeblocks.premium.monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Premium Monthly",
+          "subscriptionGroupID" : "premium_subscriptions",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "19.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "premium_yearly",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Save 17% with annual premium access.",
+              "displayName" : "Premium Yearly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.lifeblocks.premium.yearly",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "Premium Yearly",
+          "subscriptionGroupID" : "premium_subscriptions",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    },
+    {
+      "id" : "family_subscriptions",
+      "localizations" : [
+        {
+          "description" : "LifeBlocks Family Premium",
+          "displayName" : "Family",
+          "locale" : "en_US"
+        }
+      ],
+      "name" : "Family",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "4.99",
+          "familyShareable" : true,
+          "groupNumber" : 1,
+          "internalID" : "family_monthly",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Premium for up to 5 family members.",
+              "displayName" : "Family Monthly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.lifeblocks.premium.family.monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Family Monthly",
+          "subscriptionGroupID" : "family_subscriptions",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "39.99",
+          "familyShareable" : true,
+          "groupNumber" : 1,
+          "internalID" : "family_yearly",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Save 33% on family premium annually.",
+              "displayName" : "Family Yearly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.lifeblocks.premium.family.yearly",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "Family Yearly",
+          "subscriptionGroupID" : "family_subscriptions",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}
