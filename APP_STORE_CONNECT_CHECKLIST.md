@@ -52,7 +52,7 @@ Go to **In-App Purchases** → **+** → **Auto-Renewable Subscription**
 | Field | Value |
 |-------|-------|
 | Reference Name | Premium Monthly |
-| Product ID | **com.lifeblock.premium.monthly** |
+| Product ID | **com.lifeblocks.app.premium.monthly** |
 | Price | $1.99 |
 | Subscription Duration | 1 Month |
 | Display Name | Premium Monthly |
@@ -61,7 +61,7 @@ Go to **In-App Purchases** → **+** → **Auto-Renewable Subscription**
 | Field | Value |
 |-------|-------|
 | Reference Name | Premium Annual |
-| Product ID | **com.lifeblock.premium.yearly** |
+| Product ID | **com.lifeblocks.app.premium.yearly** |
 | Price | $19.99 |
 | Subscription Duration | 1 Year |
 | Display Name | Premium Annual (Save 16%) |
@@ -72,7 +72,7 @@ Go to **In-App Purchases** → **+** → **Auto-Renewable Subscription**
 | Field | Value |
 |-------|-------|
 | Reference Name | Family Monthly |
-| Product ID | **com.lifeblock.premium.family.monthly** |
+| Product ID | **com.lifeblocks.app.premium.family.monthly** |
 | Price | $4.99 |
 | Subscription Duration | 1 Month |
 | Display Name | Family Monthly |
@@ -81,7 +81,7 @@ Go to **In-App Purchases** → **+** → **Auto-Renewable Subscription**
 | Field | Value |
 |-------|-------|
 | Reference Name | Family Annual |
-| Product ID | **com.lifeblock.premium.family** |
+| Product ID | **com.lifeblocks.app.premium.family.yearly** |
 | Price | $39.99 |
 | Subscription Duration | 1 Year |
 | Display Name | Family Annual (Save 33%) |
@@ -92,7 +92,7 @@ Go to **In-App Purchases** → **+** → **Auto-Renewable Subscription**
 | Field | Value |
 |-------|-------|
 | Reference Name | Premium Lifetime |
-| Product ID | **com.lifeblock.premium.lifetime** |
+| Product ID | **com.lifeblocks.app.premium.lifetime** |
 | Price | $49.99 |
 | Type | Non-Consumable |
 | Display Name | Lifetime Premium |
@@ -101,7 +101,7 @@ Go to **In-App Purchases** → **+** → **Auto-Renewable Subscription**
 | Field | Value |
 |-------|-------|
 | Reference Name | Family Lifetime |
-| Product ID | **com.lifeblock.premium.family.lifetime** |
+| Product ID | **com.lifeblocks.app.premium.family.lifetime** |
 | Price | $79.99 |
 | Type | Non-Consumable |
 | Family Sharing | Yes |
