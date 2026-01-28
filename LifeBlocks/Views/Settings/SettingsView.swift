@@ -239,6 +239,24 @@ struct SettingsView: View {
                 Label("Weekly Review", systemImage: "calendar.badge.clock")
             }
 
+            NavigationLink {
+                BadgesView()
+            } label: {
+                HStack {
+                    Label("Badges", systemImage: "medal.fill")
+                    Spacer()
+                    if purchases.isPremium {
+                        Text("\(BadgeTracker.shared.earnedCount)/\(BadgeTracker.shared.totalCount)")
+                            .font(.caption)
+                            .foregroundStyle(Color.secondaryText)
+                    } else {
+                        Image(systemName: "crown.fill")
+                            .font(.caption)
+                            .foregroundStyle(.yellow)
+                    }
+                }
+            }
+
             Button {
                 showingLeaderboard = true
             } label: {

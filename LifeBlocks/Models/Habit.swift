@@ -23,6 +23,11 @@ final class Habit {
     var stackedAfterHabitId: UUID?  // The habit this one should follow
     var stackOrder: Int  // Order within a stack
 
+    // Habit Scheduling (Premium) — which days of the week this habit is active
+    // Stored as comma-separated day numbers: "1,2,3,4,5,6,7" (1=Sunday, 7=Saturday)
+    // Empty string means "every day" (default)
+    var scheduledDays: String
+
     @Relationship(deleteRule: .cascade, inverse: \HabitCompletion.habit)
     var completions: [HabitCompletion]?
 
@@ -49,6 +54,7 @@ final class Habit {
         self.totalCompletions = 0
         self.stackedAfterHabitId = nil
         self.stackOrder = 0
+        self.scheduledDays = ""  // Empty = every day
     }
 
     static let systemHabits: [(name: String, icon: String, healthKitType: String?)] = [
@@ -168,5 +174,48 @@ extension Habit {
         let daysSinceCreation = calendar.dateComponents([.day], from: createdAt, to: Date()).day ?? 1
         guard daysSinceCreation > 0 else { return 0 }
         return min(Double(totalCompletions) / Double(daysSinceCreation) * 100, 100)
+    }
+
+    // MARK: - Scheduling
+
+    /// The set of weekday numbers this habit is scheduled for (1=Sunday, 7=Saturday)
+    /// Empty set means every day
+    var scheduledDayNumbers: Set<Int> {
+        get {
+            guard !scheduledDays.isEmpty else { return [] }
+            return Set(scheduledDays.split(separator: ",").compactMap { Int($0) })
+        }
+        set {
+            if newValue.isEmpty || newValue.count == 7 {
+                scheduledDays = ""  // Every day
+            } else {
+                scheduledDays = newValue.sorted().map(String.init).joined(separator: ",")
+            }
+        }
+    }
+
+    /// Whether this habit is scheduled for every day
+    var isEveryDay: Bool {
+        scheduledDays.isEmpty
+    }
+
+    /// Whether this habit is scheduled for a given date
+    func isScheduled(for date: Date) -> Bool {
+        guard !scheduledDays.isEmpty else { return true }  // Every day
+        let weekday = Calendar.current.component(.weekday, from: date)
+        return scheduledDayNumbers.contains(weekday)
+    }
+
+    /// Short text describing the schedule (e.g., "Mon, Wed, Fri" or "Every day")
+    var scheduleDisplayText: String {
+        guard !scheduledDays.isEmpty else { return "Every day" }
+        let dayNames = ["", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+        let days = scheduledDayNumbers.sorted()
+
+        // Check for common patterns
+        if days == [2, 3, 4, 5, 6] { return "Weekdays" }
+        if days == [1, 7] { return "Weekends" }
+
+        return days.map { dayNames[$0] }.joined(separator: ", ")
     }
 }

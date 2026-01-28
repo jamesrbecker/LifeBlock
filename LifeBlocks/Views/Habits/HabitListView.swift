@@ -39,6 +39,9 @@ struct HabitListView: View {
     /// Controls whether the "Add Habit" sheet is displayed
     @State private var showingAddHabit = false
 
+    /// Controls whether the template library is displayed
+    @State private var showingTemplateLibrary = false
+
     /// The habit currently being edited (nil = not editing)
     /// Used to present the edit sheet
     @State private var editingHabit: Habit?
@@ -76,6 +79,40 @@ struct HabitListView: View {
                     Text("Built-in Habits")
                 } footer: {
                     Text("These habits are included with the free version.")
+                }
+
+                // ═══════════════════════════════════════════════════════════════
+                // HABIT TEMPLATES SECTION
+                // ═══════════════════════════════════════════════════════════════
+                Section {
+                    Button {
+                        showingTemplateLibrary = true
+                    } label: {
+                        HStack(spacing: 12) {
+                            Image(systemName: "rectangle.grid.2x2.fill")
+                                .font(.title2)
+                                .foregroundStyle(Color.accentSkyBlue)
+                                .frame(width: 32)
+
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("Browse Habit Templates")
+                                    .font(.body)
+                                    .foregroundStyle(.primary)
+                                Text("Choose from 200+ pre-built habits")
+                                    .font(.caption)
+                                    .foregroundStyle(Color.secondaryText)
+                            }
+
+                            Spacer()
+
+                            Image(systemName: "chevron.right")
+                                .font(.caption)
+                                .foregroundStyle(Color.secondaryText)
+                        }
+                    }
+                    .buttonStyle(.plain)
+                } footer: {
+                    Text("Free for all users. Find habits tailored to your career or lifestyle.")
                 }
 
                 // ═══════════════════════════════════════════════════════════════
@@ -146,6 +183,10 @@ struct HabitListView: View {
             // Edit button in toolbar enables reorder mode
             .toolbar {
                 EditButton()
+            }
+            // Sheet for browsing habit templates
+            .sheet(isPresented: $showingTemplateLibrary) {
+                HabitTemplateLibraryView()
             }
             // Sheet for creating new habits
             .sheet(isPresented: $showingAddHabit) {
@@ -256,6 +297,13 @@ struct HabitRow: View {
                     Label("Auto-tracked", systemImage: "heart.fill")
                         .font(.caption2)
                         .foregroundStyle(.pink)
+                }
+
+                // Schedule indicator for non-daily habits
+                if !habit.isEveryDay {
+                    Label(habit.scheduleDisplayText, systemImage: "calendar")
+                        .font(.caption2)
+                        .foregroundStyle(Color.accentSkyBlue)
                 }
             }
 

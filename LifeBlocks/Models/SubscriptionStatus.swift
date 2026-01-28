@@ -73,6 +73,14 @@ enum SubscriptionTier: String, CaseIterable {
     var hasMultiplePaths: Bool {
         self == .premium
     }
+
+    var hasBadges: Bool {
+        self == .premium
+    }
+
+    var hasHabitScheduling: Bool {
+        self == .premium
+    }
 }
 
 @MainActor
@@ -154,6 +162,8 @@ struct PricingInfo {
 
     static let features: [(icon: String, title: String, description: String)] = [
         ("infinity", "Unlimited Habits", "Track as many habits as you want"),
+        ("calendar.badge.clock", "Habit Scheduling", "Set specific days for each habit"),
+        ("medal.fill", "Badges & Achievements", "Earn badges for your progress"),
         ("star.fill", "Unlimited Life Goals", "Set short & long-term goals"),
         ("calendar", "Full Year History", "View your entire year at a glance"),
         ("person.2.fill", "Friends & Social", "Connect and compete with friends"),

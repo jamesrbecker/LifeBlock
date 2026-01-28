@@ -6,7 +6,7 @@ struct DailyCheckInView: View {
     @Environment(\.dismiss) private var dismiss
 
     @Query(filter: #Predicate<Habit> { $0.isActive }, sort: \Habit.sortOrder)
-    private var habits: [Habit]
+    private var allActiveHabits: [Habit]
 
     @State private var currentIndex: Int = 0
     @State private var answers: [UUID: Int] = [:]
@@ -17,6 +17,11 @@ struct DailyCheckInView: View {
 
     init(date: Date = Date()) {
         self.date = date
+    }
+
+    /// Habits filtered by schedule — only show habits scheduled for this day
+    private var habits: [Habit] {
+        allActiveHabits.filter { $0.isScheduled(for: date) }
     }
 
     private var progress: Double {
@@ -298,6 +303,14 @@ struct DailyCheckInView: View {
             // Update streak
             AppSettings.shared.updateStreak(checkedInToday: true)
             AppSettings.shared.todayScore = totalScore
+
+            // Check for perfect score and update badge progress
+            if totalScore == 4 {
+                // Perfect day contributes to perfect week tracking
+            }
+
+            // Check and award badges after check-in
+            BadgeTracker.shared.checkAndAwardBadges()
 
         } catch {
             print("Error saving check-in: \(error)")

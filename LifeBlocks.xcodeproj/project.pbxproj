@@ -26,6 +26,7 @@
 		F1000031001 /* QuestionCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000031000 /* QuestionCardView.swift */; };
 		F1000040001 /* HabitListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000040000 /* HabitListView.swift */; };
 		F1000041001 /* HabitEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000041000 /* HabitEditorView.swift */; };
+		F1000042001 /* HabitTemplateLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000042000 /* HabitTemplateLibraryView.swift */; };
 		F1000050001 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000050000 /* StatsView.swift */; };
 		F1000051001 /* StreakView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000051000 /* StreakView.swift */; };
 		F1000053001 /* StreakShareCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000053000 /* StreakShareCardView.swift */; };
@@ -95,6 +96,8 @@
 		F1000165007 /* AppIcon-Purple@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F1000165006 /* AppIcon-Purple@2x~ipad.png */; };
 		F1000165009 /* AppIcon-Orange@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F1000165008 /* AppIcon-Orange@2x~ipad.png */; };
 		F1000151001 /* NotificationCenterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000151000 /* NotificationCenterView.swift */; };
+		F1000170001 /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000170000 /* Badge.swift */; };
+		F1000171001 /* BadgesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1000171000 /* BadgesView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -144,6 +147,7 @@
 		F1000031000 /* QuestionCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionCardView.swift; sourceTree = "<group>"; };
 		F1000040000 /* HabitListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitListView.swift; sourceTree = "<group>"; };
 		F1000041000 /* HabitEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitEditorView.swift; sourceTree = "<group>"; };
+		F1000042000 /* HabitTemplateLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitTemplateLibraryView.swift; sourceTree = "<group>"; };
 		F1000050000 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		F1000051000 /* StreakView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakView.swift; sourceTree = "<group>"; };
 		F1000053000 /* StreakShareCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakShareCardView.swift; sourceTree = "<group>"; };
@@ -215,6 +219,8 @@
 		F1000165006 /* AppIcon-Purple@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Purple@2x~ipad.png"; sourceTree = "<group>"; };
 		F1000165008 /* AppIcon-Orange@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Orange@2x~ipad.png"; sourceTree = "<group>"; };
 		F1000151000 /* NotificationCenterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterView.swift; sourceTree = "<group>"; };
+		F1000170000 /* Badge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
+		F1000171000 /* BadgesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgesView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -308,6 +314,7 @@
 				F1000120000 /* Friend.swift */,
 				F1000144000 /* Challenge.swift */,
 				F1000150000 /* AppNotification.swift */,
+				F1000170000 /* Badge.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -351,6 +358,7 @@
 				F1000142000 /* LeaderboardView.swift */,
 				F1000143000 /* ShareGridView.swift */,
 				F1000145000 /* ChallengesView.swift */,
+				F1000171000 /* BadgesView.swift */,
 			);
 			path = Social;
 			sourceTree = "<group>";
@@ -465,6 +473,7 @@
 			children = (
 				F1000040000 /* HabitListView.swift */,
 				F1000041000 /* HabitEditorView.swift */,
+				F1000042000 /* HabitTemplateLibraryView.swift */,
 			);
 			path = Habits;
 			sourceTree = "<group>";
@@ -656,6 +665,7 @@
 				F1000031001 /* QuestionCardView.swift in Sources */,
 				F1000040001 /* HabitListView.swift in Sources */,
 				F1000041001 /* HabitEditorView.swift in Sources */,
+				F1000042001 /* HabitTemplateLibraryView.swift in Sources */,
 				F1000050001 /* StatsView.swift in Sources */,
 				F1000051001 /* StreakView.swift in Sources */,
 				F1000053001 /* StreakShareCardView.swift in Sources */,
@@ -700,6 +710,8 @@
 				F1000148001 /* InsightsView.swift in Sources */,
 				F1000149001 /* PhoneConnectivityManager.swift in Sources */,
 				F1000150001 /* AppNotification.swift in Sources */,
+				F1000170001 /* Badge.swift in Sources */,
+				F1000171001 /* BadgesView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -28,11 +28,15 @@ struct HabitEditorView: View {
 
     let mode: HabitEditorMode
 
+    @ObservedObject private var purchases = PurchaseManager.shared
+
     @State private var name: String = ""
     @State private var selectedIcon: String = "checkmark.circle.fill"
     @State private var selectedColor: String = "#30A14E"
     @State private var stackedAfterHabitId: UUID? = nil
     @State private var showingStackPicker = false
+    @State private var selectedDays: Set<Int> = []  // Empty = every day
+    @State private var showingPremiumForScheduling = false
 
     private let iconOptions = [
         "checkmark.circle.fill",
@@ -87,6 +91,7 @@ struct HabitEditorView: View {
             _selectedIcon = State(initialValue: habit.icon)
             _selectedColor = State(initialValue: habit.colorHex)
             _stackedAfterHabitId = State(initialValue: habit.stackedAfterHabitId)
+            _selectedDays = State(initialValue: habit.scheduledDayNumbers)
         }
     }
 
@@ -188,6 +193,76 @@ struct HabitEditorView: View {
                     .padding(.vertical, 8)
                 }
 
+                // Habit Scheduling (Premium)
+                Section {
+                    if purchases.isPremium {
+                        VStack(alignment: .leading, spacing: 12) {
+                            HStack {
+                                Image(systemName: "calendar")
+                                    .foregroundStyle(Color.accentSkyBlue)
+                                Text("Schedule Days")
+                                Spacer()
+                                Text(scheduleDisplayText)
+                                    .font(.caption)
+                                    .foregroundStyle(Color.secondaryText)
+                            }
+
+                            HStack(spacing: 8) {
+                                ForEach(dayOptions, id: \.number) { day in
+                                    Button {
+                                        toggleDay(day.number)
+                                    } label: {
+                                        Text(day.shortName)
+                                            .font(.caption)
+                                            .fontWeight(.medium)
+                                            .frame(width: 38, height: 38)
+                                            .background(
+                                                Circle()
+                                                    .fill(isDaySelected(day.number)
+                                                          ? Color(hex: selectedColor).opacity(0.3)
+                                                          : Color.secondary.opacity(0.15))
+                                            )
+                                            .overlay(
+                                                Circle()
+                                                    .strokeBorder(isDaySelected(day.number)
+                                                                  ? Color(hex: selectedColor)
+                                                                  : Color.clear, lineWidth: 2)
+                                            )
+                                            .foregroundStyle(isDaySelected(day.number) ? .primary : Color.secondaryText)
+                                    }
+                                    .buttonStyle(.plain)
+                                }
+                            }
+                        }
+                        .padding(.vertical, 4)
+                    } else {
+                        Button {
+                            showingPremiumForScheduling = true
+                        } label: {
+                            HStack {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    HStack(spacing: 6) {
+                                        Image(systemName: "calendar")
+                                            .foregroundStyle(Color.accentSkyBlue)
+                                        Text("Schedule Specific Days")
+                                            .foregroundStyle(.primary)
+                                    }
+                                    Text("Upgrade to Premium to set which days this habit is active")
+                                        .font(.caption)
+                                        .foregroundStyle(Color.secondaryText)
+                                }
+                                Spacer()
+                                Image(systemName: "crown.fill")
+                                    .foregroundStyle(.yellow)
+                            }
+                        }
+                    }
+                } header: {
+                    Text("Schedule")
+                } footer: {
+                    Text("Choose which days of the week to track this habit. Leave all selected for every day.")
+                }
+
                 // Habit Stacking
                 Section {
                     Button {
@@ -232,6 +307,9 @@ struct HabitEditorView: View {
                     availableHabits: availableHabitsForStacking
                 )
             }
+            .sheet(isPresented: $showingPremiumForScheduling) {
+                PremiumView()
+            }
             .navigationTitle(mode.title)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -251,6 +329,58 @@ struct HabitEditorView: View {
         }
     }
 
+    // MARK: - Day Scheduling Helpers
+
+    private struct DayOption {
+        let number: Int  // 1=Sunday, 7=Saturday
+        let shortName: String
+    }
+
+    private let dayOptions: [DayOption] = [
+        DayOption(number: 1, shortName: "S"),
+        DayOption(number: 2, shortName: "M"),
+        DayOption(number: 3, shortName: "T"),
+        DayOption(number: 4, shortName: "W"),
+        DayOption(number: 5, shortName: "T"),
+        DayOption(number: 6, shortName: "F"),
+        DayOption(number: 7, shortName: "S")
+    ]
+
+    private func isDaySelected(_ day: Int) -> Bool {
+        selectedDays.isEmpty || selectedDays.contains(day)
+    }
+
+    private func toggleDay(_ day: Int) {
+        if selectedDays.isEmpty {
+            // Currently "every day" — switching to specific days means select all except tapped
+            selectedDays = Set(1...7)
+            selectedDays.remove(day)
+        } else if selectedDays.contains(day) {
+            selectedDays.remove(day)
+            // Don't allow zero days selected — revert to every day
+            if selectedDays.isEmpty {
+                selectedDays = []  // Back to "every day"
+            }
+        } else {
+            selectedDays.insert(day)
+            // If all 7 are selected, switch to "every day"
+            if selectedDays.count == 7 {
+                selectedDays = []
+            }
+        }
+    }
+
+    private var scheduleDisplayText: String {
+        if selectedDays.isEmpty { return "Every day" }
+        let dayNames = ["", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+        let sorted = selectedDays.sorted()
+        if sorted == [2, 3, 4, 5, 6] { return "Weekdays" }
+        if sorted == [1, 7] { return "Weekends" }
+        return sorted.map { dayNames[$0] }.joined(separator: ", ")
+    }
+
+    // MARK: - Save
+
     private func save() {
         let trimmedName = name.trimmingCharacters(in: .whitespaces)
 
@@ -263,6 +393,9 @@ struct HabitEditorView: View {
                 isSystemHabit: false
             )
             habit.stackedAfterHabitId = stackedAfterHabitId
+            if purchases.isPremium {
+                habit.scheduledDayNumbers = selectedDays
+            }
             modelContext.insert(habit)
 
         case .edit(let habit):
@@ -270,6 +403,9 @@ struct HabitEditorView: View {
             habit.icon = selectedIcon
             habit.colorHex = selectedColor
             habit.stackedAfterHabitId = stackedAfterHabitId
+            if purchases.isPremium {
+                habit.scheduledDayNumbers = selectedDays
+            }
         }
 
         try? modelContext.save()
