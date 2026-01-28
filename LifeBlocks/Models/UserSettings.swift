@@ -7,6 +7,7 @@ import SwiftData
 struct SharedProfile: Codable {
     let displayName: String
     let avatarEmoji: String
+    let bio: String?               // nil if private or empty
     let currentStreak: Int?        // nil if private
     let longestStreak: Int?        // nil if private
     let weeklyScore: Int?          // nil if private
@@ -402,6 +403,14 @@ final class AppSettings: ObservableObject {
         set { defaults.set(newValue, forKey: "useAnonymousName") }
     }
 
+    // MARK: - Bio (Premium Feature)
+
+    /// Short bio visible on leaderboards and friend profiles (premium only, max 80 chars)
+    var bio: String {
+        get { defaults.string(forKey: "userBio") ?? "" }
+        set { defaults.set(String(newValue.prefix(80)), forKey: "userBio") }
+    }
+
     /// Get the display name respecting privacy settings
     var publicDisplayName: String {
         if isPrivateMode || useAnonymousName {
@@ -415,6 +424,7 @@ final class AppSettings: ObservableObject {
         SharedProfile(
             displayName: publicDisplayName,
             avatarEmoji: isPrivateMode ? "🔒" : avatarEmoji,
+            bio: isPrivateMode ? nil : (bio.isEmpty ? nil : bio),
             currentStreak: shareStreak ? currentStreak : nil,
             longestStreak: shareLongestStreak ? longestStreak : nil,
             weeklyScore: shareWeeklyScore ? weeklyScore : nil,

@@ -449,10 +449,17 @@ struct LeaderboardRowView: View {
                     }
                 }
 
-                // Consistency percentage (days with check-ins / total days)
-                Text("\(Int(entry.consistencyPercent))% consistency")
-                    .font(.caption)
-                    .foregroundStyle(Color.secondaryText)
+                if let bio = entry.bio, !bio.isEmpty {
+                    Text(bio)
+                        .font(.caption)
+                        .foregroundStyle(Color.secondaryText)
+                        .lineLimit(1)
+                } else {
+                    // Consistency percentage (days with check-ins / total days)
+                    Text("\(Int(entry.consistencyPercent))% consistency")
+                        .font(.caption)
+                        .foregroundStyle(Color.secondaryText)
+                }
             }
 
             Spacer()
@@ -635,6 +642,12 @@ struct LeaderboardSettingsView: View {
     /// The user's selected avatar emoji (editable, saved on dismiss)
     @State private var selectedEmoji: String = AppSettings.shared.avatarEmoji
 
+    /// The user's bio (premium only, max 80 chars)
+    @State private var bio: String = AppSettings.shared.bio
+
+    /// Reference to subscription status for premium gating
+    @StateObject private var purchases = PurchaseManager.shared
+
     /// The available emoji options for avatars
     /// These are fun, expressive emojis that work well as profile pictures
     let emojiOptions = ["😀", "😎", "🔥", "💪", "🚀", "⭐️", "🏃", "🧘", "📚", "🎯", "🏆", "💎", "🌟", "🦁", "🐺", "🦅"]
@@ -669,6 +682,23 @@ struct LeaderboardSettingsView: View {
                             }
                         }
                     }
+
+                    if purchases.isPremium {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Bio")
+                            TextField("Tell people about yourself...", text: $bio, axis: .vertical)
+                                .lineLimit(2...3)
+                                .onChange(of: bio) { _, newValue in
+                                    if newValue.count > 80 {
+                                        bio = String(newValue.prefix(80))
+                                    }
+                                }
+                            Text("\(bio.count)/80")
+                                .font(.caption2)
+                                .foregroundStyle(.secondary)
+                                .frame(maxWidth: .infinity, alignment: .trailing)
+                        }
+                    }
                 }
 
                 Section {
@@ -694,6 +724,7 @@ struct LeaderboardSettingsView: View {
                         Group {
                             Label("Display name", systemImage: "checkmark.circle.fill")
                             Label("Avatar emoji", systemImage: "checkmark.circle.fill")
+                            Label("Bio (if set)", systemImage: "checkmark.circle.fill")
                             Label("Streak & scores", systemImage: "checkmark.circle.fill")
                             Label("Consistency %", systemImage: "checkmark.circle.fill")
                         }
@@ -744,6 +775,9 @@ struct LeaderboardSettingsView: View {
         // Save locally
         AppSettings.shared.displayName = displayName
         AppSettings.shared.avatarEmoji = selectedEmoji
+        if purchases.isPremium {
+            AppSettings.shared.bio = bio
+        }
 
         // If opted in, sync to CloudKit so others see the updated profile
         if service.isOptedIntoGlobal {

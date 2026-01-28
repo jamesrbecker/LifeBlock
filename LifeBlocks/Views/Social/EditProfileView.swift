@@ -4,8 +4,11 @@ import SwiftUI
 
 struct EditProfileView: View {
     @Environment(\.dismiss) private var dismiss
+    @StateObject private var purchases = PurchaseManager.shared
     @State private var displayName: String
     @State private var selectedEmoji: String
+    @State private var bio: String
+    @State private var showingPremium = false
 
     let emojiOptions = [
         "😀", "😃", "😄", "😁", "😎", "🤓", "🧐", "😊",
@@ -18,6 +21,7 @@ struct EditProfileView: View {
         let settings = AppSettings.shared
         _displayName = State(initialValue: settings.displayName)
         _selectedEmoji = State(initialValue: settings.avatarEmoji)
+        _bio = State(initialValue: settings.bio)
     }
 
     var body: some View {
@@ -66,6 +70,46 @@ struct EditProfileView: View {
             }
 
             Section {
+                if purchases.isPremium {
+                    VStack(alignment: .leading, spacing: 4) {
+                        TextField("Tell people about yourself...", text: $bio, axis: .vertical)
+                            .lineLimit(2...3)
+                            .foregroundStyle(Color.inputText)
+                            .onChange(of: bio) { _, newValue in
+                                if newValue.count > 80 {
+                                    bio = String(newValue.prefix(80))
+                                }
+                            }
+                        Text("\(bio.count)/80")
+                            .font(.caption2)
+                            .foregroundStyle(Color.secondaryText)
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                    }
+                } else {
+                    Button {
+                        showingPremium = true
+                    } label: {
+                        HStack {
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("Add a bio")
+                                    .foregroundStyle(Color.primaryText)
+                                Text("Upgrade to Premium to customize your bio")
+                                    .font(.caption)
+                                    .foregroundStyle(Color.secondaryText)
+                            }
+                            Spacer()
+                            Image(systemName: "crown.fill")
+                                .foregroundStyle(.yellow)
+                        }
+                    }
+                }
+            } header: {
+                Text("Bio")
+            } footer: {
+                Text("Visible on leaderboards and to friends")
+            }
+
+            Section {
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
                         Text("Your Friend Code")
@@ -107,12 +151,18 @@ struct EditProfileView: View {
                 }
             }
         }
+        .sheet(isPresented: $showingPremium) {
+            PremiumView()
+        }
     }
 
     private func saveProfile() {
         let settings = AppSettings.shared
         settings.displayName = displayName.isEmpty ? "User" : displayName
         settings.avatarEmoji = selectedEmoji
+        if purchases.isPremium {
+            settings.bio = bio
+        }
         dismiss()
     }
 }

@@ -83,6 +83,9 @@ struct LeaderboardEntry: Identifiable, Equatable {
     /// Nil if user is in exploration mode or hasn't selected a path
     let lifePath: String?
 
+    /// The user's short bio (premium feature, max 80 chars)
+    let bio: String?
+
     /// The user's unique 6-character friend code for adding friends
     /// Format: 6 alphanumeric characters (e.g., "ABC123")
     let friendCode: String?
@@ -518,6 +521,7 @@ final class LeaderboardService: ObservableObject {
             accountCreatedAt: settings.pathStartDate ?? Date(),
             lastUpdated: Date(),
             lifePath: settings.userLifePath?.selectedPath.rawValue,
+            bio: settings.bio.isEmpty ? nil : settings.bio,
             friendCode: settings.friendCode
         )
     }
@@ -542,6 +546,7 @@ final class LeaderboardService: ObservableObject {
         record["accountCreatedAt"] = entry.accountCreatedAt
         record["lastUpdated"] = entry.lastUpdated
         record["lifePath"] = entry.lifePath
+        record["bio"] = entry.bio
         record["friendCode"] = entry.friendCode ?? getUserFriendCode()
 
         _ = try await publicDB.save(record)
@@ -582,6 +587,7 @@ extension LeaderboardEntry {
         self.accountCreatedAt = record["accountCreatedAt"] as? Date ?? Date()
         self.lastUpdated = record["lastUpdated"] as? Date ?? Date()
         self.lifePath = record["lifePath"] as? String
+        self.bio = record["bio"] as? String
         self.friendCode = record["friendCode"] as? String
     }
 }

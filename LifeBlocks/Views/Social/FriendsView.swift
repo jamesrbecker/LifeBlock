@@ -209,6 +209,13 @@ struct YourProfileCard: View {
                     Text(settings.publicDisplayName)
                         .font(.headline)
 
+                    if !settings.bio.isEmpty && !settings.isPrivateMode {
+                        Text(settings.bio)
+                            .font(.caption)
+                            .foregroundStyle(Color.secondaryText)
+                            .lineLimit(2)
+                    }
+
                     // Only show stats that are being shared
                     HStack(spacing: 12) {
                         if settings.shareStreak && !settings.isPrivateMode {
